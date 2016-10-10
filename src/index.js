@@ -1,7 +1,2 @@
-import OutcomeComponent from './OutcomeComponent/OutcomeComponent';
-import OutcomeWithLabelComponent from './OutcomeComponent/OutcomeWithLabelComponent';
-
-export {
-   OutcomeComponent,
-   OutcomeWithLabelComponent
-};
+export { default as OutcomeComponent } from './OutcomeComponent/OutcomeComponent';
+export { default as OutcomeWithLabelComponent } from './OutcomeComponent/OutcomeWithLabelComponent';
