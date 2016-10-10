@@ -21,15 +21,11 @@ class OutcomeWithLabelComponent extends OutcomeComponent {
    }
 
    render() {
-      if (!this.betOffer) {
-         return;
-      }
-
       return (
          <button
            type="button"
            role="button"
-           disabled={this.betOffer.suspended}
+           disabled={this.betOffer ? this.betOffer.suspended : false}
            className={this.className}
            onClick={this.toggleOutcome.bind(this)}
          >

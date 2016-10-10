@@ -15,10 +15,6 @@ class OutcomeComponent extends Component {
          selected: false
       };
 
-      if (!props.outcome) {
-         return;
-      }
-
       if (widgetModule.betslipIds.indexOf(props.outcome.id) !== -1) {
          this.state.selected = true;
       }
@@ -39,7 +35,6 @@ class OutcomeComponent extends Component {
 
    get betOffer() {
       if (this.props.event == null || this.props.event.betOffers == null) {
-         console.warn('Empty/invalid event attribute');
          return;
       }
 
@@ -64,21 +59,17 @@ class OutcomeComponent extends Component {
          'kw-link': true,
          'l-flex-1': true,
          'KambiWidget-outcome--selected': this.state.selected,
-         'KambiWidget-outcome--suspended': this.betOffer.suspended
+         'KambiWidget-outcome--suspended': this.betOffer ? this.betOffer.suspended : false
       });
    }
 
    render() {
-      if (!this.betOffer) {
-         return;
-      }
-
       return (
          <button
            type="button"
            role="button"
            className={this.className}
-           disabled={this.betOffer.suspended}
+           disabled={this.betOffer ? this.betOffer.suspended : false}
            onClick={this.toggleOutcome.bind(this)}
          >
             <div className="l-flexbox l-pack-center">
