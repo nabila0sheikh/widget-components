@@ -1,30 +1,95 @@
 import React, { Component } from 'react';
 import { coreLibrary, widgetModule, utilModule } from 'widget-core-library';
 
+/**
+ * Converts map of CSS classes into className string
+ * @param {object<string, bool>} classNames Map of CSS classes
+ * @returns {string}
+ */
 const convertClassNames = (classNames) => {
    return Object.keys(classNames)
       .reduce((str, key) => str + (classNames[key] ? ` ${key}` : ''), '');
 };
 
+/**
+ * Returns initial state.
+ * @param {object} outcome Outcome entity
+ * @returns {{selected: boolean}}
+ */
+const getInitialState = (outcome) => {
+   return {
+      selected: widgetModule.betslipIds.indexOf(outcome.id) !== -1
+   };
+};
+
+/**
+ * Renders an outcome button.
+ */
 class OutcomeComponent extends Component {
 
+   /**
+    * Outcome component constructor.
+    * @param {object} props Component properties
+    */
    constructor(props) {
       super(props);
 
-      this.state = {
-         selected: false
-      };
+      // compute initial state
+      this.state = getInitialState(props.outcome);
 
-      if (widgetModule.betslipIds.indexOf(props.outcome.id) !== -1) {
-         this.state.selected = true;
-      }
-
-      const boundSetState = this.setState.bind(this);
-
-      widgetModule.events.subscribe(`OUTCOME:ADDED:${props.outcome.id}`, () => boundSetState({ selected: true }));
-      widgetModule.events.subscribe(`OUTCOME:REMOVED:${props.outcome.id}`, () => boundSetState({ selected: false }));
+      // set up bound event handlers
+      this.outcomeAddedHandler = () => this.setState({ selected: true });
+      this.outcomeRemovedHandler = () => this.setState({ selected: false });
+      this.oddsFormatChangedHandler = () => this.forceUpdate();
    }
 
+   /**
+    * Called just before component mounting.
+    */
+   componentWillMount() {
+      this.subscribeToEvents(this.props.outcome);
+   }
+
+   /**
+    * Called just before changing properties of component.
+    * @param {object} nextProps New properties
+    */
+   componentWillReceiveProps(nextProps) {
+      this.unsubscribeFromEvents(this.props.outcome);
+      this.subscribeToEvents(nextProps.outcome);
+      this.setState(getInitialState(nextProps.outcome));
+   }
+
+   /**
+    * Called just before component unmounting.
+    */
+   componentWillUnmount() {
+      this.unsubscribeFromEvents(this.props.outcome);
+   }
+
+   /**
+    * Subscribes to external events related to this component instance.
+    * @param {object} outcome Outcome entity
+    */
+   subscribeToEvents(outcome) {
+      widgetModule.events.subscribe(`OUTCOME:ADDED:${outcome.id}`, this.outcomeAddedHandler);
+      widgetModule.events.subscribe(`OUTCOME:REMOVED:${outcome.id}`, this.outcomeRemovedHandler);
+      widgetModule.events.subscribe('ODDS:FORMAT', this.oddsFormatChangedHandler);
+   }
+
+   /**
+    * Unsubscribes from external events related to this component instance.
+    * @param {object} outcome Outcome entity
+    */
+   unsubscribeFromEvents(outcome) {
+      widgetModule.events.unsubscribe(`OUTCOME:ADDED:${outcome.id}`, this.outcomeAddedHandler);
+      widgetModule.events.unsubscribe(`OUTCOME:REMOVED:${outcome.id}`, this.outcomeRemovedHandler);
+      widgetModule.events.unsubscribe('ODDS:FORMAT', this.oddsFormatChangedHandler);
+   }
+
+   /**
+    * Handles outcome button's click event.
+    */
    toggleOutcome() {
       if (this.state.selected) {
          widgetModule.removeOutcomeFromBetslip(this.props.outcome.id);
@@ -33,15 +98,23 @@ class OutcomeComponent extends Component {
       }
    }
 
+   /**
+    * Bet offer entity which matches given outcome
+    * @returns {object|null}
+    */
    get betOffer() {
       if (this.props.event == null || this.props.event.betOffers == null) {
-         return;
+         return null;
       }
 
       return this.props.event.betOffers
          .find(betOffer => betOffer.id === this.props.outcome.betOfferId);
    }
 
+   /**
+    * Properly formatted odds
+    * @returns {number}
+    */
    get oddsFormatted() {
       switch (coreLibrary.config.oddsFormat) {
          case 'fractional':
@@ -53,13 +126,17 @@ class OutcomeComponent extends Component {
       }
    }
 
+   /**
+    * Button's label
+    * @returns {*}
+    */
    get label() {
       if (this.props.customLabel) {
          return this.props.customLabel;
       }
 
       if (this.props.outcome == null) {
-         return;
+         return null;
       }
 
       if (this.props.event) {
@@ -69,6 +146,10 @@ class OutcomeComponent extends Component {
       }
    }
 
+   /**
+    * Computed className based on current state
+    * @returns {string}
+    */
    get className() {
       return convertClassNames({
          'KambiWidget-outcome': true,
@@ -79,6 +160,10 @@ class OutcomeComponent extends Component {
       });
    }
 
+   /**
+    * Component template (without label)
+    * @returns {XML}
+    */
    get template() {
       return (
          <button
@@ -97,6 +182,10 @@ class OutcomeComponent extends Component {
       );
    }
 
+   /**
+    * Component template (with label)
+    * @returns {XML}
+    */
    get templateWithLabel() {
       return (
          <button
@@ -119,15 +208,34 @@ class OutcomeComponent extends Component {
       );
    }
 
+   /**
+    * Returns component's template.
+    * @returns {XML}
+    */
    render() {
       return this.props.withLabel ? this.templateWithLabel : this.template;
    }
 }
 
 OutcomeComponent.propTypes = {
+   /**
+    * Outcome entity
+    */
    outcome: React.PropTypes.object.isRequired,
+
+   /**
+    * Event entity
+    */
    event: React.PropTypes.object,
+
+   /**
+    * Controls whether label should be included in button.
+    */
    withLabel: React.PropTypes.bool,
+
+   /**
+    * Custom label to be shown (once withLabel=true).
+    */
    customLabel: React.PropTypes.string
 };
 
