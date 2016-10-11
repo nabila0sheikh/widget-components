@@ -53,6 +53,22 @@ class OutcomeComponent extends Component {
       }
    }
 
+   get label() {
+      if (this.props.customLabel) {
+         return this.props.customLabel;
+      }
+
+      if (this.props.outcome == null) {
+         return;
+      }
+
+      if (this.props.event) {
+         return utilModule.getOutcomeLabel(this.props.outcome, this.props.event);
+      } else {
+         return this.props.outcome.label;
+      }
+   }
+
    get className() {
       return convertClassNames({
          'KambiWidget-outcome': true,
@@ -63,14 +79,14 @@ class OutcomeComponent extends Component {
       });
    }
 
-   render() {
+   get template() {
       return (
          <button
-           type="button"
-           role="button"
-           className={this.className}
-           disabled={this.betOffer ? this.betOffer.suspended : false}
-           onClick={this.toggleOutcome.bind(this)}
+            type="button"
+            role="button"
+            className={this.className}
+            disabled={this.betOffer ? this.betOffer.suspended : false}
+            onClick={this.toggleOutcome.bind(this)}
          >
             <div className="l-flexbox l-pack-center">
                <div className="KambiWidget-outcome__odds-wrapper">
@@ -80,11 +96,43 @@ class OutcomeComponent extends Component {
          </button>
       );
    }
+
+   get templateWithLabel() {
+      return (
+         <button
+            type="button"
+            role="button"
+            disabled={this.betOffer ? this.betOffer.suspended : false}
+            className={this.className}
+            onClick={this.toggleOutcome.bind(this)}
+         >
+            <div className="KambiWidget-outcome__flexwrap">
+               <div className="KambiWidget-outcome__label-wrapper">
+                  <span className="KambiWidget-outcome__label">{this.label}</span>
+                  <span className="KambiWidget-outcome__line" />
+               </div>
+               <div className="KambiWidget-outcome__odds-wrapper">
+                  <span className="KambiWidget-outcome__odds">{this.oddsFormatted}</span>
+               </div>
+            </div>
+         </button>
+      );
+   }
+
+   render() {
+      return this.props.withLabel ? this.templateWithLabel : this.template;
+   }
 }
 
 OutcomeComponent.propTypes = {
    outcome: React.PropTypes.object.isRequired,
-   event: React.PropTypes.object
+   event: React.PropTypes.object,
+   withLabel: React.PropTypes.bool,
+   customLabel: React.PropTypes.string
+};
+
+OutcomeComponent.defaultProps = {
+   withLabel: false
 };
 
 export default OutcomeComponent;
