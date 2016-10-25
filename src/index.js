@@ -1,1 +1,1 @@
-export { default as OutcomeComponent } from './OutcomeComponent/OutcomeComponent';
+export { default as OutcomeButton } from './OutcomeButton/OutcomeButton';

@@ -25,7 +25,7 @@ const getInitialState = (outcome) => {
 /**
  * Renders an outcome button.
  */
-class OutcomeComponent extends Component {
+class OutcomeButton extends Component {
 
    /**
     * Outcome component constructor.
@@ -217,7 +217,7 @@ class OutcomeComponent extends Component {
    }
 }
 
-OutcomeComponent.propTypes = {
+OutcomeButton.propTypes = {
    /**
     * Outcome entity
     */
@@ -239,8 +239,8 @@ OutcomeComponent.propTypes = {
    customLabel: React.PropTypes.string
 };
 
-OutcomeComponent.defaultProps = {
+OutcomeButton.defaultProps = {
    withLabel: false
 };
 
-export default OutcomeComponent;
+export default OutcomeButton;
