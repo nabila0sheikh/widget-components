@@ -1,13 +1,13 @@
 {
-  "name": "widget-components",
+  "name": "kambi-widget-components",
   "version": "1.1.1",
   "description": "",
   "main": "src/index.js",
   "dependencies": {
+    "kambi-widget-core-library": "^3.1.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
-    "react-lite": "^0.15.23",
-    "widget-core-library": "git+ssh://git@github.com/kambi-sportsbook-widgets/widget-core-library.git#KSBWI-742"
+    "react-lite": "^0.15.23"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
