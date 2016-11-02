@@ -46,11 +46,14 @@ class Header extends Component {
     * @returns {XML}
     */
    render () {
+      // Default classes to be added to all headers
       let cssClasses = 'l-flexbox l-pl-16 l-pr-16 KambiWidget-card-support-text-color';
+      // If we have custom classes disregard default styling and load custom classes
       if ( this.props.className ) {
          cssClasses = this.props.className;
       } else {
-         cssClasses += (coreLibrary.pageInfo === 'home') ? ' kw-header l-pt-6 l-pb-6' : ' KambiWidget-header l-pt-8 l-pb-8';
+         // Add classes depending on pageInfo
+         cssClasses += (coreLibrary.pageInfo.pageType === 'home') ? ' kw-header l-pt-6 l-pb-6' : ' KambiWidget-header l-pt-8 l-pb-8';
       }
 
       return (
@@ -107,6 +110,6 @@ Header.defaultProps = {
  * Holds the height of the header in pixels
  * @type {number}
  */
-Header.HEIGHT = (coreLibrary.pageInfo === 'home') ? 37 : 40;
+Header.HEIGHT = (coreLibrary.pageInfo.pageType === 'home') ? 37 : 40;
 
 export default Header;
