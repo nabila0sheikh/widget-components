@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { coreLibrary, widgetModule } from 'kambi-widget-core-library';
+import styles from './Header.scss';
 
 class Header extends Component {
 
@@ -53,7 +54,7 @@ class Header extends Component {
          cssClasses = this.props.className;
       } else {
          // Add classes depending on pageInfo
-         cssClasses += (coreLibrary.pageInfo.pageType === 'home') ? ' kw-header l-pt-6 l-pb-6' : ' KambiWidget-header l-pt-8 l-pb-8';
+         cssClasses += (coreLibrary.pageInfo.pageType === 'home') ? ' l-pt-6 l-pb-6 ' + styles.kwHeader : ' KambiWidget-header l-pt-8 l-pb-8';
       }
 
       return (
