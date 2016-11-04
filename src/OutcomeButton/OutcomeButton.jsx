@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
 import { coreLibrary, widgetModule, utilModule } from 'kambi-widget-core-library';
+import OutcomeButtonUI from './OutcomeButtonUI';
 
-/**
- * Converts map of CSS classes into className string
- * @param {object<string, bool>} classNames Map of CSS classes
- * @returns {string}
- */
-const convertClassNames = (classNames) => {
-   return Object.keys(classNames)
-      .reduce((str, key) => str + (classNames[key] ? ` ${key}` : ''), '');
-};
 
 /**
  * Returns initial state.
@@ -34,6 +26,8 @@ class OutcomeButton extends Component {
    constructor(props) {
       super(props);
 
+      this.toggleOutcome = this.toggleOutcome.bind(this);
+
       // compute initial state
       this.state = getInitialState(props.outcome);
 
@@ -46,7 +40,7 @@ class OutcomeButton extends Component {
    /**
     * Called just before component mounting.
     */
-   componentWillMount() {
+   componentDidMount() {
       this.subscribeToEvents(this.props.outcome);
    }
 
@@ -131,8 +125,8 @@ class OutcomeButton extends Component {
     * @returns {*}
     */
    get label() {
-      if (this.props.customLabel) {
-         return this.props.customLabel;
+      if (typeof this.props.label === 'string') {
+         return this.props.label;
       }
 
       if (this.props.outcome == null) {
@@ -147,73 +141,19 @@ class OutcomeButton extends Component {
    }
 
    /**
-    * Computed className based on current state
-    * @returns {string}
-    */
-   get className() {
-      return convertClassNames({
-         'KambiWidget-outcome': true,
-         'kw-link': true,
-         'l-flex-1': true,
-         'KambiWidget-outcome--selected': this.state.selected,
-         'KambiWidget-outcome--suspended': this.betOffer ? this.betOffer.suspended : false
-      });
-   }
-
-   /**
-    * Component template (without label)
-    * @returns {XML}
-    */
-   get template() {
-      return (
-         <button
-            type="button"
-            role="button"
-            className={this.className}
-            disabled={this.betOffer ? this.betOffer.suspended : false}
-            onClick={this.toggleOutcome.bind(this)}
-         >
-            <div className="l-flexbox l-pack-center">
-               <div className="KambiWidget-outcome__odds-wrapper">
-                  <span className="KambiWidget-outcome__odds">{this.oddsFormatted}</span>
-               </div>
-            </div>
-         </button>
-      );
-   }
-
-   /**
-    * Component template (with label)
-    * @returns {XML}
-    */
-   get templateWithLabel() {
-      return (
-         <button
-            type="button"
-            role="button"
-            disabled={this.betOffer ? this.betOffer.suspended : false}
-            className={this.className}
-            onClick={this.toggleOutcome.bind(this)}
-         >
-            <div className="KambiWidget-outcome__flexwrap">
-               <div className="KambiWidget-outcome__label-wrapper">
-                  <span className="KambiWidget-outcome__label">{this.label}</span>
-                  <span className="KambiWidget-outcome__line" />
-               </div>
-               <div className="KambiWidget-outcome__odds-wrapper">
-                  <span className="KambiWidget-outcome__odds">{this.oddsFormatted}</span>
-               </div>
-            </div>
-         </button>
-      );
-   }
-
-   /**
     * Returns component's template.
     * @returns {XML}
     */
    render() {
-      return this.props.withLabel ? this.templateWithLabel : this.template;
+      return (
+         <OutcomeButtonUI
+            label={this.label}
+            odds={this.oddsFormatted}
+            suspended={this.betOffer ? this.betOffer.suspended : false}
+            selected={this.state.selected}
+            onClick={this.toggleOutcome}
+         />
+      )
    }
 }
 
@@ -224,19 +164,20 @@ OutcomeButton.propTypes = {
    outcome: React.PropTypes.object.isRequired,
 
    /**
-    * Event entity
+    * Event entity, if not provided some type of outcomes may not show the correct label.
     */
    event: React.PropTypes.object,
 
    /**
-    * Controls whether label should be included in button.
+    * Label to show, optional
+    * If boolean and false don't show label
+    * If boolean and true use the providedevent and the outcome to determine the label
+    * If string uses that as label
     */
-   withLabel: React.PropTypes.bool,
-
-   /**
-    * Custom label to be shown (once withLabel=true).
-    */
-   customLabel: React.PropTypes.string
+   label: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.bool
+   ]),
 };
 
 OutcomeButton.defaultProps = {
