@@ -1,10 +1,10 @@
 {
   "name": "kambi-widget-components",
-  "version": "1.1.1",
+  "version": "1.2.2",
   "description": "A collection of reusable components written with React framework",
   "main": "src/index.js",
   "dependencies": {
-    "kambi-widget-core-library": "^3.1.0",
+    "kambi-widget-core-library": "^3.2.3",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-lite": "^0.15.23"
