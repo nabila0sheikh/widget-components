@@ -71,12 +71,12 @@ OutcomeButtonUI.propTypes = {
    odds: React.PropTypes.string.isRequired,
 
    /**
-    * If the button is enabled or not
+    * If the button is enabled or not (greyed out)
     */
-   suspended: React.PropTypes.bool.isRequired,
+   suspended: React.PropTypes.bool,
 
    /**
-    * If the button is enabled or not
+    * If the button is selected or not
     */
    selected: React.PropTypes.bool.isRequired,
 
@@ -87,7 +87,8 @@ OutcomeButtonUI.propTypes = {
 };
 
 OutcomeButtonUI.defaultProps = {
-   label: null
+   label: null,
+   suspended: false
 };
 
 export default OutcomeButtonUI;
