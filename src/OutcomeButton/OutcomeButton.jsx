@@ -147,7 +147,7 @@ class OutcomeButton extends Component {
    render() {
       return (
          <OutcomeButtonUI
-            label={this.label}
+            label={this.props.withLabel ? this.label : null}
             odds={this.oddsFormatted}
             suspended={this.betOffer ? this.betOffer.suspended : false}
             selected={this.state.selected}
@@ -171,7 +171,7 @@ OutcomeButton.propTypes = {
    /**
     * Label to show, optional
     * If boolean and false don't show label
-    * If boolean and true use the providedevent and the outcome to determine the label
+    * If boolean and true use the provided event and the outcome to determine the label
     * If string uses that as label
     */
    label: React.PropTypes.oneOfType([

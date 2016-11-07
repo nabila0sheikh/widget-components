@@ -56,7 +56,7 @@ const OutcomeButtonUI = ({ label, odds, suspended, selected, onClick }) => {
          </button>
       );
    }
-}
+};
 
 OutcomeButtonUI.propTypes = {
    /**
