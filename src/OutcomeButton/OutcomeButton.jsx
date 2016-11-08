@@ -122,14 +122,14 @@ class OutcomeButton extends Component {
 
    /**
     * Button's label
-    * @returns {*}
+    * @returns {string|null}
     */
    get label() {
       if (typeof this.props.label === 'string') {
          return this.props.label;
       }
 
-      if (this.props.outcome == null) {
+      if (this.props.label === false) {
          return null;
       }
 
@@ -147,7 +147,7 @@ class OutcomeButton extends Component {
    render() {
       return (
          <OutcomeButtonUI
-            label={this.props.withLabel ? this.label : null}
+            label={this.label}
             odds={this.oddsFormatted}
             suspended={this.betOffer ? this.betOffer.suspended : false}
             selected={this.state.selected}
@@ -177,11 +177,11 @@ OutcomeButton.propTypes = {
    label: React.PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.bool
-   ]),
+   ])
 };
 
 OutcomeButton.defaultProps = {
-   withLabel: false
+   label: false
 };
 
 export default OutcomeButton;
