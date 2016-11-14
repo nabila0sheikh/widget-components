@@ -1,0 +1,42 @@
+@import '~kambi-widget-core-library/src/scss/core.scss';
+
+:local(.left),
+:local(.right) {
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   width: 35px;
+   border: none;
+   background: none;
+   font-size: 15px;
+   font-weight: bold;
+   cursor: pointer;
+   outline: none;
+   padding: 0;
+
+   :local(.icon) {
+      fill: #000;
+      opacity: .3;
+      @include transition(opacity .3s);
+   }
+
+   &:hover :local(.icon) {
+      opacity: 1;
+   }
+}
+
+:local(.left) {
+   background: linear-gradient(90deg, #fff 50%, hsla(0,0%,100%,0));
+   left: 16px;
+   text-align: left;
+}
+
+:local(.right) {
+   background: linear-gradient(270deg, #fff 50%, hsla(0,0%,100%,0));
+   right: 16px;
+   text-align: right;
+
+   :local(.icon) {
+      @include transform(scale(-1, 1));
+   }
+}
