@@ -10,6 +10,5 @@ mockSetupData.json
 /dist/
 npm-debug.log
 .editorconfig
-.eslintrc
 .scss-lint.yml
 .DS_Store

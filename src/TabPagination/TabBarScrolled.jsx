@@ -234,9 +234,9 @@ class TabBarScrolled extends Component {
                </ul>
             </div>
             {this.showPrevButton &&
-               <ArrowButton type="left" onClick={this.prevPage} />}
+               <ArrowButton type='left' onClick={this.prevPage} />}
             {this.showNextButton &&
-               <ArrowButton type="right" onClick={this.nextPage} />}
+               <ArrowButton type='right' onClick={this.nextPage} />}
          </div>
       );
    }

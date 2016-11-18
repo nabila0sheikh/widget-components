@@ -47,18 +47,18 @@ class Header extends Component {
     * @returns {XML}
     */
    render({iconCSSClasses, iconPath, title, subtitle}) {
-      return (<header className="KambiWidget-card-border-color KambiWidget-font kw-header l-flexbox l-align-center l-pl-16">
-         <svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" class="kw-header-logo">
+      return (<header className='KambiWidget-card-border-color KambiWidget-font kw-header l-flexbox l-align-center l-pl-16'>
+         <svg xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' class='kw-header-logo'>
             <defs>
-               <mask id="svgmask2">
-                  <image className={iconCSSClasses} width="100%" height="100%" xlink:href={iconPath} />
+               <mask id='svgmask2'>
+                  <image className={iconCSSClasses} width='100%' height='100%' xlink:href={iconPath} />
                </mask>
             </defs>
-            <rect mask="url(#svgmask2)" id="blendRect" x="0" y="0" width="100%" height="100%"/>
+            <rect mask='url(#svgmask2)' id='blendRect' x='0' y='0' width='100%' height='100%'/>
          </svg>
-         <div className="kw-header-text-container">
-            <div className="kw-header-title text-truncate">{title}</div>
-            <div className="kw-header-tagline text-truncate">{subtitle}</div>
+         <div className='kw-header-text-container'>
+            <div className='kw-header-title text-truncate'>{title}</div>
+            <div className='kw-header-tagline text-truncate'>{subtitle}</div>
          </div>
       </header>);
    }

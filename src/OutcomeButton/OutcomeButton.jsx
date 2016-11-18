@@ -181,7 +181,7 @@ OutcomeButton.propTypes = {
 };
 
 OutcomeButton.defaultProps = {
-   label: false
+   label: true
 };
 
 export default OutcomeButton;

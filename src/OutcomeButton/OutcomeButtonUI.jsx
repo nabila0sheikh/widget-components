@@ -14,15 +14,15 @@ const OutcomeButtonUI = ({ label, odds, suspended, selected, onClick }) => {
    if (label == null) {
       return (
          <button
-            type="button"
-            role="button"
+            type='button'
+            role='button'
             className={buttonCssClasses}
             disabled={suspended}
             onClick={onClick}
          >
-            <div className="l-flexbox l-pack-center">
-               <div className="KambiWidget-outcome__odds-wrapper">
-                  <span className="KambiWidget-outcome__odds">
+            <div className='l-flexbox l-pack-center'>
+               <div className='KambiWidget-outcome__odds-wrapper'>
+                  <span className='KambiWidget-outcome__odds'>
                      {odds}
                   </span>
                </div>
@@ -34,21 +34,21 @@ const OutcomeButtonUI = ({ label, odds, suspended, selected, onClick }) => {
 
       return (
          <button
-            type="button"
-            role="button"
+            type='button'
+            role='button'
             className={buttonCssClasses}
             disabled={suspended}
             onClick={onClick}
          >
-            <div className="KambiWidget-outcome__flexwrap">
-               <div className="KambiWidget-outcome__label-wrapper">
-                  <span className="KambiWidget-outcome__label">
+            <div className='KambiWidget-outcome__flexwrap'>
+               <div className='KambiWidget-outcome__label-wrapper'>
+                  <span className='KambiWidget-outcome__label'>
                      {label}
                   </span>
-                  <span className="KambiWidget-outcome__line" />
+                  <span className='KambiWidget-outcome__line' />
                </div>
-               <div className="KambiWidget-outcome__odds-wrapper">
-                  <span className="KambiWidget-outcome__odds">
+               <div className='KambiWidget-outcome__odds-wrapper'>
+                  <span className='KambiWidget-outcome__odds'>
                      {odds}
                   </span>
                </div>
