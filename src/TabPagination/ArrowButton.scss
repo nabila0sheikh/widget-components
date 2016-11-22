@@ -1,5 +1,3 @@
-@import '~kambi-widget-core-library/src/scss/core.scss';
-
 :local(.left),
 :local(.right) {
    position: absolute;
@@ -17,7 +15,7 @@
    :local(.icon) {
       fill: #000;
       opacity: .3;
-      @include transition(opacity .3s);
+      transition: opacity .3s;
    }
 
    &:hover :local(.icon) {
@@ -37,6 +35,6 @@
    text-align: right;
 
    :local(.icon) {
-      @include transform(scale(-1, 1));
+      transform: scale(-1, 1);
    }
 }

@@ -12,17 +12,17 @@
 
 // tab bar
 :local(.bar) {
-   @include flexbox;
+   display: flex;
    list-style: none;
    margin: 0;
    padding: 0 0 3px 0;
-   @include transition(transform .3s);
+   transition: transform .3s;
 
    :local(.tab) {
       cursor: pointer;
       position: relative;
-      @include flex(0 0 auto);
-      @include transition(background-color .5s);
+      flex: 0 0 auto;
+      transition: background-color .5s;
 
       &:hover {
          background-color: #f0f0f0;

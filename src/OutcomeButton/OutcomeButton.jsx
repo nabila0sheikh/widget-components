@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { coreLibrary, widgetModule, utilModule } from 'kambi-widget-core-library';
+import { coreLibrary, widgetModule, utilModule, eventsModule } from 'kambi-widget-core-library';
 import OutcomeButtonUI from './OutcomeButtonUI';
 
 
@@ -66,9 +66,9 @@ class OutcomeButton extends Component {
     * @param {object} outcome Outcome entity
     */
    subscribeToEvents(outcome) {
-      widgetModule.events.subscribe(`OUTCOME:ADDED:${outcome.id}`, this.outcomeAddedHandler);
-      widgetModule.events.subscribe(`OUTCOME:REMOVED:${outcome.id}`, this.outcomeRemovedHandler);
-      widgetModule.events.subscribe('ODDS:FORMAT', this.oddsFormatChangedHandler);
+      eventsModule.subscribe(`OUTCOME:ADDED:${outcome.id}`, this.outcomeAddedHandler);
+      eventsModule.subscribe(`OUTCOME:REMOVED:${outcome.id}`, this.outcomeRemovedHandler);
+      eventsModule.subscribe('ODDS:FORMAT', this.oddsFormatChangedHandler);
    }
 
    /**
@@ -76,9 +76,9 @@ class OutcomeButton extends Component {
     * @param {object} outcome Outcome entity
     */
    unsubscribeFromEvents(outcome) {
-      widgetModule.events.unsubscribe(`OUTCOME:ADDED:${outcome.id}`, this.outcomeAddedHandler);
-      widgetModule.events.unsubscribe(`OUTCOME:REMOVED:${outcome.id}`, this.outcomeRemovedHandler);
-      widgetModule.events.unsubscribe('ODDS:FORMAT', this.oddsFormatChangedHandler);
+      eventsModule.unsubscribe(`OUTCOME:ADDED:${outcome.id}`, this.outcomeAddedHandler);
+      eventsModule.unsubscribe(`OUTCOME:REMOVED:${outcome.id}`, this.outcomeRemovedHandler);
+      eventsModule.unsubscribe('ODDS:FORMAT', this.oddsFormatChangedHandler);
    }
 
    /**
