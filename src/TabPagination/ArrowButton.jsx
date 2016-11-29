@@ -1,8 +1,12 @@
 import React, { PropTypes } from 'react';
 import styles from './ArrowButton.scss';
 
-const ArrowButton = ({ type, onClick }) => (
-   <button className={styles[type]} onClick={onClick}>
+const ArrowButton = ({ type, disabled, onClick }) => (
+   <button
+      className={styles[type]}
+      onClick={onClick}
+      disabled={disabled}
+   >
       <svg className={styles.icon} width='12px' height='20px' viewBox='0 860 420 500' version='1.1' xmlns='http://www.w3.org/2000/svg'>
          <path
             id='arrowLeft'
@@ -25,7 +29,17 @@ ArrowButton.propTypes = {
    /**
     * On click handler
     */
-   onClick: PropTypes.func.isRequired
+   onClick: PropTypes.func.isRequired,
+
+   /**
+    * Should button be disabled?
+    * Defaults to false.
+    */
+   disabled: PropTypes.bool
+};
+
+ArrowButton.defaultProps = {
+   disabled: false
 };
 
 export default ArrowButton;

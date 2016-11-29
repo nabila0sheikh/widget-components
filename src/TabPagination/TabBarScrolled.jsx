@@ -233,10 +233,8 @@ class TabBarScrolled extends Component {
                   ))}
                </ul>
             </div>
-            {this.showPrevButton &&
-               <ArrowButton type='left' onClick={this.prevPage} />}
-            {this.showNextButton &&
-               <ArrowButton type='right' onClick={this.nextPage} />}
+            {this.props.renderPrevButton(this.prevPage, !this.showPrevButton)}
+            {this.props.renderNextButton(this.nextPage, !this.showNextButton)}
          </div>
       );
    }
@@ -261,12 +259,24 @@ TabBarScrolled.propTypes = {
    /**
     * Scroll step (items count)
     */
-   step: PropTypes.number
+   step: PropTypes.number,
+
+   /**
+    * Function capable of rendering button responsible for scrolling left
+    */
+   renderPrevButton: PropTypes.func,
+
+   /**
+    * Function capable of rendering button responsible for scrolling right
+    */
+   renderNextButton: PropTypes.func
 };
 
 TabBarScrolled.defaultProps = {
    selected: 0,
-   step: 2
+   step: 2,
+   renderPrevButton: (onClick, disabled) => <ArrowButton type='left' onClick={onClick} disabled={disabled} />,
+   renderNextButton: (onClick, disabled) => <ArrowButton type='right' onClick={onClick} disabled={disabled} />
 };
 
 export default TabBarScrolled;
