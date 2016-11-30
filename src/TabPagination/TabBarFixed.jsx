@@ -52,7 +52,7 @@ TabBarFixed.propTypes = {
    /**
     * Tab element
     */
-   children: PropTypes.arrayOf(PropTypes.element).isRequired,
+   children: PropTypes.node,
 
    /**
     * Tab clicked handler
@@ -72,7 +72,7 @@ TabBarFixed.propTypes = {
 
 TabBarFixed.defaultProps = {
    selected: 0,
-   renderTabContainer: (props) => <TabContainer {...props}>{props.children}</TabContainer>
+   renderTabContainer: args => <TabContainer {...args}>{args.children}</TabContainer>
 };
 
 export default TabBarFixed;

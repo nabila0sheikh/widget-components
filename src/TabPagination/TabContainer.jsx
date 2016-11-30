@@ -6,7 +6,9 @@ import styles from './TabContainer.scss';
  * @param {HTMLElement} el DOM element
  * @returns number|null
  */
-const getWidth = el => el ? el.offsetWidth : null;
+const getWidth = function(el) {
+   return el ? el.offsetWidth : null;
+};
 
 const TabContainer = ({ children, selected, onClick, onWidth }) => (
    <div

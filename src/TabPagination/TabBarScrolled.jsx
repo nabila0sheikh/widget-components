@@ -256,7 +256,7 @@ TabBarScrolled.propTypes = {
    /**
     * Tab element
     */
-   children: PropTypes.arrayOf(PropTypes.element).isRequired,
+   children: PropTypes.node,
 
    /**
     * Tab clicked handler
@@ -292,9 +292,9 @@ TabBarScrolled.propTypes = {
 TabBarScrolled.defaultProps = {
    selected: 0,
    step: 2,
-   renderPrevButton: (props) => <ArrowButton type='left' {...props} />,
-   renderNextButton: (props) => <ArrowButton type='right' {...props} />,
-   renderTabContainer: (props) => <TabContainer {...props}>{props.children}</TabContainer>
+   renderPrevButton: props => <ArrowButton type='left' {...props} />,
+   renderNextButton: props => <ArrowButton type='right' {...props} />,
+   renderTabContainer: args => <TabContainer {...args}>{args.children}</TabContainer>
 };
 
 export default TabBarScrolled;
