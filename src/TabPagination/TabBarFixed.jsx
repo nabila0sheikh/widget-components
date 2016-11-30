@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import styles from './TabBarFixed.scss';
+import TabContainer from './TabContainer';
 
 /**
  * Fixed width Tab Bar component
@@ -35,21 +36,14 @@ class TabBarFixed extends Component {
     */
    render() {
       return (
-         <ul className={styles.bar}>
-            {this.props.children.map((child, i) => (
-               <li
-                  key={i}
-                  className={[
-                     styles.tab,
-                     this.state.selected == i ? 'selected' : ''
-                  ].join(' ')}
-                  onClick={this.onTabClick.bind(this, i)}
-               >
-                  {child}
-                  <i className={['KambiWidget-primary-background-color', styles.border].join(' ')} />
-               </li>
-            ))}
-         </ul>
+         <div className={styles.bar}>
+            {this.props.children.map((child, i) => this.props.renderTabContainer({
+               key: i,
+               selected: this.state.selected == i,
+               onClick: this.onTabClick.bind(this, i),
+               children: child
+            }))}
+         </div>
       );
    }
 }
@@ -68,11 +62,17 @@ TabBarFixed.propTypes = {
    /**
     * Selected tab index
     */
-   selected: PropTypes.number
+   selected: PropTypes.number,
+
+   /**
+    * Function capable of rendering tab container
+    */
+   renderTabContainer: PropTypes.func
 };
 
 TabBarFixed.defaultProps = {
-   selected: 0
+   selected: 0,
+   renderTabContainer: (props) => <TabContainer {...props}>{props.children}</TabContainer>
 };
 
 export default TabBarFixed;

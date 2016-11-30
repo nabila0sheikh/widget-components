@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import styles from './TabBarScrolled.scss';
 import ArrowButton from './ArrowButton';
+import TabContainer from './TabContainer';
 
 /**
  * Window resize handling reflex
@@ -120,7 +121,7 @@ class TabBarScrolled extends Component {
     * @returns {number|null}
     */
    get tabWidth() {
-      return this.firstTab ? this.firstTab.offsetWidth : null;
+      return this.firstTabWidth;
    }
 
    /**
@@ -219,22 +220,24 @@ class TabBarScrolled extends Component {
       return (
          <div className={styles.container} ref={el => (this.container = el)}>
             <div className={styles.eyeshot} ref={el => (this.eyeshot = el)}>
-               <ul className={styles.bar} ref={el => (this.bar = el)}>
-                  {this.props.children.map((child, i) => (
-                     <li
-                        key={i}
-                        className={[styles.tab, this.state.tab == i ? 'selected' : ''].join(' ')}
-                        onClick={this.onTabClick.bind(this, i)}
-                        ref={i == 0 ? el => (this.firstTab = el) : undefined}
-                     >
-                        {child}
-                        <i className={['KambiWidget-primary-background-color', styles.border].join(' ')} />
-                     </li>
-                  ))}
-               </ul>
+               <div className={styles.bar} ref={el => (this.bar = el)}>
+                  {this.props.children.map((child, i) => this.props.renderTabContainer({
+                     key: i,
+                     selected: this.state.tab == i,
+                     onClick: this.onTabClick.bind(this, i),
+                     onWidth: i == 0 ? width => (this.firstTabWidth = width) : undefined,
+                     children: child
+                  }))}
+               </div>
             </div>
-            {this.props.renderPrevButton(this.prevPage, !this.showPrevButton)}
-            {this.props.renderNextButton(this.nextPage, !this.showNextButton)}
+            {this.props.renderPrevButton({
+               onClick: this.prevPage,
+               disabled: !this.showPrevButton
+            })}
+            {this.props.renderNextButton({
+               onClick: this.nextPage,
+               disabled: !this.showNextButton
+            })}
          </div>
       );
    }
@@ -269,14 +272,20 @@ TabBarScrolled.propTypes = {
    /**
     * Function capable of rendering button responsible for scrolling right
     */
-   renderNextButton: PropTypes.func
+   renderNextButton: PropTypes.func,
+
+   /**
+    * Function capable of rendering tab container
+    */
+   renderTabContainer: PropTypes.func
 };
 
 TabBarScrolled.defaultProps = {
    selected: 0,
    step: 2,
-   renderPrevButton: (onClick, disabled) => <ArrowButton type='left' onClick={onClick} disabled={disabled} />,
-   renderNextButton: (onClick, disabled) => <ArrowButton type='right' onClick={onClick} disabled={disabled} />
+   renderPrevButton: (props) => <ArrowButton type='left' {...props} />,
+   renderNextButton: (props) => <ArrowButton type='right' {...props} />,
+   renderTabContainer: (props) => <TabContainer {...props}>{props.children}</TabContainer>
 };
 
 export default TabBarScrolled;
