@@ -199,7 +199,7 @@ class TabBarScrolled extends Component {
     */
    computeTabsWidth(start, end = start) {
       return this.tabWidths
-         .slice(start, end)
+         .slice(start, end + 1)
          .reduce((sum, tabWidth) => sum + (tabWidth ? tabWidth : 0), 0);
    }
 
