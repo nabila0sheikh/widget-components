@@ -1,6 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Children, Component, PropTypes } from 'react';
 import styles from './TabBarScrolled.scss';
 import ArrowButton from './ArrowButton';
+import TabContainer from './TabContainer';
 
 /**
  * Window resize handling reflex
@@ -37,6 +38,7 @@ class TabBarScrolled extends Component {
       };
 
       this.scrollLeft = 0;
+      this.tabWidths = [];
 
       this.prevPage = this.prevPage.bind(this);
       this.nextPage = this.nextPage.bind(this);
@@ -116,23 +118,15 @@ class TabBarScrolled extends Component {
    }
 
    /**
-    * Single tab width (in pixels)
+    * Returns maximal scroll left offset.
     * @returns {number|null}
     */
-   get tabWidth() {
-      return this.firstTab ? this.firstTab.offsetWidth : null;
-   }
-
-   /**
-    * Returns maximal scroll left offset.
-    * @returns {number}
-    */
    get maxScrollLeft() {
-      if (!(this.tabWidth && this.eyeshotWidth)) {
+      if (!(this.eyeshotWidth)) {
          return null;
       }
 
-      return this.props.children.length * this.tabWidth - this.eyeshotWidth;
+      return this.computeTabsWidth(0, Children.count(this.props.children) - 1) - this.eyeshotWidth;
    }
 
    /**
@@ -140,7 +134,7 @@ class TabBarScrolled extends Component {
     * @param {number} offset Scroll offset
     */
    scrollTo(offset) {
-      if (!(this.bar && this.tabWidth && this.eyeshotWidth && this.eyeshot)) {
+      if (!(this.bar && this.maxScrollLeft && this.eyeshotWidth && this.eyeshot)) {
          return;
       }
 
@@ -174,11 +168,11 @@ class TabBarScrolled extends Component {
     * @param {number} tab Tab index
     */
    scrollToTab(tab) {
-      if (!(this.bar && this.tabWidth && this.eyeshotWidth)) {
+      if (!(this.bar && this.eyeshotWidth)) {
          return;
       }
 
-      this.scrollTo(tab * this.tabWidth - (this.eyeshotWidth - this.tabWidth) / 2);
+      this.scrollTo(this.computeTabsWidth(0, tab) - (this.eyeshotWidth - this.computeTabsWidth(tab)) / 2);
    }
 
    /**
@@ -198,17 +192,33 @@ class TabBarScrolled extends Component {
    }
 
    /**
+    * Returns tab widths sum for given range.
+    * @param {number} start First tab index
+    * @param {number} end Last tab index
+    * @returns {number}
+    */
+   computeTabsWidth(start, end = start) {
+      return this.tabWidths
+         .slice(start, end)
+         .reduce((sum, tabWidth) => sum + (tabWidth ? tabWidth : 0), 0);
+   }
+
+   get averageTabWidth() {
+      return this.computeTabsWidth(0, Children.count(this.props.children) - 1) / Children.count(this.props.children);
+   }
+
+   /**
     * Scrolls tab bar to previous page.
     */
    prevPage() {
-      this.scrollTo(this.scrollLeft - this.props.step * this.tabWidth);
+      this.scrollTo(this.scrollLeft - this.props.step * this.averageTabWidth);
    }
 
    /**
     * Scrolls tab bar to next page.
     */
    nextPage() {
-      this.scrollTo(this.scrollLeft + this.props.step * this.tabWidth);
+      this.scrollTo(this.scrollLeft + this.props.step * this.averageTabWidth);
    }
 
    /**
@@ -219,24 +229,24 @@ class TabBarScrolled extends Component {
       return (
          <div className={styles.container} ref={el => (this.container = el)}>
             <div className={styles.eyeshot} ref={el => (this.eyeshot = el)}>
-               <ul className={styles.bar} ref={el => (this.bar = el)}>
-                  {this.props.children.map((child, i) => (
-                     <li
-                        key={i}
-                        className={[styles.tab, this.state.tab == i ? 'selected' : ''].join(' ')}
-                        onClick={this.onTabClick.bind(this, i)}
-                        ref={i == 0 ? el => (this.firstTab = el) : undefined}
-                     >
-                        {child}
-                        <i className={['KambiWidget-primary-background-color', styles.border].join(' ')} />
-                     </li>
-                  ))}
-               </ul>
+               <div className={styles.bar} ref={el => (this.bar = el)}>
+                  {Children.map(this.props.children, (child, i) => this.props.renderTabContainer({
+                     key: i,
+                     selected: this.state.tab == i,
+                     onClick: this.onTabClick.bind(this, i),
+                     onWidth: width => (this.tabWidths[i] = width),
+                     children: child
+                  }))}
+               </div>
             </div>
-            {this.showPrevButton &&
-               <ArrowButton type='left' onClick={this.prevPage} />}
-            {this.showNextButton &&
-               <ArrowButton type='right' onClick={this.nextPage} />}
+            {this.props.renderPrevButton({
+               onClick: this.prevPage,
+               disabled: !this.showPrevButton
+            })}
+            {this.props.renderNextButton({
+               onClick: this.nextPage,
+               disabled: !this.showNextButton
+            })}
          </div>
       );
    }
@@ -246,7 +256,7 @@ TabBarScrolled.propTypes = {
    /**
     * Tab element
     */
-   children: PropTypes.arrayOf(PropTypes.element).isRequired,
+   children: PropTypes.node,
 
    /**
     * Tab clicked handler
@@ -261,12 +271,30 @@ TabBarScrolled.propTypes = {
    /**
     * Scroll step (items count)
     */
-   step: PropTypes.number
+   step: PropTypes.number,
+
+   /**
+    * Function capable of rendering button responsible for scrolling left
+    */
+   renderPrevButton: PropTypes.func,
+
+   /**
+    * Function capable of rendering button responsible for scrolling right
+    */
+   renderNextButton: PropTypes.func,
+
+   /**
+    * Function capable of rendering tab container
+    */
+   renderTabContainer: PropTypes.func
 };
 
 TabBarScrolled.defaultProps = {
    selected: 0,
-   step: 2
+   step: 2,
+   renderPrevButton: props => <ArrowButton type='left' {...props} />,
+   renderNextButton: props => <ArrowButton type='right' {...props} />,
+   renderTabContainer: args => <TabContainer {...args}>{args.children}</TabContainer>
 };
 
 export default TabBarScrolled;

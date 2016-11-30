@@ -1,0 +1,23 @@
+:local(.tab) {
+   cursor: pointer;
+   position: relative;
+   transition: background-color .5s;
+   padding-bottom: 3px;
+
+   &:hover {
+      background-color: #f0f0f0;
+   }
+
+   :local(.border) {
+      position: absolute;
+      bottom: 0;
+      height: 3px;
+      left: 0;
+      right: 0;
+      visibility: hidden;
+   }
+
+   &.selected :local(.border) {
+      visibility: visible;
+   }
+}
