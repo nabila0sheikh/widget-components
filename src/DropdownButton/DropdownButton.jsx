@@ -24,7 +24,8 @@ class DropdownButton extends Component {
       // so it is moved to the next cycle
       this.setState({ dropDown: false });
       window.document.documentElement.removeEventListener('click', this.onBackgroundClick, true);
-      const btnIndex = ev.target.getAttribute('data-kw-dropdown-button-index');
+      let btnIndex = ev.target.getAttribute('data-kw-dropdown-button-index');
+      btnIndex = parseInt(btnIndex, 10);
       if (btnIndex !== null || this.state.selected === btnIndex) {
          this.setState({ selected: btnIndex });
          this.props.onChange(btnIndex);
