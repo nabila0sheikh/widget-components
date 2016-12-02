@@ -99,6 +99,8 @@ class DropdownButton extends Component {
 
                         if (this.state.selected === i) {
                            classNames.push('KambiWidget-primary-color');
+                        } else {
+                           classNames.push('KambiWidget-card-text-color');
                         }
 
                         return (
