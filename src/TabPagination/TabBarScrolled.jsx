@@ -222,6 +222,22 @@ class TabBarScrolled extends Component {
    }
 
    /**
+    * Updates given tab's width if necessary.
+    * @param {number} idx Tab index
+    * @param {number?} width Desired tab width
+    */
+   setTabWidth(idx, width) {
+      if (typeof width !== 'number') {
+         return;
+      }
+
+      if (this.tabWidths[idx] !== width) {
+         this.tabWidths[idx] = width;
+         this.forceUpdate();
+      }
+   }
+
+   /**
     * Renders scrolled tab bar.
     * @returns {XML}
     */
@@ -234,7 +250,7 @@ class TabBarScrolled extends Component {
                      key: i,
                      selected: this.state.tab == i,
                      onClick: this.onTabClick.bind(this, i),
-                     onWidth: width => (this.tabWidths[i] = width),
+                     onWidth: this.setTabWidth.bind(this, i),
                      children: child
                   }))}
                </div>
