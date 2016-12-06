@@ -2,9 +2,15 @@ import React, { Component } from 'react';
 import { coreLibrary, widgetModule } from 'kambi-widget-core-library';
 import styles from './Header.scss';
 
+/**
+ * Header component, used to create standard headers, this component changes its default behavior based on coreLibrary.pageInfo.
+ * If pageInfo.pageType is "home" the header is white background with grey text, otherwise the widget becomes collapsable and the header becomes black with white text.
+ * These defaults are overridable by the props
+ * @memberof widget-components
+ */
 class Header extends Component {
 
-   /**
+   /*
     * Constructs.
     * @param {object} props Header properties
     */
@@ -16,7 +22,7 @@ class Header extends Component {
       this.toggleHeader = this.toggleHeader.bind(this);
    }
 
-   /**
+   /*
     * Called after mounting component
     */
    componentDidMount () {
@@ -26,7 +32,7 @@ class Header extends Component {
       }
    }
 
-   /**
+   /*
     * Collapses or expands the widget
     * @returns {function|null} A callback baes on the action performed or null if no call back was provided
     */
@@ -42,7 +48,7 @@ class Header extends Component {
       }
    }
 
-   /**
+   /*
     * Creates Header template.
     * @returns {XML}
     */
@@ -50,8 +56,8 @@ class Header extends Component {
       // Default classes to be added to all headers
       let cssClasses = 'l-flexbox l-pl-16 l-pr-16 KambiWidget-card-support-text-color';
       // If we have custom classes disregard default styling and load custom classes
-      if ( this.props.className ) {
-         cssClasses = this.props.className;
+      if ( typeof this.props.customClasses === 'string') {
+         cssClasses = this.props.customClasses;
       } else {
          // Add classes depending on pageInfo
          cssClasses += (coreLibrary.pageInfo.pageType === 'home') ? ' l-pt-6 l-pb-6 ' + styles.kwHeader : ' KambiWidget-header l-pt-8 l-pb-8';
@@ -67,44 +73,21 @@ class Header extends Component {
    }
 }
 
+/**
+ * @property children {ReactElement} Elements to be placed inside the header
+ * @property [collapsable] {boolean} Sets header as collapsable
+ * @property [hidden] {boolean} if true the widget will start collapsed
+ * @property [onCollapse] {Function} callback invoked when the widget collapses
+ * @property [onExpand] {Function} callback invoked when the widget uncollapses
+ * @property [customClasses] {string|boolean} Defaults to false. If provided adds these CSS classes to the header instead of adding classes based on pageInfo
+ */
 Header.propTypes = {
-
-   /**
-    * Elements passed from parent
-    */
    children: React.PropTypes.node.isRequired,
-
-   /**
-    * Sets header as collapsable
-    */
    collapsable: React.PropTypes.bool,
-
-
-   /**
-    * Sets initial state
-    */
    hidden: React.PropTypes.bool,
-
-   /**
-    * Callback after collapse
-    */
    onCollapse: React.PropTypes.func,
-
-   /**
-    * Callback after expand
-    */
    onExpand: React.PropTypes.func,
-
-   /**
-    * Custom styling.
-    */
-   className: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.bool])
-};
-
-Header.defaultProps = {
-   className: false
+   customClasses: React.PropTypes.string
 };
 
 /**

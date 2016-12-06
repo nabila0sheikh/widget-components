@@ -5,10 +5,11 @@ import TabBarScrolled from './TabBarScrolled';
 
 /**
  * Tab Pagination component
+ * @memberof widget-components
  */
 class TabPagination extends Component {
 
-   /**
+   /*
     * Constructs.
     * @param {object} props Component properties
     */
@@ -22,16 +23,16 @@ class TabPagination extends Component {
       this.switchTab = this.switchTab.bind(this);
    }
 
-   /**
-    * Switches to given tab.
+   /*
+    * Switches to given tab
     * @param {number} idx Tab index
     */
    switchTab(idx) {
       this.setState({ selected: idx });
    }
 
-   /**
-    * Creates TabPagination markup.
+   /*
+    * Creates TabPagination markup
     * @returns {XML}
     */
    render() {
@@ -53,27 +54,20 @@ class TabPagination extends Component {
    }
 }
 
+/**
+ * @property [children] {Array.<ReactElement>} Tab content elements
+ * @property [renderTab=(idx) => <div key=idx><strong>idx</strong></div>] {Function} Function called in order to render single tab on tab bar
+ * @property [fixedWidth=false] {boolean} Tab bar display option:
+
+  true - all tabs will be squeezed/stretched to fit tab bar width
+
+ false - scroll bar will be displayed when tabs exceed tab bar width
+ * @property [selected=0] {number} Currently selected tab
+ */
 TabPagination.propTypes = {
-   /**
-    * Tab content elements
-    */
    children: PropTypes.arrayOf(PropTypes.element),
-
-   /**
-    * Function called in order to render single tab on tab bar
-    */
    renderTab: PropTypes.func,
-
-   /**
-    * Tab bar display option:
-    * true - all tabs will be squeezed/stretched to fit tab bar width
-    * false - scroll bar will be displayed when tabs exceed tab bar width
-    */
    fixedWidth: PropTypes.bool,
-
-   /**
-    * Currently selected tab
-    */
    selected: PropTypes.number
 };
 

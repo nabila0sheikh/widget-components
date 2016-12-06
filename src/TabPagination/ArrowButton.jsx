@@ -21,17 +21,17 @@ const ArrowButton = ({ type, disabled, onClick }) => (
 );
 
 ArrowButton.propTypes = {
-   /**
+   /*
     * Arrow direction - left or right
     */
    type: PropTypes.oneOf(['left', 'right']).isRequired,
 
-   /**
+   /*
     * On click handler
     */
    onClick: PropTypes.func.isRequired,
 
-   /**
+   /*
     * Should button be disabled?
     * Defaults to false.
     */

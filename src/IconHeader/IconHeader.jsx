@@ -4,7 +4,7 @@ import styles from './IconHeader.scss';
 
 class Header extends Component {
 
-   /**
+   /*
     * Constructs.
     * @param {object} props Header properties
     */
@@ -16,7 +16,7 @@ class Header extends Component {
       this.toggleHeader = this.toggleHeader.bind(this);
    }
 
-   /**
+   /*
     * Called after mounting component
     */
    componentDidMount () {
@@ -26,7 +26,7 @@ class Header extends Component {
       }
    }
 
-   /**
+   /*
     * Collapses or expands the widget
     * @returns {function|null} A callback baes on the action performed or null if no call back was provided
     */
@@ -42,7 +42,7 @@ class Header extends Component {
       }
    }
 
-   /**
+   /*
     * Creates Header template.
     * @returns {XML}
     */
@@ -80,7 +80,7 @@ IconHeader.propTypes = {
 */}
 
 
-/**
+/*
  * Holds the height of the header in pixels
  * @type {number}
  */

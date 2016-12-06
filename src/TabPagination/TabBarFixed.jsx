@@ -2,12 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import styles from './TabBarFixed.scss';
 import TabContainer from './TabContainer';
 
-/**
+/*
  * Fixed width Tab Bar component
  */
 class TabBarFixed extends Component {
 
-   /**
+   /*
     * Constructs.
     * @param {object} props Component properties
     */
@@ -18,7 +18,7 @@ class TabBarFixed extends Component {
       };
    }
 
-   /**
+   /*
     * Switches to given tab.
     * @param {number} idx Tab index
     */
@@ -30,7 +30,7 @@ class TabBarFixed extends Component {
       this.setState({ selected: idx });
    }
 
-   /**
+   /*
     * Renders component.
     * @returns {XML}
     */
@@ -49,22 +49,22 @@ class TabBarFixed extends Component {
 }
 
 TabBarFixed.propTypes = {
-   /**
+   /*
     * Tab element
     */
    children: PropTypes.node,
 
-   /**
+   /*
     * Tab clicked handler
     */
    onTabSwitch: PropTypes.func,
 
-   /**
+   /*
     * Selected tab index
     */
    selected: PropTypes.number,
 
-   /**
+   /*
     * Function capable of rendering tab container
     */
    renderTabContainer: PropTypes.func

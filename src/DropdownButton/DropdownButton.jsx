@@ -2,6 +2,10 @@ import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
 import styles from './DropdownButton.scss';
 
+/**
+ * Component for creating a button that when clicked shows a menu based in the provided options.
+ * @memberof widget-components
+ */
 class DropdownButton extends Component {
 
    constructor(props) {
@@ -18,7 +22,10 @@ class DropdownButton extends Component {
       this.onButtonClick = this.onButtonClick.bind(this);
    }
 
-   // called on background click when drop down window is open
+   /*
+    * called on background click when drop down window is open
+    * @param {SyntheticEvent} event Click event
+    */
    onBackgroundClick(ev) {
       // setState prevents event from being processed by onOptionClick handler
       // so it is moved to the next cycle
@@ -32,7 +39,7 @@ class DropdownButton extends Component {
       }
    }
 
-   /**
+   /*
     * Shows drop down box with available options.
     * @param {SyntheticEvent} event Click event
     */
@@ -44,8 +51,8 @@ class DropdownButton extends Component {
       window.document.documentElement.addEventListener('click', this.onBackgroundClick, true); // add event to the capture phase instead of bubble phase
    }
 
-   /**
-    * Renders button.
+   /*
+    * Renders button
     * @returns {XML}
     */
    render() {
@@ -120,31 +127,23 @@ class DropdownButton extends Component {
    }
 }
 
+
+/**
+ * @property options {Array.<string>} Required. Options to show when the user clicks the button, translations are not applied
+
+ * @property onChange {Function(index)} Required. Function to be invoked when the user clicks an option, receives the index of the option as an argument. If the user clicks the currently selected option this function is not invoked
+
+ * @property [selected=0] {number} Defines which option should be checked upon component creation
+
+ * @property [horizontalAlignment='right'] {'left'|'right'} Horizontal alignment of the dropdown box. If 'left' will match the left corner of the dropdown with the left corner of the button, if 'right' will match the right corner for the dropdown to the right corner of the button. If widget width is smaller than 925 the dropdown will ignore this option and will cover the full width of the widget
+
+ * @property [verticalAlignment='top'] {'top'|'bottom'} Vertical alignment of the dropdown box. If 'top' will match the top corner of the dropdown with the top corner of the button, if 'bottom' will match the bottom corner for the dropdown to the bottom corner of the button
+ */
 DropdownButton.propTypes = {
-   /**
-    * Options array
-    */
    options: PropTypes.arrayOf(PropTypes.string).isRequired,
-
-   /**
-    * Defines which option should be checked upon component creation
-    */
    selected: PropTypes.number,
-
-   /**
-    * Option change handler, the function is passed the index that references the position of the element selected in the options array
-    */
    onChange: PropTypes.func.isRequired,
-
-   /**
-    * Horizontal alignment of the dropdown box. If 'left' will match the left corner of the dropdown with the left corner of the button, if 'right' will match the right corner for the dropdown to the right corner of the button
-    * If widget width is smaller than 925 the dropdown will ignore this option and will cover the full width of the widget
-    */
    horizontalAlignment: PropTypes.oneOf(['left', 'right']),
-
-   /**
-    * Vertical alignment of the dropdown box. If 'top' will match the top corner of the dropdown with the top corner of the button, if 'bottom' will match the bottom corner for the dropdown to the bottom corner of the button
-    */
    verticalAlignment: PropTypes.oneOf(['top', 'bottom'])
 };
 

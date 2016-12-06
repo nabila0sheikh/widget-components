@@ -3,7 +3,7 @@ import { coreLibrary, widgetModule, utilModule, eventsModule } from 'kambi-widge
 import OutcomeButtonUI from './OutcomeButtonUI';
 
 
-/**
+/*
  * Returns initial state.
  * @param {object} outcome Outcome entity
  * @returns {{selected: boolean}}
@@ -15,12 +15,15 @@ const getInitialState = (outcome) => {
 };
 
 /**
- * Renders an outcome button.
+ * Outcome button component. This component renders an outcome with or without a label. It automatically adds/removes the outcome to/from the betslip when the user clicks the button. Besides that it also automatically rerenders itself when the user changes the odds format
+ *
+ * This component uses the OutcomeButtonUI behind the scenes, if you don't want the automatic functionality mentioned before you should use OutcomeButtonUI
+ * @memberof widget-components
  */
 class OutcomeButton extends Component {
 
-   /**
-    * Outcome component constructor.
+   /*
+    * Outcome component constructor
     * @param {object} props Component properties
     */
    constructor(props) {
@@ -37,15 +40,15 @@ class OutcomeButton extends Component {
       this.oddsFormatChangedHandler = () => this.forceUpdate();
    }
 
-   /**
-    * Called just before component mounting.
+   /*
+    * Called just before component mounting
     */
    componentDidMount() {
       this.subscribeToEvents(this.props.outcome);
    }
 
-   /**
-    * Called just before changing properties of component.
+   /*
+    * Called just before changing properties of component
     * @param {object} nextProps New properties
     */
    componentWillReceiveProps(nextProps) {
@@ -54,15 +57,15 @@ class OutcomeButton extends Component {
       this.setState(getInitialState(nextProps.outcome));
    }
 
-   /**
-    * Called just before component unmounting.
+   /*
+    * Called just before component unmounting
     */
    componentWillUnmount() {
       this.unsubscribeFromEvents(this.props.outcome);
    }
 
-   /**
-    * Subscribes to external events related to this component instance.
+   /*
+    * Subscribes to external events related to this component instance
     * @param {object} outcome Outcome entity
     */
    subscribeToEvents(outcome) {
@@ -71,8 +74,8 @@ class OutcomeButton extends Component {
       eventsModule.subscribe('ODDS:FORMAT', this.oddsFormatChangedHandler);
    }
 
-   /**
-    * Unsubscribes from external events related to this component instance.
+   /*
+    * Unsubscribes from external events related to this component instance
     * @param {object} outcome Outcome entity
     */
    unsubscribeFromEvents(outcome) {
@@ -81,8 +84,8 @@ class OutcomeButton extends Component {
       eventsModule.unsubscribe('ODDS:FORMAT', this.oddsFormatChangedHandler);
    }
 
-   /**
-    * Handles outcome button's click event.
+   /*
+    * Handles outcome button's click event
     */
    toggleOutcome() {
       if (this.state.selected) {
@@ -92,7 +95,7 @@ class OutcomeButton extends Component {
       }
    }
 
-   /**
+   /*
     * Bet offer entity which matches given outcome
     * @returns {object|null}
     */
@@ -105,7 +108,7 @@ class OutcomeButton extends Component {
          .find(betOffer => betOffer.id === this.props.outcome.betOfferId);
    }
 
-   /**
+   /*
     * Properly formatted odds
     * @returns {number}
     */
@@ -120,7 +123,7 @@ class OutcomeButton extends Component {
       }
    }
 
-   /**
+   /*
     * Button's label
     * @returns {string|null}
     */
@@ -140,8 +143,8 @@ class OutcomeButton extends Component {
       }
    }
 
-   /**
-    * Returns component's template.
+   /*
+    * Returns component's template
     * @returns {XML}
     */
    render() {
@@ -157,23 +160,15 @@ class OutcomeButton extends Component {
    }
 }
 
+
+/**
+ * @property outcome {Object} The Outcome object provided by the calls from the offeringModule
+ * @property [event] {Object} the Event object provided by the calls from the offeringModule. If not provided will some types of outcomes may not show the correct label. If the "label" prop is false this prop is not used
+ * @property [label=true] {string|boolean} Label to show. If boolean and false don't show any label, only the odds, if boolean and true use the provided event and the outcome to determine the label, if string uses it as the label
+ */
 OutcomeButton.propTypes = {
-   /**
-    * Outcome entity
-    */
    outcome: React.PropTypes.object.isRequired,
-
-   /**
-    * Event entity, if not provided some type of outcomes may not show the correct label.
-    */
    event: React.PropTypes.object,
-
-   /**
-    * Label to show, optional
-    * If boolean and false don't show label
-    * If boolean and true use the provided event and the outcome to determine the label
-    * If string uses that as label
-    */
    label: React.PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.bool
