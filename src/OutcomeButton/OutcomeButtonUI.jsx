@@ -54,7 +54,7 @@ class OutcomeButtonUI extends Component {
                      </span>
                      <span className='KambiWidget-outcome__line' />
                   </div>
-                  { this.outcomeOdds() }
+                  { this.outcomeOdds }
                </div>
             </button>
          );
