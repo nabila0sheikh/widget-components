@@ -17,7 +17,8 @@ class Header extends Component {
    constructor ( props ) {
       super(props);
       this.state = {
-         hidden: this.props.hidden
+         hidden: this.props.hidden,
+         isHome: coreLibrary.pageInfo.pageType === 'home'
       };
       this.toggleHeader = this.toggleHeader.bind(this);
    }
@@ -38,7 +39,11 @@ class Header extends Component {
     */
    toggleHeader () {
       this.setState({ hidden: !this.state.hidden });
-      if ( this.props.collapsable ) {
+      if ( this.props.collapsable === true ||
+         (
+            this.props.collapsable == null &&
+            !this.state.isHome
+         )) {
          if ( !this.state.hidden ) {
             widgetModule.setWidgetHeight(Header.HEIGHT);
             return ( this.props.onCollapse ) ? this.props.onCollapse() : null;
@@ -60,7 +65,7 @@ class Header extends Component {
          cssClasses = this.props.customClasses;
       } else {
          // Add classes depending on pageInfo
-         cssClasses += (coreLibrary.pageInfo.pageType === 'home') ? ' l-pt-6 l-pb-6 ' + styles.kwHeader : ' KambiWidget-header l-pt-8 l-pb-8';
+         cssClasses += this.state.isHome ? ' l-pt-6 l-pb-6 ' + styles.kwHeader : ' KambiWidget-header l-pt-8 l-pb-8';
       }
 
       return (
