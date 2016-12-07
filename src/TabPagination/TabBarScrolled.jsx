@@ -108,7 +108,7 @@ class TabBarScrolled extends Component {
     * Determines if component is running on mobile device.
     * @returns {boolean}
     */
-   get mobileMode() {
+   get mobileDevice() {
       const hasTouchStart = 'ontouchstart' in window;
 
       if (!this.containerWidth) {
@@ -158,7 +158,7 @@ class TabBarScrolled extends Component {
       this.scrollLeft = offset > this.maxScrollLeft ? this.maxScrollLeft : offset;
       this.scrollLeft = this.scrollLeft < 0 ? 0 : this.scrollLeft;
 
-      if (this.mobileMode) {
+      if (this.mobileDevice) {
          this.eyeshot.scrollLeft = this.scrollLeft;
          this.translateX = 0;
       } else {
@@ -197,7 +197,7 @@ class TabBarScrolled extends Component {
     * @returns {boolean}
     */
    get showPrevButton() {
-      return !this.mobileMode && this.scrollLeft > 0;
+      return !this.mobileDevice && this.scrollLeft > 0;
    }
 
    /*
@@ -205,7 +205,7 @@ class TabBarScrolled extends Component {
     * @returns {boolean}
     */
    get showNextButton() {
-      return !this.mobileMode && this.scrollLeft < this.maxScrollLeft;
+      return !this.mobileDevice && this.scrollLeft < this.maxScrollLeft;
    }
 
    /*
@@ -244,8 +244,14 @@ class TabBarScrolled extends Component {
     */
    render() {
       return (
-         <div className={styles.container} ref={el => (this.container = el)}>
-            <div className={styles.eyeshot} ref={el => (this.eyeshot = el)}>
+         <div
+            className={`${styles.container} ${this.mobileDevice ? 'mobile-device' : ''}`}
+            ref={el => (this.container = el)}
+         >
+            <div
+               className={styles.eyeshot}
+               ref={el => (this.eyeshot = el)}
+            >
                <div className={styles.bar} ref={el => (this.bar = el)}>
                   {Children.map(this.props.children, (child, i) => this.props.renderTabContainer({
                      key: i,

@@ -1,11 +1,19 @@
 :local(.container) {
    position: relative;
    padding: 0 16px;
+
+   &.mobile-device {
+      padding: 0;
+   }
 }
 
 // field of view
 :local(.eyeshot) {
    overflow-x: hidden;
+
+   .mobile-device & {
+      overflow-x: scroll;
+   }
 }
 
 // tab bar
