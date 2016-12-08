@@ -1,0 +1,20 @@
+@import '~kambi-widget-core-library/src/scss/core.scss';
+
+.description {
+   margin-top: 36px;
+   margin-bottom: 6px;
+   border-top: 1px solid black;
+}
+
+code {
+   max-height: 60px;
+   * {
+      font-family: Monaco;
+      font-size: 14px;
+      line-height: 16px;
+   }
+}
+
+.component {
+   margin-top: 6px;
+}
