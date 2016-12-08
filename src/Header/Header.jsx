@@ -65,7 +65,11 @@ class Header extends Component {
          cssClasses = this.props.customClasses;
       } else {
          // Add classes depending on pageInfo
-         cssClasses += this.state.isHome ? ' l-pt-6 l-pb-6 ' + styles.kwHeader : ' KambiWidget-header l-pt-8 l-pb-8';
+         if (this.state.isHome) { // eslint-disable-line
+            cssClasses += ' l-pt-6 l-pb-6 ' + styles.kwHeader;
+         } else {
+            cssClasses += ' KambiWidget-header l-pt-8 l-pb-8 ' + styles.kwNotHome;
+         }
       }
 
       return (
@@ -80,11 +84,11 @@ class Header extends Component {
 
 /**
  * @property children {ReactElement} Elements to be placed inside the header
- * @property [collapsable] {boolean} Sets header as collapsable
+ * @property [collapsable] {boolean} Sets header as collapsable. If not provided will be collapsable if coreLibrary.pageInfo.pageType !== 'home'
  * @property [hidden] {boolean} if true the widget will start collapsed
  * @property [onCollapse] {Function} callback invoked when the widget collapses
  * @property [onExpand] {Function} callback invoked when the widget uncollapses
- * @property [customClasses] {string|boolean} Defaults to false. If provided adds these CSS classes to the header instead of adding classes based on pageInfo
+ * @property [customClasses] {string} Defaults to false. If provided adds these CSS classes to the header instead of adding classes based on coreLibrary.pageInfo.pageType (black header if pageType !== 'home')
  */
 Header.propTypes = {
    children: React.PropTypes.node.isRequired,
@@ -94,11 +98,5 @@ Header.propTypes = {
    onExpand: React.PropTypes.func,
    customClasses: React.PropTypes.string
 };
-
-/**
- * Holds the height of the header in pixels
- * @type {number}
- */
-Header.HEIGHT = (coreLibrary.pageInfo.pageType === 'home') ? 37 : 40;
 
 export default Header;
