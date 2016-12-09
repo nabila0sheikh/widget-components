@@ -13,6 +13,7 @@
 
    .mobile-device & {
       overflow-x: scroll;
+      -webkit-overflow-scrolling: touch;
    }
 }
 
