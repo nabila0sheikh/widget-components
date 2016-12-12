@@ -32,11 +32,15 @@ class DropdownButton extends Component {
       this.setState({ dropDown: false });
       window.document.documentElement.removeEventListener('click', this.onBackgroundClick, true);
       let btnIndex = ev.target.getAttribute('data-kw-dropdown-button-index');
-      btnIndex = parseInt(btnIndex, 10);
-      if (btnIndex !== null || this.state.selected === btnIndex) {
-         this.setState({ selected: btnIndex });
-         this.props.onChange(btnIndex);
+      if (btnIndex == null) {
+         return;
       }
+      btnIndex = parseInt(btnIndex, 10);
+      if (this.state.selected === btnIndex) {
+         return;
+      }
+      this.setState({ selected: btnIndex });
+      this.props.onChange(btnIndex);
    }
 
    /*
