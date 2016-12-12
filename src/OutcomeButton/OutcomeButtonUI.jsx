@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import styles from './OutcomeButtonUI.scss';
 
+/* eslint-disable react/prefer-stateless-function */
+
 /**
  * Renders the UI of an outcome button, no
  * special handling logic.
