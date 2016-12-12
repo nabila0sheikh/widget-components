@@ -66,7 +66,7 @@ class OutcomeButtonUI extends Component {
  * @property onClick {Function} Callback for when the button is clicked
  */
 OutcomeButtonUI.propTypes = {
-   label: React.PropTypes.string,
+   label: React.PropTypes.node,
    odds: React.PropTypes.string,
    suspended: React.PropTypes.bool,
    selected: React.PropTypes.bool.isRequired,
