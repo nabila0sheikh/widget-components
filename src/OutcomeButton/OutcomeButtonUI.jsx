@@ -59,7 +59,7 @@ class OutcomeButtonUI extends Component {
 }
 
 /**
- * @property [label=null] {string?} if not defined centralizes the odds in the button, if defined uses this as the label in the button
+ * @property [label=null] {node?} if not defined centralizes the odds in the button, if defined uses this as the label in the button
  * @property [odds=null] {string?} if not defined centralizes the label in the button, if defined shows the odds in the button (either centralized or on the right side if label is defined)
  * @property [suspended=false] {boolean} If true the button is greyed out
  * @property selected {boolean} If true the button is selected, false otherwise.
