@@ -29,8 +29,17 @@ class Header extends Component {
    componentDidMount () {
       if ( this.state.hidden ) {
          // Collapse widget if needed by initial state
-         widgetModule.setWidgetHeight(Header.HEIGHT);
+         widgetModule.setWidgetHeight(this.headerHeight);
       }
+   }
+
+   get headerHeight() {
+      if (this.headerElement) {
+         return this.headerElement.offsetHeight;
+      } else if (this.props.collapsable) {
+         return 40;
+      }
+      return 37;
    }
 
    /*
@@ -38,18 +47,23 @@ class Header extends Component {
     * @returns {function|null} A callback baes on the action performed or null if no call back was provided
     */
    toggleHeader () {
-      this.setState({ hidden: !this.state.hidden });
       if ( this.props.collapsable === true ||
          (
             this.props.collapsable == null &&
             !this.state.isHome
          )) {
+         this.setState({ hidden: !this.state.hidden });
          if ( !this.state.hidden ) {
-            widgetModule.setWidgetHeight(Header.HEIGHT);
-            return ( this.props.onCollapse ) ? this.props.onCollapse() : null;
+            widgetModule.setWidgetHeight(this.headerHeight);
+            if (this.props.onCollapse) {
+               this.props.onCollapse();
+            }
+         } else {
+            widgetModule.adaptWidgetHeight();
+            if (this.props.onExpand) {
+               this.props.onExpand();
+            }
          }
-         widgetModule.adaptWidgetHeight();
-         return ( this.props.onExpand ) ? this.props.onExpand() : null;
       }
    }
 
@@ -74,6 +88,7 @@ class Header extends Component {
 
       return (
          <header
+            ref={(headerElement) => { this.headerElement = headerElement }}
             className={cssClasses}
             onClick={this.toggleHeader}>
             {this.props.children}
