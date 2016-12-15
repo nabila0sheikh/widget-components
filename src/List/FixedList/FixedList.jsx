@@ -79,7 +79,6 @@ class FixedList extends Component {
  * @property [children] {ReactElement[]} Items list
  * @property [onItemClick] {function(number)} Item click handler. Called with item index argument.
  * @property [selected=0] {number} Initially selected item index
- * @property [step=2] {number} Scroll step (items count)
  * @property [renderItemContainer] {FixedList_RenderItemContainer} Function capable of rendering item container. Renders Kambi-styled item container by default.
  */
 FixedList.propTypes = {
