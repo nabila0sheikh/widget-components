@@ -150,6 +150,9 @@ class ScrolledList extends Component {
       return this.computeItemsWidth(0, Children.count(this.props.children) - 1) - this.eyeshotWidth;
    }
 
+   /*
+    * Updates items alignment if they take less space than container width.
+    */
    updateItemsAlignment() {
       const itemsWidth = this.computeItemsWidth(0, Children.count(this.props.children) - 1);
 
