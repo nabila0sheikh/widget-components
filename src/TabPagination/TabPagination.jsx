@@ -1,11 +1,12 @@
-import React, { Component, PropTypes } from 'react';
-import styles from './TabPagination.scss';
-import TabBarFixed from './TabBarFixed';
-import TabBarScrolled from './TabBarScrolled';
+import React, { Children, Component, PropTypes } from 'react';
+import ScrolledList from '../List/ScrolledList/ScrolledList';
 
 /**
- * Tab Pagination component
- * @memberof widget-components
+ * Tab Pagination component.
+ * Component should receive list of tab contents as children.
+ * It will render upper tab bar (for switching tabs).
+ * Once a tab is clicked a tab content will be switched.
+ * @memberOf widget-components
  */
 class TabPagination extends Component {
 
@@ -36,18 +37,17 @@ class TabPagination extends Component {
     * @returns {XML}
     */
    render() {
+      const children = Children.toArray(this.props.children);
+
       return (
-         <div className={styles.general}>
-            {this.props.fixedWidth &&
-               <TabBarFixed onTabSwitch={this.switchTab} selected={this.state.selected}>
-                  {this.props.children.map((a, i) => this.props.renderTab(i))}
-               </TabBarFixed>}
-            {!this.props.fixedWidth &&
-               <TabBarScrolled onTabSwitch={this.switchTab} selected={this.state.selected}>
-                  {this.props.children.map((a, i) => this.props.renderTab(i))}
-               </TabBarScrolled>}
-            <div className={styles.content}>
-               {this.props.children[this.state.selected]}
+         <div>
+            {this.props.renderTabList({
+               selected: this.state.selected,
+               onItemClick: this.switchTab,
+               children: this.props.children.map((a, i) => this.props.renderTab(i))
+            })}
+            <div>
+               {children[this.state.selected]}
             </div>
          </div>
       );
@@ -55,25 +55,67 @@ class TabPagination extends Component {
 }
 
 /**
- * @property [children] {Array.<ReactElement>} Tab content elements
- * @property [renderTab=(idx) => <div key=idx><strong>idx</strong></div>] {Function} Function called in order to render single tab on tab bar
- * @property [fixedWidth=false] {boolean} Tab bar display option:
+ * Renders tab for given index. The tab will be placed inside upper tab bar.
+ * @callback TabPagination_RenderTab
+ * @param {number} idx Tab index
+ * @returns ReactElement
+ * @example
+ *    idx => <div style={{width: 50, height: 50}}>Tab <strong>#{idx}</strong></div>
+ */
 
-  true - all tabs will be squeezed/stretched to fit tab bar width
+/**
+ * Renders upper tab list.
+ * @callback TabPagination_RenderTabList
+ * @param {TabPagination_RenderTabListArgs} args Contains properties which will control tab bar behaviour
+ * @returns ReactElement
+ *
+ * @example <caption>Using custom tab bar component</caption>
+ *    ({selected, onItemClick, children}) =>
+ *       <CustomTabBar
+ *          selected={selected}
+ *          onItemClick={onItemClick}>
+ *             {children}
+ *       </CustomTabBar>
+ *
+ * @example <caption>Shorthand syntax can be used once function arguments and component properties names match.</caption>
+ *    args => <CustomTabBar {...args}>{args.children}</CustomTabBar>
+ *
+ * @example <caption>Usage of build-in {@link widget-components.FixedList|FixedList} component as tab bar.</caption>
+ *    args => <FixedList {...args}>{args.children}</FixedList>
+ *
+ * @example <caption>Advanced usage of {@link widget-components.ScrolledList|ScrolledList} component as tab bar.</caption>
+ *    args =>
+ *       <ScrolledList
+ *          {...args}
+ *          alignItems={ScrolledList.ALIGN_ITEMS.LEFT}
+ *          step={3}>
+ *             {args.children}
+ *       </ScrolledList>
+ */
 
- false - scroll bar will be displayed when tabs exceed tab bar width
- * @property [selected=0] {number} Currently selected tab
+/**
+ * @name TabPagination_RenderTabListArgs
+ * @property {number} selected Initially selected list item (tab)
+ * @property {function(number)} onItemClick Item clicked handler. Called with item's index argument.
+ * @property {ReactElement[]} children Array of list items (tabs)
+ */
+
+/**
+ * @property [children] {ReactElement[]} Tab content elements
+ * @property [renderTab] {TabPagination_RenderTab} Function called in order to render single tab on tab bar. Renders tab index by default.
+ * @property [renderTabList] {TabPagination_RenderTabList} Function called in order to render tab bar. Renders {@link widget-components.ScrolledList|ScrolledList} by default.
+ * @property [selected=0] {number} Currently selected tab index
  */
 TabPagination.propTypes = {
-   children: PropTypes.arrayOf(PropTypes.element),
+   children: PropTypes.node,
    renderTab: PropTypes.func,
-   fixedWidth: PropTypes.bool,
+   renderTabList: PropTypes.func,
    selected: PropTypes.number
 };
 
 TabPagination.defaultProps = {
-   fixedWidth: false,
    renderTab: idx => <div key={idx}><strong>{idx}</strong></div>,
+   renderTabList: (args) => <ScrolledList {...args}>{args.children}</ScrolledList>,
    selected: 0
 };
 

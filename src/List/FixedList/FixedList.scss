@@ -1,6 +1,5 @@
 :local(.bar) {
    display: flex;
-   margin: 0;
 
    // distribute equally available width between tab containers
    & > * {

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import styles from './TabContainer.scss';
+import styles from './ItemContainer.scss';
 
 /*
  * Returns DOM element's width (in pixels)
@@ -10,9 +10,9 @@ const getWidth = function(el) {
    return el ? el.offsetWidth : null;
 };
 
-const TabContainer = ({ children, selected, onClick, onWidth }) => (
+const ItemContainer = ({ children, selected, onClick, onWidth }) => (
    <div
-      className={[styles.tab, selected ? 'selected' : ''].join(' ')}
+      className={[styles.item, selected ? 'selected' : ''].join(' ')}
       onClick={onClick}
       ref={onWidth ? el => onWidth(getWidth(el)) : undefined}
    >
@@ -21,26 +21,26 @@ const TabContainer = ({ children, selected, onClick, onWidth }) => (
    </div>
 );
 
-TabContainer.propTypes = {
+ItemContainer.propTypes = {
    /*
     * On click handler
     */
    onClick: PropTypes.func,
 
    /*
-    * Is this tab currently selected?
+    * Is this item currently selected?
     */
    selected: PropTypes.bool,
 
    /*
-    * Tab contents
+    * Item contents
     */
    children: PropTypes.node,
 
    /*
-    * Called when tab width is known
+    * Called when item width is known
     */
    onWidth: PropTypes.func
 };
 
-export default TabContainer;
+export default ItemContainer;
