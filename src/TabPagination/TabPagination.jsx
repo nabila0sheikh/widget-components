@@ -114,8 +114,8 @@ TabPagination.propTypes = {
 };
 
 TabPagination.defaultProps = {
-   renderTab: idx => <div key={idx}><strong>{idx}</strong></div>,
-   renderTabList: (args) => <ScrolledList {...args}>{args.children}</ScrolledList>,
+   renderTab: idx => <div key={idx} style={{ padding: 16 }}><strong>{idx}</strong></div>,
+   renderTabList: args => <ScrolledList {...args}>{args.children}</ScrolledList>,
    selected: 0
 };
 
