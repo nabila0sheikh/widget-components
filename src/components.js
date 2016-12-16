@@ -45,3 +45,4 @@ export { default as ScrolledList } from './List/ScrolledList/ScrolledList';
 export { default as DropdownButton } from './DropdownButton/DropdownButton';
 export { default as Header } from './Header/Header';
 export { default as ActionButton } from './ActionButton/ActionButton';
+export { default as IconHeader } from './IconHeader/IconHeader';
