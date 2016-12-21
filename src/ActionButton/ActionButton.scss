@@ -27,6 +27,9 @@
    &:active {
       opacity: 0.4;
    }
+   &:focus {
+      outline: 0 !important;
+   }
    &[disabled]:hover, &[disabled]:active {
       opacity: 0;
       cursor: not-allowed;
