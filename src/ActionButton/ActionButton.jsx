@@ -2,17 +2,17 @@ import React from 'react';
 import styles from './ActionButton.scss';
 
 /* eslint-disable react/prefer-stateless-function */
-class ResetSelectionButton extends React.Component {
+class ActionButton extends React.Component {
    render() {
-      let buttonClassName = `${styles.button} ${styles[this.props.type]} `;
-
-      let backgroundClassName = `${styles.background} `;
+      let buttonClassName = `${styles.button} `;
+      let buttonTextClassName = `${styles.buttonText} `;
 
       if (this.props.type === 'primary') {
-         buttonClassName += 'KambiWidget-primary-color'; backgroundClassName += 'KambiWidget-primary-color';
+         buttonClassName += 'KambiWidget-primary-color';
+         buttonTextClassName += 'KambiWidget-primary-color';
       } else {
          buttonClassName += 'KambiWidget-card-text-color';
-         backgroundClassName += 'KambiWidget-card-support-text-color';
+         buttonTextClassName += 'KambiWidget-card-text-color';
       }
 
       return (
@@ -21,25 +21,28 @@ class ResetSelectionButton extends React.Component {
                disabled={this.props.disabled}
                className={buttonClassName}
                onClick={this.props.action}
+            />
+            <div
+               className={buttonTextClassName}
+               style={this.props.disabled ? { opacity: 0.4 } : { opacity: 1 }}
             >
                { this.props.children }
-            </button>
-            <div className={backgroundClassName} />
+            </div>
          </div>
       );
    }
 }
 
-ResetSelectionButton.propTypes = {
+ActionButton.propTypes = {
    action: React.PropTypes.func.isRequired,
    children: React.PropTypes.node.isRequired,
    disabled: React.PropTypes.bool,
    type: React.PropTypes.oneOf(['primary', 'secondary'])
 };
 
-ResetSelectionButton.defaultProps = {
+ActionButton.defaultProps = {
    disabled: false,
    type: 'primary'
 };
 
-export default ResetSelectionButton;
+export default ActionButton;

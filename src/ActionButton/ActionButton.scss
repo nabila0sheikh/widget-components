@@ -1,39 +1,43 @@
-:local(.button) {
-   height: 100%;
-   width: 100%;
-   overflow: hidden;
-   display: flex;
-   padding: 0;
-   margin: 0;
-   border: none;
-   font-size: 14px;
-   text-align: left;
-   background-color: transparent;
-   text-transform: uppercase;
-   font-weight: bold;
-   transition: background-color 0.2s ease-out, color 0.2s ease-out;
-}
-
 :local(.container) {
    position: relative;
+   display: flex;
+   justify-content: center;
+   align-items: center;
    height: 36px;
    padding: 0 10px;
 }
 
-:local(.background) {
+:local(.button) {
    position: absolute;
-   background-color: currentColor;
    top: 0;
    left: 0;
-   right: 0;
-   bottom: 0;
+   height: 100%;
+   width: 100%;
+   overflow: hidden;
+   padding: 0;
+   margin: 0;
    opacity: 0;
+   border: none;
+   background-color: currentColor;
+   cursor: pointer;
+   transition: background-color 0.2s ease-out, color 0.2s ease-out;
+   &:hover {
+      opacity: 0.12;
+   }
+   &:active {
+      opacity: 0.4;
+   }
+   &[disabled]:hover, &[disabled]:active {
+      opacity: 0;
+      cursor: not-allowed;
+   }
 }
 
-:local(.background:hover) {
-   opacity: 0.12;
-}
-
-:local(.background:active) {
-   opacity: 0.4;
+:local(.buttonText) {
+   text-transform: uppercase;
+   font-weight: bold;
+   background-color: transparent;
+   pointer-events: none;
+   font-size: 14px;
+   text-align: left;
 }

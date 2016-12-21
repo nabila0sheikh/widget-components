@@ -6,7 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { coreLibrary } from 'kambi-widget-core-library';
 import reactElementToJSXString from 'react-element-to-jsx-string';
-import { Header, TabPagination, ScrolledList, FixedList } from './components';
+import { Header, TabPagination, ScrolledList, FixedList, ActionButton } from './components';
 
 
 const TestContainer = ({ description, element }) => {
@@ -106,5 +106,49 @@ coreLibrary.init({}).then(() => {
          <div>Item #2</div>
          <div>Item #3</div>
       </FixedList>
+   );
+
+   render(
+      'Primary ActionButton',
+      <ActionButton
+         action={() => { alert('this is the ActionButton action') }}
+         type='primary'
+         disabled={false}
+      >
+         place your bet
+      </ActionButton>
+   );
+
+   render(
+      'Disabled Primary ActionButton',
+      <ActionButton
+         action={() => { alert('this is the ActionButton action') }}
+         type='primary'
+         disabled={true}
+      >
+         place your bet
+      </ActionButton>
+   );
+
+   render(
+      'Secondary ActionButton',
+      <ActionButton
+         action={() => { alert('this is the ActionButton action') }}
+         type='secondary'
+         disabled={false}
+      >
+         add
+      </ActionButton>
+   );
+
+   render(
+      'Disabled Secondary ActionButton',
+      <ActionButton
+         action={() => { alert('this is the ActionButton action') }}
+         type='secondary'
+         disabled={true}
+      >
+         add
+      </ActionButton>
    );
 });
