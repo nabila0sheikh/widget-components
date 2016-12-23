@@ -1,0 +1,42 @@
+exports[`ItemContainer view renders correctly selected state 1`] = `
+<div
+  className="item selected"
+  onClick={undefined}>
+  <i
+    className="KambiWidget-primary-background-color border" />
+</div>
+`;
+
+exports[`ItemContainer view renders correctly with default props 1`] = `
+<div
+  className="item "
+  onClick={undefined}>
+  <i
+    className="KambiWidget-primary-background-color border" />
+</div>
+`;
+
+exports[`ItemContainer view renders correctly with many child elements 1`] = `
+<div
+  className="item "
+  onClick={undefined}>
+  One Two
+  <ul>
+    <li>
+      Three
+    </li>
+  </ul>
+  <i
+    className="KambiWidget-primary-background-color border" />
+</div>
+`;
+
+exports[`ItemContainer view renders correctly with one child element 1`] = `
+<div
+  className="item "
+  onClick={undefined}>
+  One
+  <i
+    className="KambiWidget-primary-background-color border" />
+</div>
+`;

@@ -10,7 +10,8 @@
     "prebuild": "npm run clean",
     "build": "kambi-widgets-cli build",
     "preversion": "kambi-widgets-cli preversion",
-    "postversion": "kambi-widgets-cli postversion && npm publish"
+    "postversion": "kambi-widgets-cli postversion && npm publish",
+    "test": "jest"
   },
   "dependencies": {
     "kambi-widget-core-library": "^3.5.6",
@@ -19,17 +20,25 @@
     "react-lite": "^0.15.23"
   },
   "devDependencies": {
+    "babel-jest": "^18.0.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "enzyme": "^2.7.0",
     "eslint": "^3.8.1",
     "eslint-config-airbnb": "^12.0.0",
     "eslint-loader": "^1.5.0",
     "eslint-plugin-import": "^1.16.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.4.1",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^18.0.0",
     "jsx-syntaxhighlighter": "^0.1.0",
     "kambi-widget-build-tools": "^2.5.1",
     "node-syntaxhighlighter": "^0.8.1",
     "prismjs": "^1.6.0",
-    "react-element-to-jsx-string": "^5.0.4"
+    "react-addons-test-utils": "^15.4.1",
+    "react-element-to-jsx-string": "^5.0.4",
+    "react-test-renderer": "^15.3.2"
   },
   "repository": {
     "type": "git",
@@ -40,5 +49,17 @@
   "bugs": {
     "url": "https://github.com/kambi-sportsbook-widgets/widget-components/issues"
   },
-  "homepage": "https://github.com/kambi-sportsbook-widgets/widget-components#readme"
+  "homepage": "https://github.com/kambi-sportsbook-widgets/widget-components#readme",
+  "jest": {
+    "testRegex": "(/tests/.*|(\\.|/)(test|spec))\\.jsx?$",
+    "moduleNameMapper": {
+      "\\.(s?css|less)$": "identity-obj-proxy"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!kambi-widget-core-library)"
+    ]
+  },
+  "babel": {
+     "presets": ["es2015", "react"]
+  }
 }

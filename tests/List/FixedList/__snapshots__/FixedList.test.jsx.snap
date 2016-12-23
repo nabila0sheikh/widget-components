@@ -1,0 +1,99 @@
+exports[`FixedList view renders correctly custom ItemContainer 1`] = `
+<div
+  className="bar">
+  <div>
+    <div>
+      1
+    </div>
+  </div>
+  <div>
+    <div>
+      2
+    </div>
+  </div>
+</div>
+`;
+
+exports[`FixedList view renders correctly with default props 1`] = `
+<div
+  className="bar" />
+`;
+
+exports[`FixedList view renders correctly with many child items 1`] = `
+<div
+  className="bar">
+  <div
+    className="item selected"
+    onClick={[Function]}>
+    <div>
+      1
+    </div>
+    <i
+      className="KambiWidget-primary-background-color border" />
+  </div>
+  <div
+    className="item "
+    onClick={[Function]}>
+    <div>
+      2
+    </div>
+    <i
+      className="KambiWidget-primary-background-color border" />
+  </div>
+  <div
+    className="item "
+    onClick={[Function]}>
+    <div>
+      3
+    </div>
+    <i
+      className="KambiWidget-primary-background-color border" />
+  </div>
+  <div
+    className="item "
+    onClick={[Function]}>
+    <div>
+      4
+    </div>
+    <i
+      className="KambiWidget-primary-background-color border" />
+  </div>
+</div>
+`;
+
+exports[`FixedList view renders correctly with one child item 1`] = `
+<div
+  className="bar">
+  <div
+    className="item selected"
+    onClick={[Function]}>
+    <div />
+    <i
+      className="KambiWidget-primary-background-color border" />
+  </div>
+</div>
+`;
+
+exports[`FixedList view renders correctly with selected item given arbitrary 1`] = `
+<div
+  className="bar">
+  <div
+    className="item "
+    onClick={[Function]}>
+    <div>
+      1
+    </div>
+    <i
+      className="KambiWidget-primary-background-color border" />
+  </div>
+  <div
+    className="item selected"
+    onClick={[Function]}>
+    <div>
+      2
+    </div>
+    <i
+      className="KambiWidget-primary-background-color border" />
+  </div>
+</div>
+`;

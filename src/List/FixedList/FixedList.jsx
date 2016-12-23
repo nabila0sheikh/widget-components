@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Children, Component, PropTypes } from 'react';
 import styles from './FixedList.scss';
 import ItemContainer from '../ItemContainer';
 
@@ -38,7 +38,7 @@ class FixedList extends Component {
    render() {
       return (
          <div className={styles.bar}>
-            {this.props.children.map((child, i) => this.props.renderItemContainer({
+            {Children.map(this.props.children, (child, i) => this.props.renderItemContainer({
                key: i,
                selected: this.state.selected == i,
                onClick: this.onItemClick.bind(this, i),

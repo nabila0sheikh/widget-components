@@ -1,0 +1,16 @@
+exports[`test Renders correctly with only required props 1`] = `
+<button
+  className="l-flex-1 kw-link KambiWidget-outcome general"
+  disabled={false}
+  onClick={[Function]}
+  role="button"
+  type="button">
+  <div
+    className="KambiWidget-outcome__odds-wrapper">
+    <span
+      className="KambiWidget-outcome__odds">
+      NaN
+    </span>
+  </div>
+</button>
+`;

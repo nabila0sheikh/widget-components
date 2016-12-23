@@ -60,18 +60,6 @@ const render = function(description, element) {
 
 coreLibrary.init({}).then(() => {
 
-   /*
-   ReactDOM.render(
-      <Header
-         collapsable={true}
-         onCollapse={() => { alert('collapsing') }}
-         onExpand={() => { alert('uncollapsing') }}
-      >
-         Collapsable Header, alerts on collapsing/uncollapsing, should be 37px height
-      </Header>, document.getElementById('collapsable-header')
-   );
-   */
-
    render(
       'Header with kambi default black background, header should be 40px in height',
       <Header
