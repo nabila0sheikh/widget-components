@@ -3,6 +3,10 @@
    position: relative;
    transition: background-color .5s;
    padding-bottom: 3px;
+   width: 17.86%;
+   height: 44px;
+   align-items: center;
+   display: flex;
 
    &:hover {
       background-color: #f0f0f0;
@@ -17,7 +21,11 @@
       visibility: hidden;
    }
 
-   &.selected :local(.border) {
-      visibility: visible;
+   &.selected {
+      font-weight: bold;
+
+      :local(.border) {
+         visibility: visible;
+      }
    }
 }

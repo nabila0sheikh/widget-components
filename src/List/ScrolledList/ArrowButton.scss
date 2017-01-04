@@ -11,6 +11,7 @@
    cursor: pointer;
    outline: none;
    padding: 0;
+   display: flex;
 
    &[disabled] {
       display: none;
@@ -30,13 +31,12 @@
 :local(.left) {
    background: linear-gradient(90deg, #fff 50%, hsla(0, 0%, 100%, 0));
    left: 16px;
-   text-align: left;
 }
 
 :local(.right) {
    background: linear-gradient(270deg, #fff 50%, hsla(0, 0%, 100%, 0));
    right: 16px;
-   text-align: right;
+   justify-content: flex-end;
 
    :local(.icon) {
       transform: scale(-1, 1);

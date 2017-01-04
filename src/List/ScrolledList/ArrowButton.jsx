@@ -7,7 +7,7 @@ const ArrowButton = ({ type, disabled, onClick }) => (
       onClick={onClick}
       disabled={disabled}
    >
-      <svg className={styles.icon} width='12px' height='20px' viewBox='0 860 420 500' version='1.1' xmlns='http://www.w3.org/2000/svg'>
+      <svg className={styles.icon} width='10px' height='17px' viewBox='0 860 420 500' version='1.1' xmlns='http://www.w3.org/2000/svg'>
          <path
             id='arrowLeft'
             transform='scale(1, -1) translate(0, -1500)'
