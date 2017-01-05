@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import styles from './IconHeader.scss';
 
-const IconHeader = ({ iconPath, title, subtitle }) => {
+const IconHeader = ({ title, subtitle, children }) => {
    return (
-      <header className={['KambiWidget-card-border-color', 'KambiWidget-font', styles.header].join(' ')}>
-         <img role='presentation' className={styles.logo} src={iconPath} />
+      <header className={`KambiWidget-card-border-color KambiWidget-font ${styles.header}`}>
+         <div className={styles.icon}>{children}</div>
          <div className={styles.container}>
             <div className={styles.title}>{title}</div>
             <div className={styles.subtitle}>{subtitle}</div>
@@ -12,10 +12,15 @@ const IconHeader = ({ iconPath, title, subtitle }) => {
       </header>);
 };
 
+/**
+ * @property [children] {ReactElement} Header's icon markup
+ * @property title {string} Header's title
+ * @property [subtitle] {string} Header's subtitle
+ */
 IconHeader.propTypes = {
-   iconPath: React.PropTypes.string,
-   title: React.PropTypes.string,
-   subtitle: React.PropTypes.string,
+   children: PropTypes.node,
+   title: React.PropTypes.string.isRequired,
+   subtitle: React.PropTypes.string
 };
 
 export default IconHeader;
