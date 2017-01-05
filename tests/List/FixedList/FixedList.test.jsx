@@ -1,8 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import FixedList from '../../../src/List/FixedList/FixedList';
 import ReactTestRenderer from 'react-test-renderer';
-import ReactTestUtils from 'react-addons-test-utils';
 import { mount, shallow } from 'enzyme';
 
 describe('FixedList view', () => {
@@ -51,7 +49,7 @@ describe('FixedList view', () => {
    it('renders correctly custom ItemContainer', () => {
       const tree = ReactTestRenderer.create(
          <FixedList
-            renderItemContainer={({selected, onClick, onWidth, children}) => <div>{children}</div>}
+            renderItemContainer={({ selected, onClick, onWidth, children }) => <div>{children}</div>}
          >
             <div>1</div>
             <div>2</div>
@@ -85,7 +83,7 @@ describe('FixedList interface', () => {
    });
 
    it('handles item clicks correctly', () => {
-      const renderItemContainerMock = jest.fn(({selected, onClick, onWidth, children}) => {
+      const renderItemContainerMock = jest.fn(({ selected, onClick, onWidth, children }) => {
          return <div onClick={onClick}>{children}</div>;
       });
 

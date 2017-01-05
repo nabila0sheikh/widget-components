@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { widgetModule } from 'kambi-widget-core-library';
+import styles from './IconHeader.scss';
 
 const IconHeader = ({ iconPath, title, subtitle }) => {
    return (
-      <header className='KambiWidget-card-border-color KambiWidget-font kw-header l-flexbox l-align-center l-pl-16'>
-         <img role='presentation' className='kw-header-logo' src={iconPath} />
-         <div className='kw-header-text-container'>
-            <div className='kw-header-title text-truncate'>{title}</div>
-            <div className='kw-header-tagline text-truncate'>{subtitle}</div>
+      <header className={['KambiWidget-card-border-color', 'KambiWidget-font', styles.header].join(' ')}>
+         <img role='presentation' className={styles.logo} src={iconPath} />
+         <div className={styles.container}>
+            <div className={styles.title}>{title}</div>
+            <div className={styles.subtitle}>{subtitle}</div>
          </div>
       </header>);
 };

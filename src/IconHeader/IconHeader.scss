@@ -1,3 +1,51 @@
-:local(.kwHeader) {
+@mixin calc($property, $expression) {
+   #{$property}: -moz-calc(#{$expression});
+   #{$property}: -webkit-calc(#{$expression});
+   #{$property}: calc(#{$expression});
+}
+
+@mixin inherited {
    border-bottom: solid 1px rgba(0, 0, 0, 0.05);
+   font-size: 12px;
+   line-height: 36px;
+   min-height: 37px;
+   overflow: hidden;
+   position: relative;
+}
+
+@mixin size {
+   color: black;
+   line-height: 16px;
+   max-height: 16px;
+   min-height: 16px;
+}
+
+:local(.header) {
+   @include inherited();
+   display: flex;
+   padding-left: 16px;
+   align-items: center;
+}
+
+:local(.logo) {
+   background-repeat: no-repeat;
+   background-size: cover;
+   height: 32px;
+   margin-right: 12px;
+   width: 32px;
+}
+
+:local(.container) {
+   @include calc(max-width, '100% - 62px');
+}
+
+:local(.title) {
+   @include size();
+   font-size: 16px;
+   font-weight: bold;
+   text-transform: uppercase;
+}
+
+:local(.subtitle) {
+   @include size();
 }

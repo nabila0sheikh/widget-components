@@ -6,7 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { coreLibrary } from 'kambi-widget-core-library';
 import reactElementToJSXString from 'react-element-to-jsx-string';
-import { Header, TabPagination, ScrolledList, FixedList, ActionButton } from './components';
+import { Header, TabPagination, ScrolledList, FixedList, ActionButton, IconHeader } from './components';
 
 
 const TestContainer = ({ description, element }) => {
@@ -59,6 +59,15 @@ const render = function(description, element) {
 };
 
 coreLibrary.init({}).then(() => {
+
+   render(
+      'IconHeader with icon',
+      <IconHeader
+         iconCSSClasses='KambiWidget-card-border-color'
+         iconPath='http://vector.stylove.com/images/small_1821.jpg'
+         subtitle='Example Subtitle'
+         title='Example Title' />
+   );
 
    render(
       'Header with kambi default black background, header should be 40px in height',
