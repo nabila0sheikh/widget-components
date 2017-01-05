@@ -7,7 +7,7 @@ import styles from './ItemContainer.scss';
  * @returns number|null
  */
 const getWidth = function(el) {
-   return el.offsetWidth;
+   return el ? el.offsetWidth : null;
 };
 
 const ItemContainer = ({ children, selected, onClick, onWidth }) => (
