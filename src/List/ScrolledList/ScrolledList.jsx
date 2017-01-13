@@ -15,12 +15,6 @@ const RESIZE_SLUGGISHNESS = 200;
  */
 const MOBILE_MAX_SCREEN_WIDTH = 768;
 
-/*
- * Mobile browser check
- * @type {boolean}
- */
-const isMobileBrowser = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
 /**
  * Horizontal scrolled list component.
  * If items won't fit the container the list will be scrolled. Otherwise if items take less space
@@ -109,6 +103,14 @@ class ScrolledList extends Component {
    }
 
    /*
+    * Mobile browser check
+    * @type {boolean}
+    */
+   get mobileBrowser() {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+   }
+
+   /*
     * Determines if component is running on mobile device.
     * @returns {boolean}
     */
@@ -116,10 +118,10 @@ class ScrolledList extends Component {
       const hasTouchStart = 'ontouchstart' in window;
 
       if (!this.containerWidth) {
-         return hasTouchStart && isMobileBrowser;
+         return hasTouchStart && this.mobileBrowser;
       }
 
-      return this.containerWidth <= MOBILE_MAX_SCREEN_WIDTH && hasTouchStart && isMobileBrowser;
+      return this.containerWidth <= MOBILE_MAX_SCREEN_WIDTH && hasTouchStart && this.mobileBrowser;
    }
 
    /*
@@ -154,6 +156,10 @@ class ScrolledList extends Component {
     * Updates items alignment if they take less space than container width.
     */
    updateItemsAlignment() {
+      if (!this.bar) {
+         return;
+      }
+
       const itemsWidth = this.computeItemsWidth(0, Children.count(this.props.children) - 1);
 
       if (itemsWidth < this.eyeshotWidth) {
@@ -168,7 +174,7 @@ class ScrolledList extends Component {
     * @param {number} offset Scroll offset
     */
    scrollTo(offset) {
-      if (!(this.bar && this.maxScrollLeft && this.eyeshotWidth && this.eyeshot)) {
+      if (!(this.bar && this.maxScrollLeft && this.eyeshot)) {
          return;
       }
 
@@ -287,11 +293,11 @@ class ScrolledList extends Component {
                </div>
             </div>
             {this.props.renderPrevButton({
-               onClick: this.prevPage,
+               onClick: this.prevPage.bind(this),
                disabled: !this.showPrevButton
             })}
             {this.props.renderNextButton({
-               onClick: this.nextPage,
+               onClick: this.nextPage.bind(this),
                disabled: !this.showNextButton
             })}
          </div>
