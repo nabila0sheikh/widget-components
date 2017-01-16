@@ -44,7 +44,7 @@ class TabPagination extends Component {
             {this.props.renderTabList({
                selected: this.state.selected,
                onItemClick: this.switchTab,
-               children: this.props.children.map((a, i) => this.props.renderTab(i))
+               children: children.map((a, i) => this.props.renderTab(i))
             })}
             <div>
                {children[this.state.selected]}

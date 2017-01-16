@@ -293,11 +293,11 @@ class ScrolledList extends Component {
                </div>
             </div>
             {this.props.renderPrevButton({
-               onClick: this.prevPage.bind(this),
+               onClick: this.prevPage,
                disabled: !this.showPrevButton
             })}
             {this.props.renderNextButton({
-               onClick: this.nextPage.bind(this),
+               onClick: this.nextPage,
                disabled: !this.showNextButton
             })}
          </div>

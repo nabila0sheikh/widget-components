@@ -1,0 +1,427 @@
+exports[`TabPagination DOM rendering renders correctly with custom renderTab func 1`] = `
+<div>
+  <div
+    className="container ">
+    <div
+      className="eyeshot">
+      <div
+        className="bar">
+        <div
+          className="item selected"
+          onClick={[Function]}>
+          <div>
+            Tab #
+            0
+          </div>
+          <i
+            className="KambiWidget-primary-background-color border" />
+        </div>
+        <div
+          className="item "
+          onClick={[Function]}>
+          <div>
+            Tab #
+            1
+          </div>
+          <i
+            className="KambiWidget-primary-background-color border" />
+        </div>
+      </div>
+    </div>
+    <button
+      className="left"
+      disabled={true}
+      onClick={[Function]}>
+      <svg
+        className="icon"
+        height="17px"
+        version="1.1"
+        viewBox="0 860 420 500"
+        width="10px"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M358.286 640q0-7.429-5.714-13.143l-224.571-224.571 224.571-224.571q5.714-5.714 5.714-13.143t-5.714-13.143l-28.571-28.571q-5.714-5.714-13.143-5.714t-13.143 5.714l-266.286 266.286q-5.714 5.714-5.714 13.143t5.714 13.143l266.286 266.286q5.714 5.714 13.143 5.714t13.143-5.714l28.571-28.571q5.714-5.714 5.714-13.143z"
+          id="arrowLeft"
+          transform="scale(1, -1) translate(0, -1500)" />
+      </svg>
+    </button>
+    <button
+      className="right"
+      disabled={true}
+      onClick={[Function]}>
+      <svg
+        className="icon"
+        height="17px"
+        version="1.1"
+        viewBox="0 860 420 500"
+        width="10px"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M358.286 640q0-7.429-5.714-13.143l-224.571-224.571 224.571-224.571q5.714-5.714 5.714-13.143t-5.714-13.143l-28.571-28.571q-5.714-5.714-13.143-5.714t-13.143 5.714l-266.286 266.286q-5.714 5.714-5.714 13.143t5.714 13.143l266.286 266.286q5.714 5.714 13.143 5.714t13.143-5.714l28.571-28.571q5.714-5.714 5.714-13.143z"
+          id="arrowLeft"
+          transform="scale(1, -1) translate(0, -1500)" />
+      </svg>
+    </button>
+  </div>
+  <div>
+    <div>
+      1
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TabPagination DOM rendering renders correctly with custom renderTabList func 1`] = `
+<div>
+  <div>
+    <div
+      className="sel">
+      <div
+        style={
+          Object {
+            "padding": 16,
+          }
+        }>
+        <strong>
+          0
+        </strong>
+      </div>
+    </div>
+    <div
+      className="not_sel">
+      <div
+        style={
+          Object {
+            "padding": 16,
+          }
+        }>
+        <strong>
+          1
+        </strong>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div>
+      1
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TabPagination DOM rendering renders correctly with default props 1`] = `
+<div>
+  <div
+    className="container ">
+    <div
+      className="eyeshot">
+      <div
+        className="bar" />
+    </div>
+    <button
+      className="left"
+      disabled={true}
+      onClick={[Function]}>
+      <svg
+        className="icon"
+        height="17px"
+        version="1.1"
+        viewBox="0 860 420 500"
+        width="10px"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M358.286 640q0-7.429-5.714-13.143l-224.571-224.571 224.571-224.571q5.714-5.714 5.714-13.143t-5.714-13.143l-28.571-28.571q-5.714-5.714-13.143-5.714t-13.143 5.714l-266.286 266.286q-5.714 5.714-5.714 13.143t5.714 13.143l266.286 266.286q5.714 5.714 13.143 5.714t13.143-5.714l28.571-28.571q5.714-5.714 5.714-13.143z"
+          id="arrowLeft"
+          transform="scale(1, -1) translate(0, -1500)" />
+      </svg>
+    </button>
+    <button
+      className="right"
+      disabled={true}
+      onClick={[Function]}>
+      <svg
+        className="icon"
+        height="17px"
+        version="1.1"
+        viewBox="0 860 420 500"
+        width="10px"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M358.286 640q0-7.429-5.714-13.143l-224.571-224.571 224.571-224.571q5.714-5.714 5.714-13.143t-5.714-13.143l-28.571-28.571q-5.714-5.714-13.143-5.714t-13.143 5.714l-266.286 266.286q-5.714 5.714-5.714 13.143t5.714 13.143l266.286 266.286q5.714 5.714 13.143 5.714t13.143-5.714l28.571-28.571q5.714-5.714 5.714-13.143z"
+          id="arrowLeft"
+          transform="scale(1, -1) translate(0, -1500)" />
+      </svg>
+    </button>
+  </div>
+  <div />
+</div>
+`;
+
+exports[`TabPagination DOM rendering renders correctly with many child items 1`] = `
+<div>
+  <div
+    className="container ">
+    <div
+      className="eyeshot">
+      <div
+        className="bar">
+        <div
+          className="item selected"
+          onClick={[Function]}>
+          <div
+            style={
+              Object {
+                "padding": 16,
+              }
+            }>
+            <strong>
+              0
+            </strong>
+          </div>
+          <i
+            className="KambiWidget-primary-background-color border" />
+        </div>
+        <div
+          className="item "
+          onClick={[Function]}>
+          <div
+            style={
+              Object {
+                "padding": 16,
+              }
+            }>
+            <strong>
+              1
+            </strong>
+          </div>
+          <i
+            className="KambiWidget-primary-background-color border" />
+        </div>
+        <div
+          className="item "
+          onClick={[Function]}>
+          <div
+            style={
+              Object {
+                "padding": 16,
+              }
+            }>
+            <strong>
+              2
+            </strong>
+          </div>
+          <i
+            className="KambiWidget-primary-background-color border" />
+        </div>
+        <div
+          className="item "
+          onClick={[Function]}>
+          <div
+            style={
+              Object {
+                "padding": 16,
+              }
+            }>
+            <strong>
+              3
+            </strong>
+          </div>
+          <i
+            className="KambiWidget-primary-background-color border" />
+        </div>
+      </div>
+    </div>
+    <button
+      className="left"
+      disabled={true}
+      onClick={[Function]}>
+      <svg
+        className="icon"
+        height="17px"
+        version="1.1"
+        viewBox="0 860 420 500"
+        width="10px"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M358.286 640q0-7.429-5.714-13.143l-224.571-224.571 224.571-224.571q5.714-5.714 5.714-13.143t-5.714-13.143l-28.571-28.571q-5.714-5.714-13.143-5.714t-13.143 5.714l-266.286 266.286q-5.714 5.714-5.714 13.143t5.714 13.143l266.286 266.286q5.714 5.714 13.143 5.714t13.143-5.714l28.571-28.571q5.714-5.714 5.714-13.143z"
+          id="arrowLeft"
+          transform="scale(1, -1) translate(0, -1500)" />
+      </svg>
+    </button>
+    <button
+      className="right"
+      disabled={true}
+      onClick={[Function]}>
+      <svg
+        className="icon"
+        height="17px"
+        version="1.1"
+        viewBox="0 860 420 500"
+        width="10px"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M358.286 640q0-7.429-5.714-13.143l-224.571-224.571 224.571-224.571q5.714-5.714 5.714-13.143t-5.714-13.143l-28.571-28.571q-5.714-5.714-13.143-5.714t-13.143 5.714l-266.286 266.286q-5.714 5.714-5.714 13.143t5.714 13.143l266.286 266.286q5.714 5.714 13.143 5.714t13.143-5.714l28.571-28.571q5.714-5.714 5.714-13.143z"
+          id="arrowLeft"
+          transform="scale(1, -1) translate(0, -1500)" />
+      </svg>
+    </button>
+  </div>
+  <div>
+    <div>
+      1
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TabPagination DOM rendering renders correctly with one child item 1`] = `
+<div>
+  <div
+    className="container ">
+    <div
+      className="eyeshot">
+      <div
+        className="bar">
+        <div
+          className="item selected"
+          onClick={[Function]}>
+          <div
+            style={
+              Object {
+                "padding": 16,
+              }
+            }>
+            <strong>
+              0
+            </strong>
+          </div>
+          <i
+            className="KambiWidget-primary-background-color border" />
+        </div>
+      </div>
+    </div>
+    <button
+      className="left"
+      disabled={true}
+      onClick={[Function]}>
+      <svg
+        className="icon"
+        height="17px"
+        version="1.1"
+        viewBox="0 860 420 500"
+        width="10px"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M358.286 640q0-7.429-5.714-13.143l-224.571-224.571 224.571-224.571q5.714-5.714 5.714-13.143t-5.714-13.143l-28.571-28.571q-5.714-5.714-13.143-5.714t-13.143 5.714l-266.286 266.286q-5.714 5.714-5.714 13.143t5.714 13.143l266.286 266.286q5.714 5.714 13.143 5.714t13.143-5.714l28.571-28.571q5.714-5.714 5.714-13.143z"
+          id="arrowLeft"
+          transform="scale(1, -1) translate(0, -1500)" />
+      </svg>
+    </button>
+    <button
+      className="right"
+      disabled={true}
+      onClick={[Function]}>
+      <svg
+        className="icon"
+        height="17px"
+        version="1.1"
+        viewBox="0 860 420 500"
+        width="10px"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M358.286 640q0-7.429-5.714-13.143l-224.571-224.571 224.571-224.571q5.714-5.714 5.714-13.143t-5.714-13.143l-28.571-28.571q-5.714-5.714-13.143-5.714t-13.143 5.714l-266.286 266.286q-5.714 5.714-5.714 13.143t5.714 13.143l266.286 266.286q5.714 5.714 13.143 5.714t13.143-5.714l28.571-28.571q5.714-5.714 5.714-13.143z"
+          id="arrowLeft"
+          transform="scale(1, -1) translate(0, -1500)" />
+      </svg>
+    </button>
+  </div>
+  <div>
+    <div />
+  </div>
+</div>
+`;
+
+exports[`TabPagination DOM rendering renders correctly with selected item given arbitrary 1`] = `
+<div>
+  <div
+    className="container ">
+    <div
+      className="eyeshot">
+      <div
+        className="bar">
+        <div
+          className="item "
+          onClick={[Function]}>
+          <div
+            style={
+              Object {
+                "padding": 16,
+              }
+            }>
+            <strong>
+              0
+            </strong>
+          </div>
+          <i
+            className="KambiWidget-primary-background-color border" />
+        </div>
+        <div
+          className="item selected"
+          onClick={[Function]}>
+          <div
+            style={
+              Object {
+                "padding": 16,
+              }
+            }>
+            <strong>
+              1
+            </strong>
+          </div>
+          <i
+            className="KambiWidget-primary-background-color border" />
+        </div>
+      </div>
+    </div>
+    <button
+      className="left"
+      disabled={true}
+      onClick={[Function]}>
+      <svg
+        className="icon"
+        height="17px"
+        version="1.1"
+        viewBox="0 860 420 500"
+        width="10px"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M358.286 640q0-7.429-5.714-13.143l-224.571-224.571 224.571-224.571q5.714-5.714 5.714-13.143t-5.714-13.143l-28.571-28.571q-5.714-5.714-13.143-5.714t-13.143 5.714l-266.286 266.286q-5.714 5.714-5.714 13.143t5.714 13.143l266.286 266.286q5.714 5.714 13.143 5.714t13.143-5.714l28.571-28.571q5.714-5.714 5.714-13.143z"
+          id="arrowLeft"
+          transform="scale(1, -1) translate(0, -1500)" />
+      </svg>
+    </button>
+    <button
+      className="right"
+      disabled={true}
+      onClick={[Function]}>
+      <svg
+        className="icon"
+        height="17px"
+        version="1.1"
+        viewBox="0 860 420 500"
+        width="10px"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M358.286 640q0-7.429-5.714-13.143l-224.571-224.571 224.571-224.571q5.714-5.714 5.714-13.143t-5.714-13.143l-28.571-28.571q-5.714-5.714-13.143-5.714t-13.143 5.714l-266.286 266.286q-5.714 5.714-5.714 13.143t5.714 13.143l266.286 266.286q5.714 5.714 13.143 5.714t13.143-5.714l28.571-28.571q5.714-5.714 5.714-13.143z"
+          id="arrowLeft"
+          transform="scale(1, -1) translate(0, -1500)" />
+      </svg>
+    </button>
+  </div>
+  <div>
+    <div>
+      2
+    </div>
+  </div>
+</div>
+`;
