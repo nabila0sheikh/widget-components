@@ -1,0 +1,56 @@
+exports[`IconHeader DOM rendering renders correctly with inner element 1`] = `
+<header
+  className="KambiWidget-card-border-color KambiWidget-font header">
+  <div
+    className="icon">
+    <div>
+      Icon
+    </div>
+  </div>
+  <div
+    className="container">
+    <div
+      className="title">
+      test
+    </div>
+    <div
+      className="subtitle" />
+  </div>
+</header>
+`;
+
+exports[`IconHeader DOM rendering renders correctly with title 1`] = `
+<header
+  className="KambiWidget-card-border-color KambiWidget-font header">
+  <div
+    className="icon" />
+  <div
+    className="container">
+    <div
+      className="title">
+      test
+    </div>
+    <div
+      className="subtitle" />
+  </div>
+</header>
+`;
+
+exports[`IconHeader DOM rendering renders correctly with title and subtitle 1`] = `
+<header
+  className="KambiWidget-card-border-color KambiWidget-font header">
+  <div
+    className="icon" />
+  <div
+    className="container">
+    <div
+      className="title">
+      test
+    </div>
+    <div
+      className="subtitle">
+      Test subtitle
+    </div>
+  </div>
+</header>
+`;
