@@ -155,6 +155,6 @@ DropdownButton.defaultProps = {
    selected: 0,
    horizontalAlignment: 'right',
    verticalAlignment: 'top'
-}
+};
 
 export default DropdownButton;
