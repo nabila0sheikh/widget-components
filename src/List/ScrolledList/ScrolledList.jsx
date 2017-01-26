@@ -4,16 +4,114 @@ import ArrowButton from './ArrowButton';
 import ItemContainer from '../ItemContainer';
 
 /*
- * Window resize handling reflex
+ * Window resize handling reflex (in milliseconds)
  * @type {number}
  */
-const RESIZE_SLUGGISHNESS = 200;
+const RESIZE_MOMENTUM = 200;
+
 
 /*
- * Will turn off mobile mode if screen is wider than defined below
+ * If transition of bar element will not finish until that timeout (in milliseconds)
+ * the fuse/backup procedure will be fired.
+ * @type {number}
+ */
+const BAR_TRANSITION_TIMEOUT = 400;
+
+/*
+ * Will turn off mobile mode if screen is wider than defined below (in pixels)
  * @type {number}
  */
 const MOBILE_MAX_SCREEN_WIDTH = 768;
+
+/**
+ * Items alignment constants
+ * @enum {string}
+ * @readonly
+ * @example
+ * <ScrolledList alignItems={ScrolledList.ALIGN_ITEMS.SPACE_BETWEEN}>...</ScrolledList>
+ */
+const ALIGN_ITEMS = {
+   /**
+    * List items will be aligned to the left.
+    * @member {string}
+    */
+   LEFT: 'flex-start',
+
+   /**
+    * List items will be aligned to the right.
+    * @member {string}
+    */
+   RIGHT: 'flex-end',
+
+   /**
+    * List items will be centered.
+    * @member {string}
+    */
+   CENTER: 'center',
+
+   /**
+    * There will be space around all items.
+    * @member {string}
+    */
+   SPACE_AROUND: 'space-around',
+
+   /**
+    * There will be space only between items.
+    * @member {string}
+    */
+   SPACE_BETWEEN: 'space-between'
+};
+
+/**
+ * Scroll to selected item modes
+ * @enum {string}
+ * @readonly
+ * @example
+ * <ScrolledList scrollToItemMode={ScrolledList.SCROLL_TO_ITEM_MODE.TO_LEFT}>...</ScrolledList>
+ */
+const SCROLL_TO_ITEM_MODE = {
+   /**
+    * Selected item will be the first object on the left side of eye shot
+    */
+   TO_LEFT: 'to-left',
+
+   /**
+    * Selected item will be at the center of eye shot
+    */
+   CENTER: 'center'
+};
+
+/*
+ * Waits for enf od CSS transition on element and then fires given handler.
+ * @param {HTMLElement} element Transitioned element
+ * @param {function} handler Handler called after transition end
+ * @param {number} timeout Time after which transition is considered as finished
+ */
+const onTransitionEnd = function(element, handler, timeout) {
+   let fuse;
+
+   const wrapper = function() {
+      element.removeEventListener('transitionend', wrapper);
+      clearTimeout(fuse);
+      handler();
+   };
+
+   // will fire if transitionend fails for some reason (e.g. not supported)
+   fuse = setTimeout(() => {
+      element.removeEventListener('transitionend', wrapper);
+      handler();
+   }, timeout);
+
+   element.addEventListener('transitionend', wrapper);
+};
+
+/*
+ * Mobile browser check
+ * @type {boolean}
+ */
+const isMobileBrowser = function() {
+   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+};
 
 /**
  * Horizontal scrolled list component.
@@ -34,7 +132,7 @@ class ScrolledList extends Component {
          item: props.selected
       };
 
-      this.scrollLeft = 0;
+      this.translateXValue = 0;
       this.itemWidths = [];
 
       this.prevPage = this.prevPage.bind(this);
@@ -49,6 +147,13 @@ class ScrolledList extends Component {
       window.addEventListener('resize', this.onResize);
       this.scrollToItem(this.state.item);
       this.updateItemsAlignment();
+   }
+
+   /*
+    * Called on external props change.
+    */
+   componentWillReceiveProps(nextProps) {
+      this.scrollToItem(nextProps.selected);
    }
 
    /*
@@ -67,9 +172,9 @@ class ScrolledList extends Component {
       }
 
       this.resizeTimeout = setTimeout(() => {
-         this.scrollToItem(this.state.item);
          this.updateItemsAlignment();
-      }, RESIZE_SLUGGISHNESS);
+         this.scrollTo(this.currentScrollLeft);
+      }, RESIZE_MOMENTUM);
    }
 
    /*
@@ -80,8 +185,6 @@ class ScrolledList extends Component {
       if (this.props.onItemClick) {
          this.props.onItemClick(idx);
       }
-
-      this.scrollToItem(idx);
 
       this.setState({ item: idx });
    }
@@ -103,11 +206,14 @@ class ScrolledList extends Component {
    }
 
    /*
-    * Mobile browser check
-    * @type {boolean}
+    * Current scroll left offset (in pixels).
     */
-   get mobileBrowser() {
-      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+   get currentScrollLeft() {
+      if (this.mobileDevice) {
+         return this.eyeshot.scrollLeft || 0;
+      } else {
+         return -1 * this.translateX;
+      }
    }
 
    /*
@@ -118,10 +224,10 @@ class ScrolledList extends Component {
       const hasTouchStart = 'ontouchstart' in window;
 
       if (!this.containerWidth) {
-         return hasTouchStart && this.mobileBrowser;
+         return hasTouchStart && isMobileBrowser();
       }
 
-      return this.containerWidth <= MOBILE_MAX_SCREEN_WIDTH && hasTouchStart && this.mobileBrowser;
+      return this.containerWidth <= MOBILE_MAX_SCREEN_WIDTH && hasTouchStart && isMobileBrowser();
    }
 
    /*
@@ -178,14 +284,34 @@ class ScrolledList extends Component {
          return;
       }
 
-      this.scrollLeft = offset > this.maxScrollLeft ? this.maxScrollLeft : offset;
-      this.scrollLeft = this.scrollLeft < 0 ? 0 : this.scrollLeft;
+      offset = Math.round(offset);
+
+      let scrollLeft = offset > this.maxScrollLeft ? this.maxScrollLeft : offset;
+      scrollLeft = scrollLeft < 0 ? 0 : scrollLeft;
 
       if (this.mobileDevice) {
-         this.eyeshot.scrollLeft = this.scrollLeft;
-         this.translateX = 0;
+         if (scrollLeft == this.currentScrollLeft) {
+            return;
+         }
+
+         // prepare environment for performing transition
+         this.bar.classList.add('no-transition');
+         this.translateX = -1 * this.currentScrollLeft;
+         this.eyeshot.scrollLeft = 0;
+         this.bar.classList.remove('no-transition');
+
+         onTransitionEnd(this.bar, () => {
+            // restore environment after performing transition
+            this.bar.classList.add('no-transition');
+            this.translateX = 0;
+            this.eyeshot.scrollLeft = scrollLeft;
+            this.bar.classList.remove('no-transition');
+         }, BAR_TRANSITION_TIMEOUT);
+
+         // perform transition
+         this.translateX = -1 * scrollLeft;
       } else {
-         this.translateX = -1 * this.scrollLeft;
+         this.translateX = -1 * scrollLeft;
          this.eyeshot.scrollLeft = 0;
       }
 
@@ -201,18 +327,52 @@ class ScrolledList extends Component {
       this.bar.style.transform = transform;
       this.bar.style.webkitTransform = transform;
       this.bar.style.mozTransform = transform;
+      this.translateXValue = offsetX;
+   }
+
+   /*
+    * Returns current bar element translation along x-axis.
+    * @returns {number}
+    */
+   get translateX() {
+      return this.translateXValue;
    }
 
    /*
     * Scrolls bar to given item.
     * @param {number} item Item index
+    *
+    * computeItemsWidth(0, item - 1)
+    * <--------------------------->
+    *
+    *                           computeItemsWidth(item)
+    *                             <----------------->
+    *
+    *                         /=========================\
+    * /-----------------------#-------------------------#-------------------------------\
+    * |         |             #   |                 |   #             |                 |
+    * |    0    |        1    #   |        2        |   #    3        |        4        |
+    * |         |             #   |                 |   #             |                 |
+    * \-----------------------#-------------------------#-------------------------------/
+    *                         \=========================/
+    *
+    *                         <------ eyeshotWidth ----->
     */
    scrollToItem(item) {
       if (!(this.bar && this.eyeshotWidth)) {
          return;
       }
 
-      this.scrollTo(this.computeItemsWidth(0, item) - (this.eyeshotWidth - this.computeItemsWidth(item)) / 2);
+      switch (this.props.scrollToItemMode) {
+         case SCROLL_TO_ITEM_MODE.TO_LEFT:
+            this.scrollTo(item ? this.computeItemsWidth(0, item - 1) : 0);
+            break;
+
+         case SCROLL_TO_ITEM_MODE.CENTER:
+         default:
+            this.scrollTo((item ? this.computeItemsWidth(0, item - 1) : 0) - (this.eyeshotWidth - this.computeItemsWidth(item)) / 2);
+      }
+
    }
 
    /*
@@ -220,7 +380,7 @@ class ScrolledList extends Component {
     * @returns {boolean}
     */
    get showPrevButton() {
-      return !this.mobileDevice && this.scrollLeft > 0;
+      return !this.mobileDevice && this.currentScrollLeft > 0;
    }
 
    /*
@@ -228,7 +388,7 @@ class ScrolledList extends Component {
     * @returns {boolean}
     */
    get showNextButton() {
-      return !this.mobileDevice && this.scrollLeft < this.maxScrollLeft;
+      return !this.mobileDevice && this.currentScrollLeft < this.maxScrollLeft;
    }
 
    /*
@@ -255,14 +415,14 @@ class ScrolledList extends Component {
     * Scrolls list to previous page.
     */
    prevPage() {
-      this.scrollTo(this.scrollLeft - this.props.step * this.averageItemWidth);
+      this.scrollTo(this.currentScrollLeft - this.props.step * this.averageItemWidth);
    }
 
    /*
     * Scrolls list to next page.
     */
    nextPage() {
-      this.scrollTo(this.scrollLeft + this.props.step * this.averageItemWidth);
+      this.scrollTo(this.currentScrollLeft + this.props.step * this.averageItemWidth);
    }
 
    /*
@@ -305,46 +465,8 @@ class ScrolledList extends Component {
    }
 }
 
-/**
- * Items alignment constants
- * @enum {string}
- * @readonly
- * @example
- * <ScrolledList alignItems={ScrolledList.ALIGN_ITEMS.SPACE_BETWEEN}>...</ScrolledList>
- */
-const ALIGN_ITEMS = {
-   /**
-    * List items will be aligned to the left.
-    * @member {string}
-    */
-   LEFT: 'flex-start',
-
-   /**
-    * List items will be aligned to the right.
-    * @member {string}
-    */
-   RIGHT: 'flex-end',
-
-   /**
-    * List items will be centered.
-    * @member {string}
-    */
-   CENTER: 'center',
-
-   /**
-    * There will be space around all items.
-    * @member {string}
-    */
-   SPACE_AROUND: 'space-around',
-
-   /**
-    * There will be space only between items.
-    * @member {string}
-    */
-   SPACE_BETWEEN: 'space-between'
-};
-
 ScrolledList.ALIGN_ITEMS = ALIGN_ITEMS;
+ScrolledList.SCROLL_TO_ITEM_MODE = SCROLL_TO_ITEM_MODE;
 
 /**
  * Should return rendered prev/next scroll button.
@@ -402,22 +524,25 @@ ScrolledList.ALIGN_ITEMS = ALIGN_ITEMS;
  * @property [renderPrevButton] {ScrolledList_RenderButton} Function capable of rendering button responsible for scrolling left. Renders left arrow button by default.
  * @property [renderNextButton] {ScrolledList_RenderButton} Function capable of rendering button responsible for scrolling right. Renders right arrow button by default.
  * @property [renderItemContainer] {ScrolledList_RenderItemContainer} Function capable of rendering item container. Renders Kambi-styled item container by default.
+ * @property [scrollToItemMode=CENTER] {SCROLL_TO_ITEM_MODE} Scroll to selected item mode
  */
 ScrolledList.propTypes = {
    children: PropTypes.node,
    onItemClick: PropTypes.func,
    selected: PropTypes.number,
    step: PropTypes.number,
-   alignItems: PropTypes.oneOf(Object.keys(ScrolledList.ALIGN_ITEMS).map(k => ScrolledList.ALIGN_ITEMS[k])),
+   alignItems: PropTypes.oneOf(Object.keys(ALIGN_ITEMS).map(k => ALIGN_ITEMS[k])),
    renderPrevButton: PropTypes.func,
    renderNextButton: PropTypes.func,
-   renderItemContainer: PropTypes.func
+   renderItemContainer: PropTypes.func,
+   scrollToItemMode: PropTypes.oneOf(Object.keys(SCROLL_TO_ITEM_MODE).map(k => SCROLL_TO_ITEM_MODE[k]))
 };
 
 ScrolledList.defaultProps = {
    selected: 0,
    step: 2,
    alignItems: ScrolledList.ALIGN_ITEMS.CENTER,
+   scrollToItemMode: ScrolledList.SCROLL_TO_ITEM_MODE.CENTER,
    renderPrevButton: props =>
       <ArrowButton type='left' {...props} />,
    renderNextButton: props =>

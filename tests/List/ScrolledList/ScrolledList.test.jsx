@@ -201,8 +201,8 @@ describe('ScrolledList behaviour', () => {
             wrapper.find('#last').simulate('click');
 
             expect(eyeshotWrapper.node.scrollLeft).toEqual(0);
-            expect(barWrapper.node.style.transform).toEqual('translate3d(-600px, 0, 0)');
-            expect(barWrapper.node.style.mozTransform).toEqual('translate3d(-600px, 0, 0)');
+            expect(barWrapper.node.style.transform).toEqual('translate3d(0px, 0, 0)');
+            expect(barWrapper.node.style.mozTransform).toEqual('translate3d(0px, 0, 0)');
          });
    });
 
@@ -284,6 +284,7 @@ describe('ScrolledList behaviour', () => {
 
       const eyeshotWrapper = wrapper.find('.eyeshot');
       eyeshotWrapper.node.offsetWidth = 300;
+      eyeshotWrapper.node.scrollLeft = 0;
 
       const barWrapper = wrapper.find('.bar');
 
@@ -307,23 +308,23 @@ describe('ScrolledList behaviour', () => {
             // simulate next button click
             nextButtonClick();
 
-            expect(eyeshotWrapper.node.scrollLeft).toEqual(200);
-            expect(barWrapper.node.style.transform).toEqual('translate3d(0px, 0, 0)');
-            expect(barWrapper.node.style.mozTransform).toEqual('translate3d(0px, 0, 0)');
+            expect(eyeshotWrapper.node.scrollLeft).toEqual(0);
+            expect(barWrapper.node.style.transform).toEqual('translate3d(-200px, 0, 0)');
+            expect(barWrapper.node.style.mozTransform).toEqual('translate3d(-200px, 0, 0)');
 
             // simulate prev button click
             prevButtonClick();
 
             expect(eyeshotWrapper.node.scrollLeft).toEqual(0);
-            expect(barWrapper.node.style.transform).toEqual('translate3d(0px, 0, 0)');
-            expect(barWrapper.node.style.mozTransform).toEqual('translate3d(0px, 0, 0)');
+            expect(barWrapper.node.style.transform).toEqual('translate3d(-200px, 0, 0)');
+            expect(barWrapper.node.style.mozTransform).toEqual('translate3d(-200px, 0, 0)');
 
             // simulate last item click (forces scroll)
             wrapper.find('#last').simulate('click');
 
-            expect(eyeshotWrapper.node.scrollLeft).toEqual(600);
-            expect(barWrapper.node.style.transform).toEqual('translate3d(0px, 0, 0)');
-            expect(barWrapper.node.style.mozTransform).toEqual('translate3d(0px, 0, 0)');
+            expect(eyeshotWrapper.node.scrollLeft).toEqual(0);
+            expect(barWrapper.node.style.transform).toEqual('translate3d(-200px, 0, 0)');
+            expect(barWrapper.node.style.mozTransform).toEqual('translate3d(-200px, 0, 0)');
 
             // clean up
             Object.defineProperty(window.navigator, 'userAgent', { get: () => oldUserAgent, configurable: true });
