@@ -380,7 +380,7 @@ class ScrolledList extends Component {
     * @returns {boolean}
     */
    get showPrevButton() {
-      return !this.mobileDevice && this.currentScrollLeft > 0;
+      return this.currentScrollLeft > 0;
    }
 
    /*
@@ -388,7 +388,7 @@ class ScrolledList extends Component {
     * @returns {boolean}
     */
    get showNextButton() {
-      return !this.mobileDevice && this.currentScrollLeft < this.maxScrollLeft;
+      return this.currentScrollLeft < this.maxScrollLeft;
    }
 
    /*
@@ -452,14 +452,20 @@ class ScrolledList extends Component {
                   }))}
                </div>
             </div>
-            {this.props.renderPrevButton({
-               onClick: this.prevPage,
-               disabled: !this.showPrevButton
-            })}
-            {this.props.renderNextButton({
-               onClick: this.nextPage,
-               disabled: !this.showNextButton
-            })}
+            { !this.mobileDevice ?
+               this.props.renderPrevButton({
+                  onClick: this.prevPage,
+                  disabled: !this.showPrevButton
+               })
+               : null
+            }
+            { !this.mobileDevice ?
+               this.props.renderNextButton({
+                  onClick: this.nextPage,
+                  disabled: !this.showNextButton
+               })
+               : null
+            }
          </div>
       );
    }
