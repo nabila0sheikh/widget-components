@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import React, { Children } from 'react';
 import TabPagination from '../../src/TabPagination/TabPagination';
 import ReactTestRenderer from 'react-test-renderer';

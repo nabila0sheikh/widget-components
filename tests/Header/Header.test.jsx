@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import React, { Children } from 'react';
 import Header from '../../src/Header/Header';
 import ReactTestRenderer from 'react-test-renderer';

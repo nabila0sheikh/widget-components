@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import React, { Children } from 'react';
 import IconHeader from '../../src/IconHeader/IconHeader';
 import ReactTestRenderer from 'react-test-renderer';

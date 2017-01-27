@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import React from 'react';
 import FixedList from '../../../src/List/FixedList/FixedList';
 import ReactTestRenderer from 'react-test-renderer';

@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import React, { Children } from 'react';
 import OutcomeButton from '../../src/OutcomeButton/OutcomeButton';
 import ReactTestRenderer from 'react-test-renderer';

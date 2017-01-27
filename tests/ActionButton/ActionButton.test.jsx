@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import React, { Children } from 'react';
 import ActionButton from '../../src/ActionButton/ActionButton';
 import ReactTestRenderer from 'react-test-renderer';

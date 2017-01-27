@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import React, { Children } from 'react';
 import DropdownButton from '../../src/DropdownButton/DropdownButton';
 import ReactTestRenderer from 'react-test-renderer';
@@ -103,4 +104,3 @@ describe('DropdownButton behaviour', () => {
    });
 
 });
-

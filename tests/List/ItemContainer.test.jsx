@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import React from 'react';
 import ItemContainer from '../../src/List/ItemContainer';
 import ReactTestRenderer from 'react-test-renderer';

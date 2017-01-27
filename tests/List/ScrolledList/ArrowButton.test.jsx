@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import React from 'react';
 import ArrowButton from '../../../src/List/ScrolledList/ArrowButton';
 import ReactTestRenderer from 'react-test-renderer';
