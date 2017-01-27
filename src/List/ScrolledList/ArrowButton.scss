@@ -36,9 +36,9 @@
 :local(.right) {
    background: linear-gradient(270deg, #fff 50%, hsla(0, 0%, 100%, 0));
    right: 16px;
-   justify-content: flex-end;
 
    :local(.icon) {
       transform: scale(-1, 1);
+      margin-left: 25px;
    }
 }
