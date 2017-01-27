@@ -23,10 +23,6 @@
    margin: 0;
    transition: transform .3s;
 
-   &.no-transition {
-      transition: transform 0s;
-   }
-
    // let tab containers manage their width
    & > * {
       flex: 0 0 auto;

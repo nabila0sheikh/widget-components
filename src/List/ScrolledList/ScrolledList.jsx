@@ -11,11 +11,10 @@ const RESIZE_MOMENTUM = 200;
 
 
 /*
- * If transition of bar element will not finish until that timeout (in milliseconds)
- * the fuse/backup procedure will be fired.
+ * Duration of bar element scrollLeft animation (in milliseconds)
  * @type {number}
  */
-const BAR_TRANSITION_TIMEOUT = 400;
+const BAR_TRANSITION_DURATION = 300;
 
 /*
  * Will turn off mobile mode if screen is wider than defined below (in pixels)
@@ -82,35 +81,51 @@ const SCROLL_TO_ITEM_MODE = {
 };
 
 /*
- * Waits for enf od CSS transition on element and then fires given handler.
- * @param {HTMLElement} element Transitioned element
- * @param {function} handler Handler called after transition end
- * @param {number} timeout Time after which transition is considered as finished
- */
-const onTransitionEnd = function(element, handler, timeout) {
-   let fuse;
-
-   const wrapper = function() {
-      element.removeEventListener('transitionend', wrapper);
-      clearTimeout(fuse);
-      handler();
-   };
-
-   // will fire if transitionend fails for some reason (e.g. not supported)
-   fuse = setTimeout(() => {
-      element.removeEventListener('transitionend', wrapper);
-      handler();
-   }, timeout);
-
-   element.addEventListener('transitionend', wrapper);
-};
-
-/*
  * Mobile browser check
  * @type {boolean}
  */
 const isMobileBrowser = function() {
    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+};
+
+/*
+ * Performs animation on given element's property.
+ * @param {HTMLElement} element Element to animate
+ * @param {string} property Element's property to animate
+ * @param {number} value Target property value
+ * @param {number} duration Animation duration
+ */
+const animate = function(element, property, value, duration) {
+   const requestAnimationFrame = window.requestAnimationFrame ||
+         window.webkitRequestAnimationFrame ||
+         window.mozRequestAnimationFrame ||
+         (callback => setTimeout(() => callback(Date.now()), duration));
+
+   let start = null;
+
+   const initial = element[property],
+      delta = value - initial;
+
+   const step = function(timestamp) {
+      if (!start) {
+         start = timestamp;
+      }
+
+      let progress = (timestamp - start) / duration;
+
+      if (progress > 1) {
+         progress = 1;
+      }
+
+      // easeOutQuad
+      element[property] = -delta * progress * (progress - 2) + initial;
+
+      if (progress < 1) {
+         requestAnimationFrame(step);
+      }
+   };
+
+   requestAnimationFrame(step);
 };
 
 /**
@@ -294,22 +309,7 @@ class ScrolledList extends Component {
             return;
          }
 
-         // prepare environment for performing transition
-         this.bar.classList.add('no-transition');
-         this.translateX = -1 * this.currentScrollLeft;
-         this.eyeshot.scrollLeft = 0;
-         this.bar.classList.remove('no-transition');
-
-         onTransitionEnd(this.bar, () => {
-            // restore environment after performing transition
-            this.bar.classList.add('no-transition');
-            this.translateX = 0;
-            this.eyeshot.scrollLeft = scrollLeft;
-            this.bar.classList.remove('no-transition');
-         }, BAR_TRANSITION_TIMEOUT);
-
-         // perform transition
-         this.translateX = -1 * scrollLeft;
+         animate(this.eyeshot, 'scrollLeft', scrollLeft, BAR_TRANSITION_DURATION);
       } else {
          this.translateX = -1 * scrollLeft;
          this.eyeshot.scrollLeft = 0;
@@ -341,6 +341,8 @@ class ScrolledList extends Component {
    /*
     * Scrolls bar to given item.
     * @param {number} item Item index
+    *
+    * Example for item=2
     *
     * computeItemsWidth(0, item - 1)
     * <--------------------------->
@@ -452,19 +454,17 @@ class ScrolledList extends Component {
                   }))}
                </div>
             </div>
-            { !this.mobileDevice ?
+            { !this.mobileDevice &&
                this.props.renderPrevButton({
                   onClick: this.prevPage,
                   disabled: !this.showPrevButton
                })
-               : null
             }
-            { !this.mobileDevice ?
+            { !this.mobileDevice &&
                this.props.renderNextButton({
                   onClick: this.nextPage,
                   disabled: !this.showNextButton
                })
-               : null
             }
          </div>
       );
