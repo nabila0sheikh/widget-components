@@ -45,6 +45,21 @@ jest.mock('kambi-widget-core-library', () => ({
 }));
 
 describe('OutcomeButtonUI DOM rendering', () => {
+   it('render invisible div if odds <= 1000', () => {
+      const tree = ReactTestRenderer.create(
+         <OutcomeButton
+            outcome={{
+               id: 5,
+               odds: 1000,
+               oddsFractional: '1.0',
+               oddsAmerican: '1.0',
+               betOfferId: 103
+            }}
+         />
+      ).toJSON();
+
+      expect(tree).toMatchSnapshot();
+   });
 
    it('renders correctly with default props', () => {
       const tree = ReactTestRenderer.create(

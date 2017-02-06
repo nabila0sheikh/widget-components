@@ -148,6 +148,12 @@ class OutcomeButton extends Component {
     * @returns {XML}
     */
    render() {
+      // outcomes <= 1.0 do not make sense but still appears in the API sometimes
+      if (this.props.outcome.odds <= 1000) {
+         return (
+            <div style={{ display: 'none' }} />
+         )
+      }
       return (
          <OutcomeButtonUI
             label={this.label}

@@ -1,3 +1,12 @@
+exports[`OutcomeButtonUI DOM rendering render invisible div if odds <= 1000 1`] = `
+<div
+  style={
+    Object {
+      "display": "none",
+    }
+  } />
+`;
+
 exports[`OutcomeButtonUI DOM rendering renders correctly on odds format change 1`] = `
 <button
   className="l-flex-1 kw-link KambiWidget-outcome general"
