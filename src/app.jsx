@@ -49,13 +49,13 @@ TestContainer.propTypes = {
    element: React.PropTypes.element
 };
 
-let count = 1;
 const render = function(description, element) {
+   const div = document.createElement('div');
+   document.body.append(div);
    ReactDOM.render(
       <TestContainer description={description} element={element} />,
-      document.getElementById('component' + count)
+      div
    );
-   count++;
 };
 
 coreLibrary.init({}).then(() => {
@@ -81,9 +81,16 @@ coreLibrary.init({}).then(() => {
    render(
       'Tab Pagination component',
       <TabPagination>
-         <div>Content #1</div>
-         <div>Content #2</div>
-         <div>Content #3</div>
+         <div>Item #1</div>
+         <div>Item #2</div>
+         <div>Item #3</div>
+         <div>Item #4</div>
+         <div>Item #5</div>
+         <div>Item #6</div>
+         <div>Item #7</div>
+         <div>Item #8</div>
+         <div>Item #9</div>
+         <div>Item #10</div>
       </TabPagination>
    );
 
@@ -93,6 +100,13 @@ coreLibrary.init({}).then(() => {
          <div>Item #1</div>
          <div>Item #2</div>
          <div>Item #3</div>
+         <div>Item #4</div>
+         <div>Item #5</div>
+         <div>Item #6</div>
+         <div>Item #7</div>
+         <div>Item #8</div>
+         <div>Item #9</div>
+         <div>Item #10</div>
       </ScrolledList>
    );
 
