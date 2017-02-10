@@ -29,12 +29,10 @@
 }
 
 :local(.left) {
-   background: linear-gradient(90deg, #fff 50%, hsla(0, 0%, 100%, 0));
    left: 16px;
 }
 
 :local(.right) {
-   background: linear-gradient(270deg, #fff 50%, hsla(0, 0%, 100%, 0));
    right: 16px;
 
    :local(.icon) {
