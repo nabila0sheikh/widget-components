@@ -28,7 +28,12 @@ exports[`ScrolledList DOM rendering renders correctly all item alignments 1`] = 
   <button
     className="left"
     disabled={true}
-    onClick={[Function]}>
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "linear-gradient(90deg,  50%, rgba(255, 255, 255, 0))",
+      }
+    }>
     <svg
       className="icon"
       height="17px"
@@ -45,7 +50,12 @@ exports[`ScrolledList DOM rendering renders correctly all item alignments 1`] = 
   <button
     className="right"
     disabled={true}
-    onClick={[Function]}>
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "linear-gradient(270deg,  50%, rgba(255, 255, 255, 0))",
+      }
+    }>
     <svg
       className="icon"
       height="17px"
@@ -92,7 +102,12 @@ exports[`ScrolledList DOM rendering renders correctly all item alignments 2`] = 
   <button
     className="left"
     disabled={true}
-    onClick={[Function]}>
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "linear-gradient(90deg,  50%, rgba(255, 255, 255, 0))",
+      }
+    }>
     <svg
       className="icon"
       height="17px"
@@ -109,7 +124,12 @@ exports[`ScrolledList DOM rendering renders correctly all item alignments 2`] = 
   <button
     className="right"
     disabled={true}
-    onClick={[Function]}>
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "linear-gradient(270deg,  50%, rgba(255, 255, 255, 0))",
+      }
+    }>
     <svg
       className="icon"
       height="17px"
@@ -156,7 +176,12 @@ exports[`ScrolledList DOM rendering renders correctly all item alignments 3`] = 
   <button
     className="left"
     disabled={true}
-    onClick={[Function]}>
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "linear-gradient(90deg,  50%, rgba(255, 255, 255, 0))",
+      }
+    }>
     <svg
       className="icon"
       height="17px"
@@ -173,7 +198,12 @@ exports[`ScrolledList DOM rendering renders correctly all item alignments 3`] = 
   <button
     className="right"
     disabled={true}
-    onClick={[Function]}>
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "linear-gradient(270deg,  50%, rgba(255, 255, 255, 0))",
+      }
+    }>
     <svg
       className="icon"
       height="17px"
@@ -220,7 +250,12 @@ exports[`ScrolledList DOM rendering renders correctly all item alignments 4`] = 
   <button
     className="left"
     disabled={true}
-    onClick={[Function]}>
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "linear-gradient(90deg,  50%, rgba(255, 255, 255, 0))",
+      }
+    }>
     <svg
       className="icon"
       height="17px"
@@ -237,7 +272,12 @@ exports[`ScrolledList DOM rendering renders correctly all item alignments 4`] = 
   <button
     className="right"
     disabled={true}
-    onClick={[Function]}>
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "linear-gradient(270deg,  50%, rgba(255, 255, 255, 0))",
+      }
+    }>
     <svg
       className="icon"
       height="17px"
@@ -284,7 +324,12 @@ exports[`ScrolledList DOM rendering renders correctly all item alignments 5`] = 
   <button
     className="left"
     disabled={true}
-    onClick={[Function]}>
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "linear-gradient(90deg,  50%, rgba(255, 255, 255, 0))",
+      }
+    }>
     <svg
       className="icon"
       height="17px"
@@ -301,7 +346,12 @@ exports[`ScrolledList DOM rendering renders correctly all item alignments 5`] = 
   <button
     className="right"
     disabled={true}
-    onClick={[Function]}>
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "linear-gradient(270deg,  50%, rgba(255, 255, 255, 0))",
+      }
+    }>
     <svg
       className="icon"
       height="17px"
@@ -340,7 +390,12 @@ exports[`ScrolledList DOM rendering renders correctly custom ItemContainer 1`] =
   <button
     className="left"
     disabled={true}
-    onClick={[Function]}>
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "linear-gradient(90deg,  50%, rgba(255, 255, 255, 0))",
+      }
+    }>
     <svg
       className="icon"
       height="17px"
@@ -357,7 +412,12 @@ exports[`ScrolledList DOM rendering renders correctly custom ItemContainer 1`] =
   <button
     className="right"
     disabled={true}
-    onClick={[Function]}>
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "linear-gradient(270deg,  50%, rgba(255, 255, 255, 0))",
+      }
+    }>
     <svg
       className="icon"
       height="17px"
@@ -415,7 +475,12 @@ exports[`ScrolledList DOM rendering renders correctly with default props 1`] = `
   <button
     className="left"
     disabled={true}
-    onClick={[Function]}>
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "linear-gradient(90deg,  50%, rgba(255, 255, 255, 0))",
+      }
+    }>
     <svg
       className="icon"
       height="17px"
@@ -432,7 +497,12 @@ exports[`ScrolledList DOM rendering renders correctly with default props 1`] = `
   <button
     className="right"
     disabled={true}
-    onClick={[Function]}>
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "linear-gradient(270deg,  50%, rgba(255, 255, 255, 0))",
+      }
+    }>
     <svg
       className="icon"
       height="17px"
@@ -497,7 +567,12 @@ exports[`ScrolledList DOM rendering renders correctly with many child items 1`] 
   <button
     className="left"
     disabled={true}
-    onClick={[Function]}>
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "linear-gradient(90deg,  50%, rgba(255, 255, 255, 0))",
+      }
+    }>
     <svg
       className="icon"
       height="17px"
@@ -514,7 +589,12 @@ exports[`ScrolledList DOM rendering renders correctly with many child items 1`] 
   <button
     className="right"
     disabled={true}
-    onClick={[Function]}>
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "linear-gradient(270deg,  50%, rgba(255, 255, 255, 0))",
+      }
+    }>
     <svg
       className="icon"
       height="17px"
@@ -550,7 +630,12 @@ exports[`ScrolledList DOM rendering renders correctly with one child item 1`] = 
   <button
     className="left"
     disabled={true}
-    onClick={[Function]}>
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "linear-gradient(90deg,  50%, rgba(255, 255, 255, 0))",
+      }
+    }>
     <svg
       className="icon"
       height="17px"
@@ -567,7 +652,12 @@ exports[`ScrolledList DOM rendering renders correctly with one child item 1`] = 
   <button
     className="right"
     disabled={true}
-    onClick={[Function]}>
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "linear-gradient(270deg,  50%, rgba(255, 255, 255, 0))",
+      }
+    }>
     <svg
       className="icon"
       height="17px"
@@ -614,7 +704,12 @@ exports[`ScrolledList DOM rendering renders correctly with selected item given a
   <button
     className="left"
     disabled={true}
-    onClick={[Function]}>
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "linear-gradient(90deg,  50%, rgba(255, 255, 255, 0))",
+      }
+    }>
     <svg
       className="icon"
       height="17px"
@@ -631,7 +726,12 @@ exports[`ScrolledList DOM rendering renders correctly with selected item given a
   <button
     className="right"
     disabled={true}
-    onClick={[Function]}>
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "linear-gradient(270deg,  50%, rgba(255, 255, 255, 0))",
+      }
+    }>
     <svg
       className="icon"
       height="17px"

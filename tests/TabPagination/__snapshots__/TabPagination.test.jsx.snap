@@ -31,7 +31,12 @@ exports[`TabPagination DOM rendering renders correctly with custom renderTab fun
     <button
       className="left"
       disabled={true}
-      onClick={[Function]}>
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "linear-gradient(90deg,  50%, rgba(255, 255, 255, 0))",
+        }
+      }>
       <svg
         className="icon"
         height="17px"
@@ -48,7 +53,12 @@ exports[`TabPagination DOM rendering renders correctly with custom renderTab fun
     <button
       className="right"
       disabled={true}
-      onClick={[Function]}>
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "linear-gradient(270deg,  50%, rgba(255, 255, 255, 0))",
+        }
+      }>
       <svg
         className="icon"
         height="17px"
@@ -121,7 +131,12 @@ exports[`TabPagination DOM rendering renders correctly with default props 1`] = 
     <button
       className="left"
       disabled={true}
-      onClick={[Function]}>
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "linear-gradient(90deg,  50%, rgba(255, 255, 255, 0))",
+        }
+      }>
       <svg
         className="icon"
         height="17px"
@@ -138,7 +153,12 @@ exports[`TabPagination DOM rendering renders correctly with default props 1`] = 
     <button
       className="right"
       disabled={true}
-      onClick={[Function]}>
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "linear-gradient(270deg,  50%, rgba(255, 255, 255, 0))",
+        }
+      }>
       <svg
         className="icon"
         height="17px"
@@ -234,7 +254,12 @@ exports[`TabPagination DOM rendering renders correctly with many child items 1`]
     <button
       className="left"
       disabled={true}
-      onClick={[Function]}>
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "linear-gradient(90deg,  50%, rgba(255, 255, 255, 0))",
+        }
+      }>
       <svg
         className="icon"
         height="17px"
@@ -251,7 +276,12 @@ exports[`TabPagination DOM rendering renders correctly with many child items 1`]
     <button
       className="right"
       disabled={true}
-      onClick={[Function]}>
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "linear-gradient(270deg,  50%, rgba(255, 255, 255, 0))",
+        }
+      }>
       <svg
         className="icon"
         height="17px"
@@ -303,7 +333,12 @@ exports[`TabPagination DOM rendering renders correctly with one child item 1`] =
     <button
       className="left"
       disabled={true}
-      onClick={[Function]}>
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "linear-gradient(90deg,  50%, rgba(255, 255, 255, 0))",
+        }
+      }>
       <svg
         className="icon"
         height="17px"
@@ -320,7 +355,12 @@ exports[`TabPagination DOM rendering renders correctly with one child item 1`] =
     <button
       className="right"
       disabled={true}
-      onClick={[Function]}>
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "linear-gradient(270deg,  50%, rgba(255, 255, 255, 0))",
+        }
+      }>
       <svg
         className="icon"
         height="17px"
@@ -386,7 +426,12 @@ exports[`TabPagination DOM rendering renders correctly with selected item given 
     <button
       className="left"
       disabled={true}
-      onClick={[Function]}>
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "linear-gradient(90deg,  50%, rgba(255, 255, 255, 0))",
+        }
+      }>
       <svg
         className="icon"
         height="17px"
@@ -403,7 +448,12 @@ exports[`TabPagination DOM rendering renders correctly with selected item given 
     <button
       className="right"
       disabled={true}
-      onClick={[Function]}>
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "linear-gradient(270deg,  50%, rgba(255, 255, 255, 0))",
+        }
+      }>
       <svg
         className="icon"
         height="17px"

@@ -171,7 +171,7 @@ describe('ScrolledList behaviour', () => {
       );
 
       const eyeshotWrapper = wrapper.find('.eyeshot');
-      eyeshotWrapper.node.offsetWidth = 300;
+      Object.defineProperty(eyeshotWrapper.node, 'offsetWidth', { get: () => 300, configurable: true });
 
       const barWrapper = wrapper.find('.bar');
 
@@ -227,7 +227,7 @@ describe('ScrolledList behaviour', () => {
       );
 
       const eyeshotWrapper = wrapper.find('.eyeshot');
-      eyeshotWrapper.node.offsetWidth = 300;
+      Object.defineProperty(eyeshotWrapper.node, 'offsetWidth', { get: () => 300, configurable: true });
 
       window.dispatchEvent(new Event('resize'));
 
@@ -240,7 +240,7 @@ describe('ScrolledList behaviour', () => {
          .then(() => {
             expect(barWrapper.node.style.justifyContent).toEqual('center');
 
-            eyeshotWrapper.node.offsetWidth = 100;
+            Object.defineProperty(eyeshotWrapper.node, 'offsetWidth', { get: () => 100, configurable: true });
 
             window.dispatchEvent(new Event('resize'));
 

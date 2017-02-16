@@ -3,7 +3,12 @@ exports[`ArrowButton view renders "left" and "right" variants correctly 1`] = `
   <button
     className="left"
     disabled={false}
-    onClick={[Function]}>
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "linear-gradient(90deg,  50%, rgba(255, 255, 255, 0))",
+      }
+    }>
     <svg
       className="icon"
       height="17px"
@@ -20,7 +25,12 @@ exports[`ArrowButton view renders "left" and "right" variants correctly 1`] = `
   <button
     className="right"
     disabled={false}
-    onClick={[Function]}>
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "linear-gradient(270deg,  50%, rgba(255, 255, 255, 0))",
+      }
+    }>
     <svg
       className="icon"
       height="17px"
@@ -41,7 +51,12 @@ exports[`ArrowButton view renders correctly when disabled 1`] = `
 <button
   className="left"
   disabled={true}
-  onClick={[Function]}>
+  onClick={[Function]}
+  style={
+    Object {
+      "background": "linear-gradient(90deg,  50%, rgba(255, 255, 255, 0))",
+    }
+  }>
   <svg
     className="icon"
     height="17px"

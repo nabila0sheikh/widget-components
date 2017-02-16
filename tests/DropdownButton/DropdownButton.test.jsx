@@ -61,7 +61,7 @@ describe('DropdownButton behaviour', () => {
       const tmpClientHeight = document.documentElement.clientHeight,
          tmpInnerHeight = window.innerHeight;
 
-      document.documentElement.clientHeight = 100;
+      Object.defineProperty(document.documentElement, 'clientHeight', { get: () => 100, configurable: true });
       window.innerHeight = 0;
 
       const wrapper = mount(
@@ -99,7 +99,8 @@ describe('DropdownButton behaviour', () => {
 
       expect(onChangeMock).toHaveBeenCalledTimes(1); // not called again
 
-      document.documentElement.clientHeight = tmpClientHeight;
+      Object.defineProperty(document.documentElement, 'clientHeight', { get: () => tmpClientHeight, configurable: true });
+
       window.innerHeight = tmpInnerHeight;
    });
 
