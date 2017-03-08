@@ -1,57 +1,47 @@
 /* eslint-env jest */
 import React, { Children } from 'react';
 import OutcomeButtonUI from '../../src/OutcomeButton/OutcomeButtonUI';
-import ReactTestRenderer from 'react-test-renderer';
+import ReactTestUtils from 'react-addons-test-utils';
 import { shallow } from 'enzyme';
 
 describe('OutcomeButtonUI DOM rendering', () => {
 
    it('renders correctly when neither selected nor suspended', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <OutcomeButtonUI odds='2.0' selected={false} suspended={false} />
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly when selected', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <OutcomeButtonUI odds='2.0' selected={true} />
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly when selected', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <OutcomeButtonUI odds='2.0' selected={false} suspended={true} />
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('throws error when both odds and label are not provided', () => {
       expect(() => {
-         ReactTestRenderer.create(
+         ReactTestUtils.createRenderer().render(
             <OutcomeButtonUI selected={true}/>
          );
       }).toThrowErrorMatchingSnapshot();
    });
 
    it('renders correctly with label', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <OutcomeButtonUI label='Test label' selected={false} />
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with odds and label', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <OutcomeButtonUI odds='5.0' label='Test label' selected={false} />
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
 });

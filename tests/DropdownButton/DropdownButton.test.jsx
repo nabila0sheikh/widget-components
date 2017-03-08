@@ -1,39 +1,46 @@
 /* eslint-env jest */
 import React, { Children } from 'react';
 import DropdownButton from '../../src/DropdownButton/DropdownButton';
-import ReactTestRenderer from 'react-test-renderer';
 import { mount, shallow } from 'enzyme';
+import ReactTestUtils from 'react-addons-test-utils';
+
+const renderer = ReactTestUtils.createRenderer();
+
+// retrieve initial global values
+const innerHeight = window.innerHeight,
+   clientHeight = document.documentElement.clientHeight;
 
 describe('DropdownButton DOM rendering', () => {
 
    it('renders correctly with default props', () => {
       const options = ['option1', 'option2'];
 
-      const tree = ReactTestRenderer.create(
+      expect(renderer.render(
          <DropdownButton options={options} onChange={() => {}} />
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with changed alignment', () => {
       const options = ['option1', 'option2'];
 
-      const tree = ReactTestRenderer.create(
+      expect(renderer.render(
          <DropdownButton
             options={options}
             onChange={() => {}}
             horizontalAlignment='left'
             verticalAlignment='bottom'
          />
-      );
-
-      expect(tree.toJSON()).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
 });
 
 describe('DropdownButton behaviour', () => {
+
+   beforeEach(() => {
+      window.innerHeight = innerHeight;
+      Object.defineProperty(document.documentElement, 'clientHeight', { get: () => clientHeight, configurable: true });
+   });
 
    it('expands and collapses correctly', () => {
       const options = ['option1', 'option2'],
@@ -57,9 +64,6 @@ describe('DropdownButton behaviour', () => {
       const options = ['option1', 'option2'],
          onChangeMock = jest.fn(),
          clickEvMock = { stopPropagation: jest.fn() };
-
-      const tmpClientHeight = document.documentElement.clientHeight,
-         tmpInnerHeight = window.innerHeight;
 
       Object.defineProperty(document.documentElement, 'clientHeight', { get: () => 100, configurable: true });
       window.innerHeight = 0;
@@ -98,10 +102,6 @@ describe('DropdownButton behaviour', () => {
       window.document.documentElement.dispatchEvent(eventMock);
 
       expect(onChangeMock).toHaveBeenCalledTimes(1); // not called again
-
-      Object.defineProperty(document.documentElement, 'clientHeight', { get: () => tmpClientHeight, configurable: true });
-
-      window.innerHeight = tmpInnerHeight;
    });
 
 });

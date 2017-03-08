@@ -1,168 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OutcomeButton behaviour renders correctly on odds format change 1`] = `
+"<OutcomeButton outcome={{...}} label={true}>
+  <OutcomeButtonUI label={{...}} odds=\\"4.5\\" suspended={false} selected={false} onClick={[Function]}>
+    <button type=\\"button\\" role=\\"button\\" className=\\"l-flex-1 kw-link KambiWidget-outcome general\\" disabled={false} onClick={[Function]}>
+      <div className=\\"KambiWidget-outcome__odds-wrapper\\">
+        <span className=\\"KambiWidget-outcome__odds\\">
+          4.5
+        </span>
+      </div>
+    </button>
+  </OutcomeButtonUI>
+</OutcomeButton>"
+`;
+
+exports[`OutcomeButton behaviour renders correctly on odds format change 2`] = `
+"<OutcomeButton outcome={{...}} label={true}>
+  <OutcomeButtonUI label={{...}} odds=\\"1/100\\" suspended={false} selected={false} onClick={[Function]}>
+    <button type=\\"button\\" role=\\"button\\" className=\\"l-flex-1 kw-link KambiWidget-outcome general\\" disabled={false} onClick={[Function]}>
+      <div className=\\"KambiWidget-outcome__odds-wrapper\\">
+        <span className=\\"KambiWidget-outcome__odds\\">
+          1/100
+        </span>
+      </div>
+    </button>
+  </OutcomeButtonUI>
+</OutcomeButton>"
+`;
+
 exports[`OutcomeButtonUI DOM rendering render invisible div if odds <= 1000 1`] = `
 <div
   style={
     Object {
       "display": "none",
     }
-  } />
-`;
-
-exports[`OutcomeButtonUI DOM rendering renders correctly on odds format change 1`] = `
-<button
-  className="l-flex-1 kw-link KambiWidget-outcome general"
-  disabled={false}
-  onClick={[Function]}
-  role="button"
-  type="button">
-  <div
-    className="KambiWidget-outcome__odds-wrapper">
-    <span
-      className="KambiWidget-outcome__odds">
-      4.5
-    </span>
-  </div>
-</button>
-`;
-
-exports[`OutcomeButtonUI DOM rendering renders correctly on odds format change 2`] = `
-<button
-  className="l-flex-1 kw-link KambiWidget-outcome general"
-  disabled={false}
-  onClick={[Function]}
-  role="button"
-  type="button">
-  <div
-    className="KambiWidget-outcome__odds-wrapper">
-    <span
-      className="KambiWidget-outcome__odds">
-      4.5
-    </span>
-  </div>
-</button>
+  }
+/>
 `;
 
 exports[`OutcomeButtonUI DOM rendering renders correctly with american odds 1`] = `
-<button
-  className="l-flex-1 kw-link KambiWidget-outcome general"
-  disabled={false}
+<OutcomeButtonUI
+  label={null}
+  odds="1/100"
   onClick={[Function]}
-  role="button"
-  type="button">
-  <div
-    className="KambiWidget-outcome__odds-wrapper">
-    <span
-      className="KambiWidget-outcome__odds">
-      1/100
-    </span>
-  </div>
-</button>
+  selected={false}
+  suspended={false}
+/>
 `;
 
 exports[`OutcomeButtonUI DOM rendering renders correctly with default props 1`] = `
-<button
-  className="l-flex-1 kw-link KambiWidget-outcome general"
-  disabled={false}
+<OutcomeButtonUI
+  label={null}
+  odds="4.5"
   onClick={[Function]}
-  role="button"
-  type="button">
-  <div
-    className="KambiWidget-outcome__odds-wrapper">
-    <span
-      className="KambiWidget-outcome__odds">
-      4.5
-    </span>
-  </div>
-</button>
+  selected={false}
+  suspended={false}
+/>
 `;
 
 exports[`OutcomeButtonUI DOM rendering renders correctly with fractional odds 1`] = `
-<button
-  className="l-flex-1 kw-link KambiWidget-outcome general"
-  disabled={false}
+<OutcomeButtonUI
+  label={null}
+  odds="3.5"
   onClick={[Function]}
-  role="button"
-  type="button">
-  <div
-    className="KambiWidget-outcome__odds-wrapper">
-    <span
-      className="KambiWidget-outcome__odds">
-      3.5
-    </span>
-  </div>
-</button>
+  selected={false}
+  suspended={false}
+/>
 `;
 
 exports[`OutcomeButtonUI DOM rendering renders correctly with label explicitly set 1`] = `
-<button
-  className="l-flex-1 kw-link KambiWidget-outcome general"
-  disabled={false}
+<OutcomeButtonUI
+  label="Test label"
+  odds="4.5"
   onClick={[Function]}
-  role="button"
-  type="button">
-  <div
-    className="KambiWidget-outcome__flexwrap">
-    <div
-      className="KambiWidget-outcome__label-wrapper">
-      <span
-        className="KambiWidget-outcome__label">
-        Test label
-      </span>
-      <span
-        className="KambiWidget-outcome__line" />
-    </div>
-    <div
-      className="KambiWidget-outcome__odds-wrapper">
-      <span
-        className="KambiWidget-outcome__odds">
-        4.5
-      </span>
-    </div>
-  </div>
-</button>
+  selected={false}
+  suspended={false}
+/>
 `;
 
 exports[`OutcomeButtonUI DOM rendering renders correctly with label extracted from event 1`] = `
-<button
-  className="l-flex-1 kw-link KambiWidget-outcome general"
-  disabled={false}
+<OutcomeButtonUI
+  label="Outcome label from util"
+  odds="4.5"
   onClick={[Function]}
-  role="button"
-  type="button">
-  <div
-    className="KambiWidget-outcome__flexwrap">
-    <div
-      className="KambiWidget-outcome__label-wrapper">
-      <span
-        className="KambiWidget-outcome__label">
-        Outcome label from util
-      </span>
-      <span
-        className="KambiWidget-outcome__line" />
-    </div>
-    <div
-      className="KambiWidget-outcome__odds-wrapper">
-      <span
-        className="KambiWidget-outcome__odds">
-        4.5
-      </span>
-    </div>
-  </div>
-</button>
+  selected={false}
+  suspended={false}
+/>
 `;
 
 exports[`OutcomeButtonUI DOM rendering renders correctly with no label 1`] = `
-<button
-  className="l-flex-1 kw-link KambiWidget-outcome general"
-  disabled={false}
+<OutcomeButtonUI
+  label={null}
+  odds="4.5"
   onClick={[Function]}
-  role="button"
-  type="button">
-  <div
-    className="KambiWidget-outcome__odds-wrapper">
-    <span
-      className="KambiWidget-outcome__odds">
-      4.5
-    </span>
-  </div>
-</button>
+  selected={false}
+  suspended={false}
+/>
 `;

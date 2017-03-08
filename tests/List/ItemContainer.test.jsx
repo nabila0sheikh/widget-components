@@ -1,37 +1,31 @@
 /* eslint-env jest */
 import React from 'react';
 import ItemContainer from '../../src/List/ItemContainer';
-import ReactTestRenderer from 'react-test-renderer';
+import ReactTestUtils from 'react-addons-test-utils';
 import { shallow, mount } from 'enzyme';
 
 describe('ItemContainer view', () => {
 
    it('renders correctly with default props', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <ItemContainer />
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly selected state', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <ItemContainer selected={true} />
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with one child element', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <ItemContainer>One</ItemContainer>
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with many child elements', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <ItemContainer>
             One
             Two
@@ -39,9 +33,7 @@ describe('ItemContainer view', () => {
                <li>Three</li>
             </ul>
          </ItemContainer>
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
 });

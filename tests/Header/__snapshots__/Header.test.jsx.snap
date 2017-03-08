@@ -1,7 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
 exports[`Header DOM rendering renders correctly with custom classes 1`] = `
 <header
   className="a b c"
-  onClick={[Function]}>
+  onClick={[Function]}
+>
   Test
 </header>
 `;
@@ -9,7 +12,8 @@ exports[`Header DOM rendering renders correctly with custom classes 1`] = `
 exports[`Header DOM rendering renders correctly with default props 1`] = `
 <header
   className="l-flexbox l-pl-16 l-pr-16 KambiWidget-card-support-text-color KambiWidget-card-header-border l-pt-6 l-pb-6 "
-  onClick={[Function]}>
+  onClick={[Function]}
+>
   Test
 </header>
 `;
@@ -17,7 +21,8 @@ exports[`Header DOM rendering renders correctly with default props 1`] = `
 exports[`Header DOM rendering renders correctly with pageType != 'home' 1`] = `
 <header
   className="l-flexbox l-pl-16 l-pr-16 KambiWidget-card-support-text-color KambiWidget-card-header-border KambiWidget-header l-pt-8 l-pb-8 kwNotHome"
-  onClick={[Function]}>
+  onClick={[Function]}
+>
   Test
 </header>
 `;

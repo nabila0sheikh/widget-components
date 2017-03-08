@@ -1,9 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
 exports[`DropdownButton DOM rendering renders correctly with changed alignment 1`] = `
 <div
-  className="general">
+  className="general"
+>
   <button
     className="KambiWidget-card-support-text-color button"
-    onClick={[Function]}>
+    onClick={[Function]}
+  >
     option1
     <i />
   </button>
@@ -12,10 +16,12 @@ exports[`DropdownButton DOM rendering renders correctly with changed alignment 1
 
 exports[`DropdownButton DOM rendering renders correctly with default props 1`] = `
 <div
-  className="general">
+  className="general"
+>
   <button
     className="KambiWidget-card-support-text-color button"
-    onClick={[Function]}>
+    onClick={[Function]}
+  >
     option1
     <i />
   </button>

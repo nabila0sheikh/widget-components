@@ -1,12 +1,11 @@
 /* eslint-env jest */
 import React, { Children } from 'react';
 import OutcomeButton from '../../src/OutcomeButton/OutcomeButton';
-import ReactTestRenderer from 'react-test-renderer';
+import ReactTestUtils from 'react-addons-test-utils';
 import { mount, shallow } from 'enzyme';
 import { coreLibrary, eventsModule, widgetModule, utilModule } from 'kambi-widget-core-library';
 
-let mockOddsFormat = 'decimal',
-   mockBetslipIds = [],
+let mockBetslipIds = [],
    mockEventHandlers = {};
 
 const outcome = {
@@ -39,14 +38,19 @@ jest.mock('kambi-widget-core-library', () => ({
    },
    coreLibrary: {
       config: {
-         get oddsFormat() { return mockOddsFormat; }
+         oddsFormat: 'decimal'
       }
    }
 }));
 
 describe('OutcomeButtonUI DOM rendering', () => {
+
+   beforeEach(() => {
+      coreLibrary.config.oddsFormat = 'decimal';
+   });
+
    it('render invisible div if odds <= 1000', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <OutcomeButton
             outcome={{
                id: 5,
@@ -56,110 +60,85 @@ describe('OutcomeButtonUI DOM rendering', () => {
                betOfferId: 103
             }}
          />
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with default props', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <OutcomeButton outcome={outcome} />
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with no label', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <OutcomeButton outcome={outcome} label={false} />
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with label explicitly set', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <OutcomeButton outcome={outcome} label='Test label' />
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with label extracted from event', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <OutcomeButton outcome={outcome} event={event} label={true} />
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with fractional odds', () => {
-      const tmpMockOddsFormat = mockOddsFormat;
+      coreLibrary.config.oddsFormat = 'fractional';
 
-      mockOddsFormat = 'fractional';
-
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <OutcomeButton outcome={outcome} />
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
-
-      mockOddsFormat = tmpMockOddsFormat;
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with american odds', () => {
-      const tmpMockOddsFormat = mockOddsFormat;
+      coreLibrary.config.oddsFormat = 'american';
 
-      mockOddsFormat = 'american';
-
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <OutcomeButton outcome={outcome} />
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
-
-      mockOddsFormat = tmpMockOddsFormat;
-   });
-
-   it('renders correctly on odds format change', () => {
-      const tmpMockOddsFormat = mockOddsFormat;
-
-      mockOddsFormat = 'decimal';
-
-      const tree = ReactTestRenderer.create(
-         <OutcomeButton outcome={outcome} />
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
-
-      mockOddsFormat = 'american';
-
-      mockEventHandlers['ODDS:FORMAT']();
-
-      expect(tree).toMatchSnapshot();
-
-      mockOddsFormat = tmpMockOddsFormat;
+      )).toMatchSnapshot();
    });
 
 });
 
 describe('OutcomeButton behaviour', () => {
 
-   it('subscribes to events on mount correctly', () => {
+   beforeEach(() => {
+      coreLibrary.config.oddsFormat = 'decimal';
       eventsModule.subscribe.mockClear();
+      eventsModule.unsubscribe.mockClear();
+      widgetModule.addOutcomeToBetslip.mockClear();
+      widgetModule.removeOutcomeFromBetslip.mockClear();
+      mockEventHandlers = {};
+   });
 
+   it('renders correctly on odds format change', () => {
+      const wrapper = mount(
+         <OutcomeButton outcome={outcome} />
+      );
+
+      expect(wrapper.debug()).toMatchSnapshot();
+
+      coreLibrary.config.oddsFormat = 'american';
+
+      mockEventHandlers['ODDS:FORMAT']();
+
+      expect(wrapper.debug()).toMatchSnapshot();
+   });
+
+   it('subscribes to events on mount correctly', () => {
       expect(eventsModule.subscribe).not.toHaveBeenCalled();
 
-      const wrapper = mount(<OutcomeButton outcome={outcome} />);
+      mount(<OutcomeButton outcome={outcome} />);
 
       expect(eventsModule.subscribe).toHaveBeenCalledTimes(3);
-
-      eventsModule.subscribe.mockClear();
    });
 
    it('unsubscribes from events on mount correctly', () => {
-      eventsModule.unsubscribe.mockClear();
-
       const wrapper = shallow(<OutcomeButton outcome={outcome} />);
 
       expect(eventsModule.unsubscribe).not.toHaveBeenCalled();
@@ -167,14 +146,9 @@ describe('OutcomeButton behaviour', () => {
       wrapper.unmount();
 
       expect(eventsModule.unsubscribe).toHaveBeenCalledTimes(3);
-
-      eventsModule.unsubscribe.mockClear();
    });
 
    it('adds and removes outcome to/from betslip correctly', () => {
-      widgetModule.addOutcomeToBetslip.mockClear();
-      widgetModule.removeOutcomeFromBetslip.mockClear();
-
       const wrapper = mount(
          <OutcomeButton outcome={outcome} />
       );
@@ -195,24 +169,14 @@ describe('OutcomeButton behaviour', () => {
       mockEventHandlers[`OUTCOME:REMOVED:${outcome.id}`]();
 
       expect(widgetModule.removeOutcomeFromBetslip).toHaveBeenCalledTimes(1);
-
-      widgetModule.addOutcomeToBetslip.mockClear();
-      widgetModule.removeOutcomeFromBetslip.mockClear();
-      mockEventHandlers = {};
    });
 
    it('setups correctly when receives new props', () => {
-      eventsModule.subscribe.mockClear();
-      eventsModule.unsubscribe.mockClear();
-
       const wrapper = shallow(<OutcomeButton outcome={outcome} />);
       wrapper.setProps({ outcome });
 
       expect(eventsModule.subscribe).toHaveBeenCalledTimes(3);
       expect(eventsModule.unsubscribe).toHaveBeenCalledTimes(3);
-
-      eventsModule.subscribe.mockClear();
-      eventsModule.unsubscribe.mockClear();
    });
 
 });

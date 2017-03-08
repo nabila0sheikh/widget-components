@@ -1,11 +1,10 @@
 /* eslint-env jest */
 import React, { Children } from 'react';
 import Header from '../../src/Header/Header';
-import ReactTestRenderer from 'react-test-renderer';
 import { mount } from 'enzyme';
-import { widgetModule } from 'kambi-widget-core-library';
-
-let mockPageType = 'home';
+import { coreLibrary, widgetModule } from 'kambi-widget-core-library';
+import ReactTestUtils from 'react-addons-test-utils';
+import ReactTestRenderer from 'react-test-renderer';
 
 jest.mock('kambi-widget-core-library', () => ({
    widgetModule: {
@@ -14,53 +13,49 @@ jest.mock('kambi-widget-core-library', () => ({
    },
    coreLibrary: {
       pageInfo: {
-         get pageType() { return mockPageType; }
+         pageType: 'home'
       }
    }
 }));
 
 describe('Header DOM rendering', () => {
 
+   beforeEach(() => {
+      coreLibrary.pageInfo.pageType = 'home';
+   });
+
    it('renders correctly with default props', () => {
-      mockPageType = 'home';
-
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <Header>Test</Header>
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with pageType != \'home\'', () => {
-      mockPageType = 'not_home';
+      coreLibrary.pageInfo.pageType = 'not_home';
 
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <Header>Test</Header>
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with custom classes', () => {
-      mockPageType = 'home';
-
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <Header customClasses={'a b c'}>Test</Header>
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
 });
 
 describe('Header behaviour', () => {
 
-   it('mounts in hidden state correctly', () => {
+   beforeEach(() => {
       widgetModule.setWidgetHeight.mockClear();
+      widgetModule.adaptWidgetHeight.mockClear();
+      coreLibrary.pageInfo.pageType = 'home';
+   });
 
-      mockPageType = 'home';
-
-      const wrapper = mount(
+   it('mounts in hidden state correctly', () => {
+      mount(
          <Header hidden={true}>Test</Header>
       );
 
@@ -68,11 +63,6 @@ describe('Header behaviour', () => {
    });
 
    it('handles clicks correctly', () => {
-      widgetModule.setWidgetHeight.mockClear();
-      widgetModule.adaptWidgetHeight.mockClear();
-
-      mockPageType = 'home';
-
       const wrapper = mount(
          <Header
             collapsable={true}
@@ -90,11 +80,6 @@ describe('Header behaviour', () => {
    });
 
    it('calls onExpand/onCollapse correctly', () => {
-      widgetModule.setWidgetHeight.mockClear();
-      widgetModule.adaptWidgetHeight.mockClear();
-
-      mockPageType = 'home';
-
       const onExpandMock = jest.fn(),
          onCollapseMock = jest.fn();
 
@@ -123,8 +108,6 @@ describe('Header behaviour', () => {
    });
 
    it('ignores clicks when collapsable is not set', () => {
-      mockPageType = 'home';
-
       const onExpandMock = jest.fn(),
          onCollapseMock = jest.fn();
 

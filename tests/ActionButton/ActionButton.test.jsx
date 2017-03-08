@@ -1,43 +1,39 @@
 /* eslint-env jest */
 import React, { Children } from 'react';
 import ActionButton from '../../src/ActionButton/ActionButton';
-import ReactTestRenderer from 'react-test-renderer';
 import { shallow } from 'enzyme';
+import ReactTestUtils from 'react-addons-test-utils';
+
+const renderer = ReactTestUtils.createRenderer();
 
 describe('ActionButton DOM rendering', () => {
 
    it('renders correctly with default props', () => {
-      const tree = ReactTestRenderer.create(
+      expect(renderer.render(
          <ActionButton action={() => {}}>Test</ActionButton>
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly when disabled', () => {
-      const tree = ReactTestRenderer.create(
+      expect(renderer.render(
          <ActionButton
             action={() => {}}
             disabled={true}
          >
             Test
          </ActionButton>
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with type set to \'secondary\'', () => {
-      const tree = ReactTestRenderer.create(
+      expect(renderer.render(
          <ActionButton
             action={() => {}}
             type='secondary'
          >
             Test
          </ActionButton>
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
 });

@@ -1,63 +1,53 @@
 /* eslint-env jest */
 import React from 'react';
 import FixedList from '../../../src/List/FixedList/FixedList';
-import ReactTestRenderer from 'react-test-renderer';
-import { mount, shallow } from 'enzyme';
+import ReactTestUtils from 'react-addons-test-utils';
+import { mount } from 'enzyme';
 
 describe('FixedList view', () => {
 
    it('renders correctly with default props', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <FixedList />
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with one child item', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <FixedList>
             <div />
          </FixedList>
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with many child items', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <FixedList>
             <div>1</div>
             <div>2</div>
             {[<div key="3">3</div>, <div key="4">4</div>]}
          </FixedList>
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with selected item given arbitrary', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <FixedList selected={1}>
             <div>1</div>
             <div>2</div>
          </FixedList>
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly custom ItemContainer', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <FixedList
             renderItemContainer={({ selected, onClick, onWidth, children }) => <div>{children}</div>}
          >
             <div>1</div>
             <div>2</div>
          </FixedList>
-      );
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
 });

@@ -1,32 +1,86 @@
 /* eslint-env jest */
 import React from 'react';
 import ArrowButton from '../../../src/List/ScrolledList/ArrowButton';
-import ReactTestRenderer from 'react-test-renderer';
-import { shallow, mount } from 'enzyme';
+import ReactTestUtils from 'react-addons-test-utils';
+import { shallow } from 'enzyme';
+
+const getComputedStyle = window.getComputedStyle;
 
 describe('ArrowButton view', () => {
 
-   it('renders "left" and "right" variants correctly', () => {
+   beforeEach(() => {
+      window.getComputedStyle = getComputedStyle;
+   });
+
+   it('renders "left" variant correctly', () => {
       const onClickMock = jest.fn();
 
-      const tree = ReactTestRenderer.create(
-         <div>
-            <ArrowButton onClick={onClickMock} type="left" />
-            <ArrowButton onClick={onClickMock} type="right" />
-         </div>
-      ).toJSON();
+      expect(ReactTestUtils.createRenderer().render(
+         <ArrowButton onClick={onClickMock} type="left" />
+      )).toMatchSnapshot();
+   });
 
-      expect(tree).toMatchSnapshot();
+   it('renders "right" variant correctly', () => {
+      const onClickMock = jest.fn();
+
+      expect(ReactTestUtils.createRenderer().render(
+         <ArrowButton onClick={onClickMock} type="right" />
+      )).toMatchSnapshot();
    });
 
    it('renders correctly when disabled', () => {
       const onClickMock = jest.fn();
 
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <ArrowButton onClick={onClickMock} type="left" disabled={true} />
-      ).toJSON();
+      )).toMatchSnapshot();
+   });
 
-      expect(tree).toMatchSnapshot();
+   it('renders correctly when background color explicitly set', () => {
+      const onClickMock = jest.fn();
+
+      expect(ReactTestUtils.createRenderer().render(
+         <ArrowButton
+            onClick={onClickMock}
+            type="left"
+            backgroundColor="#f00"
+         />
+      )).toMatchSnapshot();
+   });
+
+   it('renders correctly on browser not supporting getComputedStyle', () => {
+      const onClickMock = jest.fn();
+
+      window.getComputedStyle = null;
+
+      expect(ReactTestUtils.createRenderer().render(
+         <ArrowButton
+            onClick={onClickMock}
+            type="left"
+         />
+      )).toMatchSnapshot();
+   });
+
+   it('renders correctly with document.body background color', () => {
+      const onClickMock = jest.fn();
+
+      window.getComputedStyle = (el) => {
+         expect(el).toBe(document.body);
+
+         return {
+            getPropertyValue: (prop) => {
+               expect(prop).toBe('background-color');
+               return '#00ff00';
+            }
+         }
+      };
+
+      expect(ReactTestUtils.createRenderer().render(
+         <ArrowButton
+            onClick={onClickMock}
+            type="left"
+         />
+      )).toMatchSnapshot();
    });
 
 });

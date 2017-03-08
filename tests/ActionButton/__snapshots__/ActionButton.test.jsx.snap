@@ -1,17 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
 exports[`ActionButton DOM rendering renders correctly when disabled 1`] = `
 <div
-  className="container">
+  className="container"
+>
   <button
     className="button KambiWidget-primary-color"
     disabled={true}
-    onClick={[Function]} />
+    onClick={[Function]}
+  />
   <div
     className="buttonText KambiWidget-primary-color"
     style={
       Object {
         "opacity": 0.4,
       }
-    }>
+    }
+  >
     Test
   </div>
 </div>
@@ -19,18 +24,21 @@ exports[`ActionButton DOM rendering renders correctly when disabled 1`] = `
 
 exports[`ActionButton DOM rendering renders correctly with default props 1`] = `
 <div
-  className="container">
+  className="container"
+>
   <button
     className="button KambiWidget-primary-color"
     disabled={false}
-    onClick={[Function]} />
+    onClick={[Function]}
+  />
   <div
     className="buttonText KambiWidget-primary-color"
     style={
       Object {
         "opacity": 1,
       }
-    }>
+    }
+  >
     Test
   </div>
 </div>
@@ -38,18 +46,21 @@ exports[`ActionButton DOM rendering renders correctly with default props 1`] = `
 
 exports[`ActionButton DOM rendering renders correctly with type set to 'secondary' 1`] = `
 <div
-  className="container">
+  className="container"
+>
   <button
     className="button KambiWidget-card-text-color"
     disabled={false}
-    onClick={[Function]} />
+    onClick={[Function]}
+  />
   <div
     className="buttonText KambiWidget-card-text-color"
     style={
       Object {
         "opacity": 1,
       }
-    }>
+    }
+  >
     Test
   </div>
 </div>

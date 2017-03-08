@@ -2,76 +2,64 @@
 
 import React from 'react';
 import ScrolledList from '../../../src/List/ScrolledList/ScrolledList';
-import ReactTestRenderer from 'react-test-renderer'; // eslint-disable-line
-import { shallow, mount } from 'enzyme'; // eslint-disable-line
+import ReactTestUtils from 'react-addons-test-utils';
+import { mount } from 'enzyme'; // eslint-disable-line
 
 
 describe('ScrolledList DOM rendering', () => {
 
    it('renders correctly with default props', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <ScrolledList />
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with one child item', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <ScrolledList>
             <div />
          </ScrolledList>
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with many child items', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <ScrolledList>
             <div>1</div>
             <div>2</div>
             {[<div key='3'>3</div>, <div key='4'>4</div>]}
          </ScrolledList>
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with selected item given arbitrary', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <ScrolledList selected={1}>
             <div>1</div>
             <div>2</div>
          </ScrolledList>
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly custom ItemContainer', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <ScrolledList
             renderItemContainer={({ selected, onClick, onWidth, children }) => <div>{children}</div>}
          >
             <div>1</div>
             <div>2</div>
          </ScrolledList>
-      );
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly all item alignments', () => {
       Object.keys(ScrolledList.ALIGN_ITEMS).forEach((key) => {
-         const tree = ReactTestRenderer.create(
+         expect(ReactTestUtils.createRenderer().render(
             <ScrolledList alignItems={ScrolledList.ALIGN_ITEMS[key]}>
                <div>1</div>
                <div>2</div>
             </ScrolledList>
-         ).toJSON();
-
-         expect(tree).toMatchSnapshot();
+         )).toMatchSnapshot();
       });
    });
 
@@ -81,14 +69,12 @@ describe('ScrolledList DOM rendering', () => {
       Object.defineProperty(window.navigator, 'userAgent', { get: () => 'iPhone', configurable: true });
       window.ontouchstart = () => {};
 
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <ScrolledList>
             <div>1</div>
             <div>2</div>
          </ScrolledList>
-      );
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
 
       Object.defineProperty(window.navigator, 'userAgent', { get: () => oldUserAgent, configurable: true });
       delete window.ontouchstart;

@@ -1,25 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
 exports[`ItemContainer view renders correctly selected state 1`] = `
 <div
   className="item selected"
-  onClick={undefined}>
+  onClick={undefined}
+>
   <i
-    className="KambiWidget-primary-background-color border" />
+    className="KambiWidget-primary-background-color border"
+  />
 </div>
 `;
 
 exports[`ItemContainer view renders correctly with default props 1`] = `
 <div
   className="item "
-  onClick={undefined}>
+  onClick={undefined}
+>
   <i
-    className="KambiWidget-primary-background-color border" />
+    className="KambiWidget-primary-background-color border"
+  />
 </div>
 `;
 
 exports[`ItemContainer view renders correctly with many child elements 1`] = `
 <div
   className="item "
-  onClick={undefined}>
+  onClick={undefined}
+>
   One Two
   <ul>
     <li>
@@ -27,16 +34,19 @@ exports[`ItemContainer view renders correctly with many child elements 1`] = `
     </li>
   </ul>
   <i
-    className="KambiWidget-primary-background-color border" />
+    className="KambiWidget-primary-background-color border"
+  />
 </div>
 `;
 
 exports[`ItemContainer view renders correctly with one child element 1`] = `
 <div
   className="item "
-  onClick={undefined}>
+  onClick={undefined}
+>
   One
   <i
-    className="KambiWidget-primary-background-color border" />
+    className="KambiWidget-primary-background-color border"
+  />
 </div>
 `;

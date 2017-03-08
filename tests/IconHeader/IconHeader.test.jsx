@@ -1,34 +1,28 @@
 /* eslint-env jest */
 import React, { Children } from 'react';
 import IconHeader from '../../src/IconHeader/IconHeader';
-import ReactTestRenderer from 'react-test-renderer';
+import ReactTestUtils from 'react-addons-test-utils';
 
 describe('IconHeader DOM rendering', () => {
 
    it('renders correctly with title', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <IconHeader title="test" />
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with title and subtitle', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <IconHeader title="test" subtitle="Test subtitle" />
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with inner element', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <IconHeader title="test">
             <div>Icon</div>
          </IconHeader>
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
 });

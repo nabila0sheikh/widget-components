@@ -44,7 +44,6 @@ class Header extends Component {
 
    /*
     * Collapses or expands the widget
-    * @returns {function|null} A callback baes on the action performed or null if no call back was provided
     */
    toggleHeader () {
       if ( this.props.collapsable === true ||
