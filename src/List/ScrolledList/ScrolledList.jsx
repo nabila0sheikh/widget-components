@@ -16,12 +16,6 @@ const RESIZE_MOMENTUM = 200;
  */
 const BAR_TRANSITION_DURATION = 300;
 
-/*
- * Will turn off mobile mode if screen is wider than defined below (in pixels)
- * @type {number}
- */
-const MOBILE_MAX_SCREEN_WIDTH = 768;
-
 /**
  * Items alignment constants
  * @enum {string}
@@ -81,12 +75,10 @@ const SCROLL_TO_ITEM_MODE = {
 };
 
 /*
- * Mobile browser check
- * @type {boolean}
+ * Determines if component is running on touch screen device.
+ * @returns {boolean}
  */
-const isMobileBrowser = function() {
-   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-};
+const isTouchScreen = () => 'ontouchstart' in window;
 
 /*
  * Performs animation on given element's property.
@@ -96,36 +88,50 @@ const isMobileBrowser = function() {
  * @param {number} duration Animation duration
  */
 const animate = function(element, property, value, duration) {
-   const requestAnimationFrame = window.requestAnimationFrame ||
+   let requestAnimationFrame = window.requestAnimationFrame ||
          window.webkitRequestAnimationFrame ||
          window.mozRequestAnimationFrame ||
-         (callback => setTimeout(() => callback(Date.now()), duration));
+         ((callback) => {
+            const now = Date.now();
+
+            // further calls will be invoked with future timestamp
+            requestAnimationFrame = callback => callback(now + duration);
+
+            // first call will run step function immediately
+            callback(now);
+         });
 
    let start = null;
 
    const initial = element[property],
       delta = value - initial;
 
-   const step = function(timestamp) {
-      if (!start) {
-         start = timestamp;
-      }
+   return new Promise((resolve) => {
+      const step = function(timestamp) {
+         if (!start) {
+            start = timestamp;
+         }
 
-      let progress = (timestamp - start) / duration;
+         let progress = (timestamp - start) / duration;
 
-      if (progress > 1) {
-         progress = 1;
-      }
+         if (progress > 1) {
+            progress = 1;
+         }
 
-      // easeOutQuad
-      element[property] = -delta * progress * (progress - 2) + initial;
+         // easeOutQuad
+         element[property] = -delta * progress * (progress - 2) + initial;
 
-      if (progress < 1) {
+         // animation finished
+         if (progress >= 1) {
+            resolve();
+            return;
+         }
+
          requestAnimationFrame(step);
-      }
-   };
+      };
 
-   requestAnimationFrame(step);
+      requestAnimationFrame(step);
+   });
 };
 
 /**
@@ -147,7 +153,6 @@ class ScrolledList extends Component {
          item: props.selected
       };
 
-      this.translateXValue = 0;
       this.itemWidths = [];
 
       this.prevPage = this.prevPage.bind(this);
@@ -224,33 +229,7 @@ class ScrolledList extends Component {
     * Current scroll left offset (in pixels).
     */
    get currentScrollLeft() {
-      if (this.mobileDevice) {
-         return this.eyeshot.scrollLeft || 0;
-      } else {
-         return -1 * this.translateX;
-      }
-   }
-
-   /*
-    * Determines if component is running on mobile device.
-    * @returns {boolean}
-    */
-   get mobileDevice() {
-      const hasTouchStart = 'ontouchstart' in window;
-
-      if (!this.containerWidth) {
-         return hasTouchStart && isMobileBrowser();
-      }
-
-      return this.containerWidth <= MOBILE_MAX_SCREEN_WIDTH && hasTouchStart && isMobileBrowser();
-   }
-
-   /*
-    * Whole component's width.
-    * @returns {number}
-    */
-   get containerWidth() {
-      return this.container ? this.container.offsetWidth : null;
+      return this.eyeshot ? this.eyeshot.scrollLeft : 0;
    }
 
    /*
@@ -295,7 +274,7 @@ class ScrolledList extends Component {
     * @param {number} offset Scroll offset
     */
    scrollTo(offset) {
-      if (!(this.bar && this.maxScrollLeft && this.eyeshot)) {
+      if (!(this.maxScrollLeft && this.eyeshot)) {
          return;
       }
 
@@ -304,38 +283,12 @@ class ScrolledList extends Component {
       let scrollLeft = offset > this.maxScrollLeft ? this.maxScrollLeft : offset;
       scrollLeft = scrollLeft < 0 ? 0 : scrollLeft;
 
-      if (this.mobileDevice) {
-         if (scrollLeft == this.currentScrollLeft) {
-            return;
-         }
-
-         animate(this.eyeshot, 'scrollLeft', scrollLeft, BAR_TRANSITION_DURATION);
-      } else {
-         this.translateX = -1 * scrollLeft;
-         this.eyeshot.scrollLeft = 0;
+      if (scrollLeft == this.currentScrollLeft) {
+         return;
       }
 
-      this.forceUpdate();
-   }
-
-   /*
-    * Translates bar element by given offset.
-    * @param {number} offsetX X axis offset
-    */
-   set translateX(offsetX) {
-      const transform = `translate3d(${offsetX}px, 0, 0)`;
-      this.bar.style.transform = transform;
-      this.bar.style.webkitTransform = transform;
-      this.bar.style.mozTransform = transform;
-      this.translateXValue = offsetX;
-   }
-
-   /*
-    * Returns current bar element translation along x-axis.
-    * @returns {number}
-    */
-   get translateX() {
-      return this.translateXValue;
+      animate(this.eyeshot, 'scrollLeft', scrollLeft, BAR_TRANSITION_DURATION)
+         .then(() => this.forceUpdate());
    }
 
    /*
@@ -361,10 +314,6 @@ class ScrolledList extends Component {
     *                         <------ eyeshotWidth ----->
     */
    scrollToItem(item) {
-      if (!(this.bar && this.eyeshotWidth)) {
-         return;
-      }
-
       switch (this.props.scrollToItemMode) {
          case SCROLL_TO_ITEM_MODE.TO_LEFT:
             this.scrollTo(item ? this.computeItemsWidth(0, item - 1) : 0);
@@ -399,7 +348,7 @@ class ScrolledList extends Component {
     * @param {number} end Last item index
     * @returns {number}
     */
-   computeItemsWidth(start, end = start) {
+   computeItemsWidth(start, end) {
       return this.itemWidths
          .slice(start, end + 1)
          .reduce((sum, itemWidth) => sum + (itemWidth ? itemWidth : 0), 0);
@@ -432,9 +381,15 @@ class ScrolledList extends Component {
     * @returns {XML}
     */
    render() {
+      const className = [
+         styles.container,
+         this.props.showControls ? '' : 'no-controls',
+         isTouchScreen() ? 'touch' : ''
+      ].join(' ').trim();
+
       return (
          <div
-            className={`${styles.container} ${this.mobileDevice ? 'mobile-device' : ''}`}
+            className={className}
             ref={el => (this.container = el)}
          >
             <div
@@ -454,13 +409,13 @@ class ScrolledList extends Component {
                   }))}
                </div>
             </div>
-            { !this.mobileDevice &&
+            { this.props.showControls &&
                this.props.renderPrevButton({
                   onClick: this.prevPage,
                   disabled: !this.showPrevButton
                })
             }
-            { !this.mobileDevice &&
+            { this.props.showControls &&
                this.props.renderNextButton({
                   onClick: this.nextPage,
                   disabled: !this.showNextButton
@@ -531,6 +486,7 @@ ScrolledList.SCROLL_TO_ITEM_MODE = SCROLL_TO_ITEM_MODE;
  * @property [renderNextButton] {ScrolledList_RenderButton} Function capable of rendering button responsible for scrolling right. Renders right arrow button by default.
  * @property [renderItemContainer] {ScrolledList_RenderItemContainer} Function capable of rendering item container. Renders Kambi-styled item container by default.
  * @property [scrollToItemMode=CENTER] {SCROLL_TO_ITEM_MODE} Scroll to selected item mode
+ * @property [showControls] {boolean} Decides whether next/prev controls be visible e.g. can be hidden in mobile mode
  */
 ScrolledList.propTypes = {
    children: PropTypes.node,
@@ -541,7 +497,8 @@ ScrolledList.propTypes = {
    renderPrevButton: PropTypes.func,
    renderNextButton: PropTypes.func,
    renderItemContainer: PropTypes.func,
-   scrollToItemMode: PropTypes.oneOf(Object.keys(SCROLL_TO_ITEM_MODE).map(k => SCROLL_TO_ITEM_MODE[k]))
+   scrollToItemMode: PropTypes.oneOf(Object.keys(SCROLL_TO_ITEM_MODE).map(k => SCROLL_TO_ITEM_MODE[k])),
+   showControls: PropTypes.bool
 };
 
 ScrolledList.defaultProps = {
@@ -556,7 +513,8 @@ ScrolledList.defaultProps = {
    renderItemContainer: args =>
       <ItemContainer {...args}>
          {args.children}
-      </ItemContainer>
+      </ItemContainer>,
+   showControls: true
 };
 
 export default ScrolledList;

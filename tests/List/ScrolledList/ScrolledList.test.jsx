@@ -8,6 +8,12 @@ import { mount } from 'enzyme'; // eslint-disable-line
 
 describe('ScrolledList DOM rendering', () => {
 
+   beforeEach(() => {
+      if ('ontouchstart' in window) {
+         delete window.ontouchstart;
+      }
+   });
+
    it('renders correctly with default props', () => {
       expect(ReactTestUtils.createRenderer().render(
          <ScrolledList />
@@ -63,10 +69,16 @@ describe('ScrolledList DOM rendering', () => {
       });
    });
 
-   it('renders correctly in mobile mode with not known container width', () => {
-      const oldUserAgent = window.navigator.userAgent;
+   it('renders correctly with disabled controls', () => {
+      expect(ReactTestUtils.createRenderer().render(
+         <ScrolledList showControls={false}>
+            <div>1</div>
+            <div>2</div>
+         </ScrolledList>
+      )).toMatchSnapshot();
+   });
 
-      Object.defineProperty(window.navigator, 'userAgent', { get: () => 'iPhone', configurable: true });
+   it('renders correctly on touch screen', () => {
       window.ontouchstart = () => {};
 
       expect(ReactTestUtils.createRenderer().render(
@@ -75,9 +87,32 @@ describe('ScrolledList DOM rendering', () => {
             <div>2</div>
          </ScrolledList>
       )).toMatchSnapshot();
+   });
 
-      Object.defineProperty(window.navigator, 'userAgent', { get: () => oldUserAgent, configurable: true });
-      delete window.ontouchstart;
+   it('renders correctly all SCROLL_TO_ITEM_MODE settings', () => {
+      const renderer = ReactTestUtils.createRenderer();
+
+      Object.keys(ScrolledList.SCROLL_TO_ITEM_MODE).forEach((key) => {
+         expect(renderer.render(
+            <ScrolledList
+               scrollToItemMode={ScrolledList.SCROLL_TO_ITEM_MODE[key]}
+               selected={0}
+            >
+               <div>1</div>
+               <div>2</div>
+            </ScrolledList>
+         )).toMatchSnapshot();
+
+         expect(renderer.render(
+            <ScrolledList
+               scrollToItemMode={ScrolledList.SCROLL_TO_ITEM_MODE[key]}
+               selected={1}
+            >
+               <div>1</div>
+               <div>2</div>
+            </ScrolledList>
+         )).toMatchSnapshot();
+      });
    });
 
 });
@@ -159,8 +194,6 @@ describe('ScrolledList behaviour', () => {
       const eyeshotWrapper = wrapper.find('.eyeshot');
       Object.defineProperty(eyeshotWrapper.node, 'offsetWidth', { get: () => 300, configurable: true });
 
-      const barWrapper = wrapper.find('.bar');
-
       return new Promise(resolve => setTimeout(() => resolve(), 0))
          .then(() => {
             if (!nextButtonClick) {
@@ -177,21 +210,15 @@ describe('ScrolledList behaviour', () => {
 
             nextButtonClick();
 
-            expect(eyeshotWrapper.node.scrollLeft).toEqual(0);
-            expect(barWrapper.node.style.transform).toEqual('translate3d(-200px, 0, 0)');
-            expect(barWrapper.node.style.mozTransform).toEqual('translate3d(-200px, 0, 0)');
+            expect(eyeshotWrapper.node.scrollLeft).toEqual(200);
 
             prevButtonClick();
 
             expect(eyeshotWrapper.node.scrollLeft).toEqual(0);
-            expect(barWrapper.node.style.transform).toEqual('translate3d(0px, 0, 0)');
-            expect(barWrapper.node.style.mozTransform).toEqual('translate3d(0px, 0, 0)');
 
             wrapper.find('#last').simulate('click');
 
             expect(eyeshotWrapper.node.scrollLeft).toEqual(0);
-            expect(barWrapper.node.style.transform).toEqual('translate3d(0px, 0, 0)');
-            expect(barWrapper.node.style.mozTransform).toEqual('translate3d(0px, 0, 0)');
          });
    });
 
@@ -222,7 +249,7 @@ describe('ScrolledList behaviour', () => {
 
       const barWrapper = wrapper.find('.bar');
 
-      return new Promise(resolve => setTimeout(() => resolve(), 210))
+      return new Promise(resolve => setTimeout(() => resolve(), 250))
          .then(() => {
             expect(barWrapper.node.style.justifyContent).toEqual('center');
 
@@ -234,4 +261,5 @@ describe('ScrolledList behaviour', () => {
          })
          .then(() => expect(barWrapper.node.style.justifyContent).toEqual(''));
    });
+
 });

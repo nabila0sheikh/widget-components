@@ -2,92 +2,26 @@
 
 exports[`TabPagination DOM rendering renders correctly with custom renderTab func 1`] = `
 <div>
-  <div
-    className="container "
+  <ScrolledList
+    alignItems="center"
+    onItemClick={[Function]}
+    renderItemContainer={[Function]}
+    renderNextButton={[Function]}
+    renderPrevButton={[Function]}
+    scrollToItemMode="center"
+    selected={0}
+    showControls={true}
+    step={2}
   >
-    <div
-      className="eyeshot"
-    >
-      <div
-        className="bar"
-      >
-        <div
-          className="item selected"
-          onClick={[Function]}
-        >
-          <div>
-            Tab #
-            0
-          </div>
-          <i
-            className="KambiWidget-primary-background-color border"
-          />
-        </div>
-        <div
-          className="item "
-          onClick={[Function]}
-        >
-          <div>
-            Tab #
-            1
-          </div>
-          <i
-            className="KambiWidget-primary-background-color border"
-          />
-        </div>
-      </div>
+    <div>
+      Tab #
+      0
     </div>
-    <button
-      className="left"
-      disabled={true}
-      onClick={[Function]}
-      style={
-        Object {
-          "background": "linear-gradient(90deg,  50%, rgba(255, 255, 255, 0))",
-        }
-      }
-    >
-      <svg
-        className="icon"
-        height="17px"
-        version="1.1"
-        viewBox="0 860 420 500"
-        width="10px"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M358.286 640q0-7.429-5.714-13.143l-224.571-224.571 224.571-224.571q5.714-5.714 5.714-13.143t-5.714-13.143l-28.571-28.571q-5.714-5.714-13.143-5.714t-13.143 5.714l-266.286 266.286q-5.714 5.714-5.714 13.143t5.714 13.143l266.286 266.286q5.714 5.714 13.143 5.714t13.143-5.714l28.571-28.571q5.714-5.714 5.714-13.143z"
-          id="arrowLeft"
-          transform="scale(1, -1) translate(0, -1500)"
-        />
-      </svg>
-    </button>
-    <button
-      className="right"
-      disabled={true}
-      onClick={[Function]}
-      style={
-        Object {
-          "background": "linear-gradient(270deg,  50%, rgba(255, 255, 255, 0))",
-        }
-      }
-    >
-      <svg
-        className="icon"
-        height="17px"
-        version="1.1"
-        viewBox="0 860 420 500"
-        width="10px"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M358.286 640q0-7.429-5.714-13.143l-224.571-224.571 224.571-224.571q5.714-5.714 5.714-13.143t-5.714-13.143l-28.571-28.571q-5.714-5.714-13.143-5.714t-13.143 5.714l-266.286 266.286q-5.714 5.714-5.714 13.143t5.714 13.143l266.286 266.286q5.714 5.714 13.143 5.714t13.143-5.714l28.571-28.571q5.714-5.714 5.714-13.143z"
-          id="arrowLeft"
-          transform="scale(1, -1) translate(0, -1500)"
-        />
-      </svg>
-    </button>
-  </div>
+    <div>
+      Tab #
+      1
+    </div>
+  </ScrolledList>
   <div>
     <div>
       1
@@ -109,9 +43,7 @@ exports[`TabPagination DOM rendering renders correctly with custom renderTabList
           }
         }
       >
-        <strong>
-          0
-        </strong>
+        <strong />
       </div>
     </div>
     <div
@@ -140,211 +72,79 @@ exports[`TabPagination DOM rendering renders correctly with custom renderTabList
 
 exports[`TabPagination DOM rendering renders correctly with default props 1`] = `
 <div>
-  <div
-    className="container "
+  <ScrolledList
+    alignItems="center"
+    onItemClick={[Function]}
+    renderItemContainer={[Function]}
+    renderNextButton={[Function]}
+    renderPrevButton={[Function]}
+    scrollToItemMode="center"
+    selected={0}
+    showControls={true}
+    step={2}
   >
-    <div
-      className="eyeshot"
-    >
-      <div
-        className="bar"
-      />
-    </div>
-    <button
-      className="left"
-      disabled={true}
-      onClick={[Function]}
-      style={
-        Object {
-          "background": "linear-gradient(90deg,  50%, rgba(255, 255, 255, 0))",
-        }
-      }
-    >
-      <svg
-        className="icon"
-        height="17px"
-        version="1.1"
-        viewBox="0 860 420 500"
-        width="10px"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M358.286 640q0-7.429-5.714-13.143l-224.571-224.571 224.571-224.571q5.714-5.714 5.714-13.143t-5.714-13.143l-28.571-28.571q-5.714-5.714-13.143-5.714t-13.143 5.714l-266.286 266.286q-5.714 5.714-5.714 13.143t5.714 13.143l266.286 266.286q5.714 5.714 13.143 5.714t13.143-5.714l28.571-28.571q5.714-5.714 5.714-13.143z"
-          id="arrowLeft"
-          transform="scale(1, -1) translate(0, -1500)"
-        />
-      </svg>
-    </button>
-    <button
-      className="right"
-      disabled={true}
-      onClick={[Function]}
-      style={
-        Object {
-          "background": "linear-gradient(270deg,  50%, rgba(255, 255, 255, 0))",
-        }
-      }
-    >
-      <svg
-        className="icon"
-        height="17px"
-        version="1.1"
-        viewBox="0 860 420 500"
-        width="10px"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M358.286 640q0-7.429-5.714-13.143l-224.571-224.571 224.571-224.571q5.714-5.714 5.714-13.143t-5.714-13.143l-28.571-28.571q-5.714-5.714-13.143-5.714t-13.143 5.714l-266.286 266.286q-5.714 5.714-5.714 13.143t5.714 13.143l266.286 266.286q5.714 5.714 13.143 5.714t13.143-5.714l28.571-28.571q5.714-5.714 5.714-13.143z"
-          id="arrowLeft"
-          transform="scale(1, -1) translate(0, -1500)"
-        />
-      </svg>
-    </button>
-  </div>
+    
+  </ScrolledList>
   <div />
 </div>
 `;
 
 exports[`TabPagination DOM rendering renders correctly with many child items 1`] = `
 <div>
-  <div
-    className="container "
+  <ScrolledList
+    alignItems="center"
+    onItemClick={[Function]}
+    renderItemContainer={[Function]}
+    renderNextButton={[Function]}
+    renderPrevButton={[Function]}
+    scrollToItemMode="center"
+    selected={0}
+    showControls={true}
+    step={2}
   >
     <div
-      className="eyeshot"
+      style={
+        Object {
+          "padding": 16,
+        }
+      }
     >
-      <div
-        className="bar"
-      >
-        <div
-          className="item selected"
-          onClick={[Function]}
-        >
-          <div
-            style={
-              Object {
-                "padding": 16,
-              }
-            }
-          >
-            <strong>
-              0
-            </strong>
-          </div>
-          <i
-            className="KambiWidget-primary-background-color border"
-          />
-        </div>
-        <div
-          className="item "
-          onClick={[Function]}
-        >
-          <div
-            style={
-              Object {
-                "padding": 16,
-              }
-            }
-          >
-            <strong>
-              1
-            </strong>
-          </div>
-          <i
-            className="KambiWidget-primary-background-color border"
-          />
-        </div>
-        <div
-          className="item "
-          onClick={[Function]}
-        >
-          <div
-            style={
-              Object {
-                "padding": 16,
-              }
-            }
-          >
-            <strong>
-              2
-            </strong>
-          </div>
-          <i
-            className="KambiWidget-primary-background-color border"
-          />
-        </div>
-        <div
-          className="item "
-          onClick={[Function]}
-        >
-          <div
-            style={
-              Object {
-                "padding": 16,
-              }
-            }
-          >
-            <strong>
-              3
-            </strong>
-          </div>
-          <i
-            className="KambiWidget-primary-background-color border"
-          />
-        </div>
-      </div>
+      <strong />
     </div>
-    <button
-      className="left"
-      disabled={true}
-      onClick={[Function]}
+    <div
       style={
         Object {
-          "background": "linear-gradient(90deg,  50%, rgba(255, 255, 255, 0))",
+          "padding": 16,
         }
       }
     >
-      <svg
-        className="icon"
-        height="17px"
-        version="1.1"
-        viewBox="0 860 420 500"
-        width="10px"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M358.286 640q0-7.429-5.714-13.143l-224.571-224.571 224.571-224.571q5.714-5.714 5.714-13.143t-5.714-13.143l-28.571-28.571q-5.714-5.714-13.143-5.714t-13.143 5.714l-266.286 266.286q-5.714 5.714-5.714 13.143t5.714 13.143l266.286 266.286q5.714 5.714 13.143 5.714t13.143-5.714l28.571-28.571q5.714-5.714 5.714-13.143z"
-          id="arrowLeft"
-          transform="scale(1, -1) translate(0, -1500)"
-        />
-      </svg>
-    </button>
-    <button
-      className="right"
-      disabled={true}
-      onClick={[Function]}
+      <strong>
+        1
+      </strong>
+    </div>
+    <div
       style={
         Object {
-          "background": "linear-gradient(270deg,  50%, rgba(255, 255, 255, 0))",
+          "padding": 16,
         }
       }
     >
-      <svg
-        className="icon"
-        height="17px"
-        version="1.1"
-        viewBox="0 860 420 500"
-        width="10px"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M358.286 640q0-7.429-5.714-13.143l-224.571-224.571 224.571-224.571q5.714-5.714 5.714-13.143t-5.714-13.143l-28.571-28.571q-5.714-5.714-13.143-5.714t-13.143 5.714l-266.286 266.286q-5.714 5.714-5.714 13.143t5.714 13.143l266.286 266.286q5.714 5.714 13.143 5.714t13.143-5.714l28.571-28.571q5.714-5.714 5.714-13.143z"
-          id="arrowLeft"
-          transform="scale(1, -1) translate(0, -1500)"
-        />
-      </svg>
-    </button>
-  </div>
+      <strong>
+        2
+      </strong>
+    </div>
+    <div
+      style={
+        Object {
+          "padding": 16,
+        }
+      }
+    >
+      <strong>
+        3
+      </strong>
+    </div>
+  </ScrolledList>
   <div>
     <div>
       1
@@ -355,87 +155,27 @@ exports[`TabPagination DOM rendering renders correctly with many child items 1`]
 
 exports[`TabPagination DOM rendering renders correctly with one child item 1`] = `
 <div>
-  <div
-    className="container "
+  <ScrolledList
+    alignItems="center"
+    onItemClick={[Function]}
+    renderItemContainer={[Function]}
+    renderNextButton={[Function]}
+    renderPrevButton={[Function]}
+    scrollToItemMode="center"
+    selected={0}
+    showControls={true}
+    step={2}
   >
     <div
-      className="eyeshot"
+      style={
+        Object {
+          "padding": 16,
+        }
+      }
     >
-      <div
-        className="bar"
-      >
-        <div
-          className="item selected"
-          onClick={[Function]}
-        >
-          <div
-            style={
-              Object {
-                "padding": 16,
-              }
-            }
-          >
-            <strong>
-              0
-            </strong>
-          </div>
-          <i
-            className="KambiWidget-primary-background-color border"
-          />
-        </div>
-      </div>
+      <strong />
     </div>
-    <button
-      className="left"
-      disabled={true}
-      onClick={[Function]}
-      style={
-        Object {
-          "background": "linear-gradient(90deg,  50%, rgba(255, 255, 255, 0))",
-        }
-      }
-    >
-      <svg
-        className="icon"
-        height="17px"
-        version="1.1"
-        viewBox="0 860 420 500"
-        width="10px"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M358.286 640q0-7.429-5.714-13.143l-224.571-224.571 224.571-224.571q5.714-5.714 5.714-13.143t-5.714-13.143l-28.571-28.571q-5.714-5.714-13.143-5.714t-13.143 5.714l-266.286 266.286q-5.714 5.714-5.714 13.143t5.714 13.143l266.286 266.286q5.714 5.714 13.143 5.714t13.143-5.714l28.571-28.571q5.714-5.714 5.714-13.143z"
-          id="arrowLeft"
-          transform="scale(1, -1) translate(0, -1500)"
-        />
-      </svg>
-    </button>
-    <button
-      className="right"
-      disabled={true}
-      onClick={[Function]}
-      style={
-        Object {
-          "background": "linear-gradient(270deg,  50%, rgba(255, 255, 255, 0))",
-        }
-      }
-    >
-      <svg
-        className="icon"
-        height="17px"
-        version="1.1"
-        viewBox="0 860 420 500"
-        width="10px"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M358.286 640q0-7.429-5.714-13.143l-224.571-224.571 224.571-224.571q5.714-5.714 5.714-13.143t-5.714-13.143l-28.571-28.571q-5.714-5.714-13.143-5.714t-13.143 5.714l-266.286 266.286q-5.714 5.714-5.714 13.143t5.714 13.143l266.286 266.286q5.714 5.714 13.143 5.714t13.143-5.714l28.571-28.571q5.714-5.714 5.714-13.143z"
-          id="arrowLeft"
-          transform="scale(1, -1) translate(0, -1500)"
-        />
-      </svg>
-    </button>
-  </div>
+  </ScrolledList>
   <div>
     <div />
   </div>
@@ -444,106 +184,38 @@ exports[`TabPagination DOM rendering renders correctly with one child item 1`] =
 
 exports[`TabPagination DOM rendering renders correctly with selected item given arbitrary 1`] = `
 <div>
-  <div
-    className="container "
+  <ScrolledList
+    alignItems="center"
+    onItemClick={[Function]}
+    renderItemContainer={[Function]}
+    renderNextButton={[Function]}
+    renderPrevButton={[Function]}
+    scrollToItemMode="center"
+    selected={1}
+    showControls={true}
+    step={2}
   >
     <div
-      className="eyeshot"
+      style={
+        Object {
+          "padding": 16,
+        }
+      }
     >
-      <div
-        className="bar"
-      >
-        <div
-          className="item "
-          onClick={[Function]}
-        >
-          <div
-            style={
-              Object {
-                "padding": 16,
-              }
-            }
-          >
-            <strong>
-              0
-            </strong>
-          </div>
-          <i
-            className="KambiWidget-primary-background-color border"
-          />
-        </div>
-        <div
-          className="item selected"
-          onClick={[Function]}
-        >
-          <div
-            style={
-              Object {
-                "padding": 16,
-              }
-            }
-          >
-            <strong>
-              1
-            </strong>
-          </div>
-          <i
-            className="KambiWidget-primary-background-color border"
-          />
-        </div>
-      </div>
+      <strong />
     </div>
-    <button
-      className="left"
-      disabled={true}
-      onClick={[Function]}
+    <div
       style={
         Object {
-          "background": "linear-gradient(90deg,  50%, rgba(255, 255, 255, 0))",
+          "padding": 16,
         }
       }
     >
-      <svg
-        className="icon"
-        height="17px"
-        version="1.1"
-        viewBox="0 860 420 500"
-        width="10px"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M358.286 640q0-7.429-5.714-13.143l-224.571-224.571 224.571-224.571q5.714-5.714 5.714-13.143t-5.714-13.143l-28.571-28.571q-5.714-5.714-13.143-5.714t-13.143 5.714l-266.286 266.286q-5.714 5.714-5.714 13.143t5.714 13.143l266.286 266.286q5.714 5.714 13.143 5.714t13.143-5.714l28.571-28.571q5.714-5.714 5.714-13.143z"
-          id="arrowLeft"
-          transform="scale(1, -1) translate(0, -1500)"
-        />
-      </svg>
-    </button>
-    <button
-      className="right"
-      disabled={true}
-      onClick={[Function]}
-      style={
-        Object {
-          "background": "linear-gradient(270deg,  50%, rgba(255, 255, 255, 0))",
-        }
-      }
-    >
-      <svg
-        className="icon"
-        height="17px"
-        version="1.1"
-        viewBox="0 860 420 500"
-        width="10px"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M358.286 640q0-7.429-5.714-13.143l-224.571-224.571 224.571-224.571q5.714-5.714 5.714-13.143t-5.714-13.143l-28.571-28.571q-5.714-5.714-13.143-5.714t-13.143 5.714l-266.286 266.286q-5.714 5.714-5.714 13.143t5.714 13.143l266.286 266.286q5.714 5.714 13.143 5.714t13.143-5.714l28.571-28.571q5.714-5.714 5.714-13.143z"
-          id="arrowLeft"
-          transform="scale(1, -1) translate(0, -1500)"
-        />
-      </svg>
-    </button>
-  </div>
+      <strong>
+        1
+      </strong>
+    </div>
+  </ScrolledList>
   <div>
     <div>
       2

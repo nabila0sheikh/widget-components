@@ -2,7 +2,7 @@
    position: relative;
    padding: 0 16px;
 
-   &.mobile-device {
+   &.no-controls {
       padding: 0;
    }
 }
@@ -11,9 +11,9 @@
 :local(.eyeshot) {
    overflow-x: hidden;
 
-   .mobile-device & {
-      overflow-x: scroll;
+   .touch & {
       -webkit-overflow-scrolling: touch;
+      overflow-x: scroll;
    }
 }
 

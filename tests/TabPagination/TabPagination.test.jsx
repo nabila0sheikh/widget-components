@@ -1,63 +1,53 @@
 /* eslint-env jest */
 import React, { Children } from 'react';
 import TabPagination from '../../src/TabPagination/TabPagination';
-import ReactTestRenderer from 'react-test-renderer';
+import ReactTestUtils from 'react-addons-test-utils';
 import { mount } from 'enzyme';
 
 describe('TabPagination DOM rendering', () => {
 
    it('renders correctly with default props', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <TabPagination />
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with one child item', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <TabPagination>
             <div />
          </TabPagination>
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with many child items', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <TabPagination>
             <div>1</div>
             <div>2</div>
             {[<div key="3">3</div>, <div key="4">4</div>]}
          </TabPagination>
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with selected item given arbitrary', () => {
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <TabPagination selected={1}>
             <div>1</div>
             <div>2</div>
          </TabPagination>
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with custom renderTab func', () => {
       const renderTabMock = (i) => <div key={i}>Tab #{i}</div>;
 
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <TabPagination renderTab={renderTabMock}>
             <div>1</div>
             <div>2</div>
          </TabPagination>
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
    it('renders correctly with custom renderTabList func', () => {
@@ -69,14 +59,12 @@ describe('TabPagination DOM rendering', () => {
                </div>)}
          </div>;
 
-      const tree = ReactTestRenderer.create(
+      expect(ReactTestUtils.createRenderer().render(
          <TabPagination renderTabList={renderTabListMock}>
             <div>1</div>
             <div>2</div>
          </TabPagination>
-      ).toJSON();
-
-      expect(tree).toMatchSnapshot();
+      )).toMatchSnapshot();
    });
 
 });

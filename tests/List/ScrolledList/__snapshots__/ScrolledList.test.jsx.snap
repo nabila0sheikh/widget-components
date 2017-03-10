@@ -1,8 +1,188 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ScrolledList DOM rendering renders correctly all SCROLL_TO_ITEM_MODE settings 1`] = `
+<div
+  className="container  touch"
+>
+  <div
+    className="eyeshot"
+  >
+    <div
+      className="bar"
+    >
+      <ItemContainer
+        onClick={[Function]}
+        onWidth={[Function]}
+        selected={true}
+      >
+        <div>
+          1
+        </div>
+      </ItemContainer>
+      <ItemContainer
+        onClick={[Function]}
+        onWidth={[Function]}
+        selected={false}
+      >
+        <div>
+          2
+        </div>
+      </ItemContainer>
+    </div>
+  </div>
+  <ArrowButton
+    backgroundColor={null}
+    disabled={true}
+    onClick={[Function]}
+    type="left"
+  />
+  <ArrowButton
+    backgroundColor={null}
+    disabled={true}
+    onClick={[Function]}
+    type="right"
+  />
+</div>
+`;
+
+exports[`ScrolledList DOM rendering renders correctly all SCROLL_TO_ITEM_MODE settings 2`] = `
+<div
+  className="container  touch"
+>
+  <div
+    className="eyeshot"
+  >
+    <div
+      className="bar"
+    >
+      <ItemContainer
+        onClick={[Function]}
+        onWidth={[Function]}
+        selected={true}
+      >
+        <div>
+          1
+        </div>
+      </ItemContainer>
+      <ItemContainer
+        onClick={[Function]}
+        onWidth={[Function]}
+        selected={false}
+      >
+        <div>
+          2
+        </div>
+      </ItemContainer>
+    </div>
+  </div>
+  <ArrowButton
+    backgroundColor={null}
+    disabled={true}
+    onClick={[Function]}
+    type="left"
+  />
+  <ArrowButton
+    backgroundColor={null}
+    disabled={true}
+    onClick={[Function]}
+    type="right"
+  />
+</div>
+`;
+
+exports[`ScrolledList DOM rendering renders correctly all SCROLL_TO_ITEM_MODE settings 3`] = `
+<div
+  className="container  touch"
+>
+  <div
+    className="eyeshot"
+  >
+    <div
+      className="bar"
+    >
+      <ItemContainer
+        onClick={[Function]}
+        onWidth={[Function]}
+        selected={true}
+      >
+        <div>
+          1
+        </div>
+      </ItemContainer>
+      <ItemContainer
+        onClick={[Function]}
+        onWidth={[Function]}
+        selected={false}
+      >
+        <div>
+          2
+        </div>
+      </ItemContainer>
+    </div>
+  </div>
+  <ArrowButton
+    backgroundColor={null}
+    disabled={true}
+    onClick={[Function]}
+    type="left"
+  />
+  <ArrowButton
+    backgroundColor={null}
+    disabled={true}
+    onClick={[Function]}
+    type="right"
+  />
+</div>
+`;
+
+exports[`ScrolledList DOM rendering renders correctly all SCROLL_TO_ITEM_MODE settings 4`] = `
+<div
+  className="container  touch"
+>
+  <div
+    className="eyeshot"
+  >
+    <div
+      className="bar"
+    >
+      <ItemContainer
+        onClick={[Function]}
+        onWidth={[Function]}
+        selected={true}
+      >
+        <div>
+          1
+        </div>
+      </ItemContainer>
+      <ItemContainer
+        onClick={[Function]}
+        onWidth={[Function]}
+        selected={false}
+      >
+        <div>
+          2
+        </div>
+      </ItemContainer>
+    </div>
+  </div>
+  <ArrowButton
+    backgroundColor={null}
+    disabled={true}
+    onClick={[Function]}
+    type="left"
+  />
+  <ArrowButton
+    backgroundColor={null}
+    disabled={true}
+    onClick={[Function]}
+    type="right"
+  />
+</div>
+`;
+
 exports[`ScrolledList DOM rendering renders correctly all item alignments 1`] = `
 <div
-  className="container "
+  className="container"
 >
   <div
     className="eyeshot"
@@ -47,7 +227,7 @@ exports[`ScrolledList DOM rendering renders correctly all item alignments 1`] = 
 
 exports[`ScrolledList DOM rendering renders correctly all item alignments 2`] = `
 <div
-  className="container "
+  className="container"
 >
   <div
     className="eyeshot"
@@ -92,7 +272,7 @@ exports[`ScrolledList DOM rendering renders correctly all item alignments 2`] = 
 
 exports[`ScrolledList DOM rendering renders correctly all item alignments 3`] = `
 <div
-  className="container "
+  className="container"
 >
   <div
     className="eyeshot"
@@ -137,7 +317,7 @@ exports[`ScrolledList DOM rendering renders correctly all item alignments 3`] = 
 
 exports[`ScrolledList DOM rendering renders correctly all item alignments 4`] = `
 <div
-  className="container "
+  className="container"
 >
   <div
     className="eyeshot"
@@ -182,7 +362,7 @@ exports[`ScrolledList DOM rendering renders correctly all item alignments 4`] = 
 
 exports[`ScrolledList DOM rendering renders correctly all item alignments 5`] = `
 <div
-  className="container "
+  className="container"
 >
   <div
     className="eyeshot"
@@ -227,7 +407,7 @@ exports[`ScrolledList DOM rendering renders correctly all item alignments 5`] = 
 
 exports[`ScrolledList DOM rendering renders correctly custom ItemContainer 1`] = `
 <div
-  className="container "
+  className="container"
 >
   <div
     className="eyeshot"
@@ -262,9 +442,80 @@ exports[`ScrolledList DOM rendering renders correctly custom ItemContainer 1`] =
 </div>
 `;
 
-exports[`ScrolledList DOM rendering renders correctly in mobile mode with not known container width 1`] = `
+exports[`ScrolledList DOM rendering renders correctly on touch screen 1`] = `
 <div
-  className="container mobile-device"
+  className="container  touch"
+>
+  <div
+    className="eyeshot"
+  >
+    <div
+      className="bar"
+    >
+      <ItemContainer
+        onClick={[Function]}
+        onWidth={[Function]}
+        selected={true}
+      >
+        <div>
+          1
+        </div>
+      </ItemContainer>
+      <ItemContainer
+        onClick={[Function]}
+        onWidth={[Function]}
+        selected={false}
+      >
+        <div>
+          2
+        </div>
+      </ItemContainer>
+    </div>
+  </div>
+  <ArrowButton
+    backgroundColor={null}
+    disabled={true}
+    onClick={[Function]}
+    type="left"
+  />
+  <ArrowButton
+    backgroundColor={null}
+    disabled={true}
+    onClick={[Function]}
+    type="right"
+  />
+</div>
+`;
+
+exports[`ScrolledList DOM rendering renders correctly with default props 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="eyeshot"
+  >
+    <div
+      className="bar"
+    />
+  </div>
+  <ArrowButton
+    backgroundColor={null}
+    disabled={true}
+    onClick={[Function]}
+    type="left"
+  />
+  <ArrowButton
+    backgroundColor={null}
+    disabled={true}
+    onClick={[Function]}
+    type="right"
+  />
+</div>
+`;
+
+exports[`ScrolledList DOM rendering renders correctly with disabled controls 1`] = `
+<div
+  className="container no-controls"
 >
   <div
     className="eyeshot"
@@ -295,35 +546,9 @@ exports[`ScrolledList DOM rendering renders correctly in mobile mode with not kn
 </div>
 `;
 
-exports[`ScrolledList DOM rendering renders correctly with default props 1`] = `
-<div
-  className="container "
->
-  <div
-    className="eyeshot"
-  >
-    <div
-      className="bar"
-    />
-  </div>
-  <ArrowButton
-    backgroundColor={null}
-    disabled={true}
-    onClick={[Function]}
-    type="left"
-  />
-  <ArrowButton
-    backgroundColor={null}
-    disabled={true}
-    onClick={[Function]}
-    type="right"
-  />
-</div>
-`;
-
 exports[`ScrolledList DOM rendering renders correctly with many child items 1`] = `
 <div
-  className="container "
+  className="container"
 >
   <div
     className="eyeshot"
@@ -386,7 +611,7 @@ exports[`ScrolledList DOM rendering renders correctly with many child items 1`] 
 
 exports[`ScrolledList DOM rendering renders correctly with one child item 1`] = `
 <div
-  className="container "
+  className="container"
 >
   <div
     className="eyeshot"
@@ -420,7 +645,7 @@ exports[`ScrolledList DOM rendering renders correctly with one child item 1`] = 
 
 exports[`ScrolledList DOM rendering renders correctly with selected item given arbitrary 1`] = `
 <div
-  className="container "
+  className="container"
 >
   <div
     className="eyeshot"
