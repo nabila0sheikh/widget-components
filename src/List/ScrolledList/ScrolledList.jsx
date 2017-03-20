@@ -23,7 +23,7 @@ const BAR_TRANSITION_DURATION = 300;
  * @example
  * <ScrolledList alignItems={ScrolledList.ALIGN_ITEMS.SPACE_BETWEEN}>...</ScrolledList>
  */
-const ALIGN_ITEMS = {
+const ScrolledList_ALIGN_ITEMS = {
    /**
     * List items will be aligned to the left.
     * @member {string}
@@ -62,7 +62,7 @@ const ALIGN_ITEMS = {
  * @example
  * <ScrolledList scrollToItemMode={ScrolledList.SCROLL_TO_ITEM_MODE.TO_LEFT}>...</ScrolledList>
  */
-const SCROLL_TO_ITEM_MODE = {
+const ScrolledList_SCROLL_TO_ITEM_MODE = {
    /**
     * Selected item will be the first object on the left side of eye shot
     */
@@ -315,11 +315,11 @@ class ScrolledList extends Component {
     */
    scrollToItem(item) {
       switch (this.props.scrollToItemMode) {
-         case SCROLL_TO_ITEM_MODE.TO_LEFT:
+         case ScrolledList_SCROLL_TO_ITEM_MODE.TO_LEFT:
             this.scrollTo(item ? this.computeItemsWidth(0, item - 1) : 0);
             break;
 
-         case SCROLL_TO_ITEM_MODE.CENTER:
+         case ScrolledList_SCROLL_TO_ITEM_MODE.CENTER:
          default:
             this.scrollTo((item ? this.computeItemsWidth(0, item - 1) : 0) - (this.eyeshotWidth - this.computeItemsWidth(item)) / 2);
       }
@@ -426,8 +426,8 @@ class ScrolledList extends Component {
    }
 }
 
-ScrolledList.ALIGN_ITEMS = ALIGN_ITEMS;
-ScrolledList.SCROLL_TO_ITEM_MODE = SCROLL_TO_ITEM_MODE;
+ScrolledList.ALIGN_ITEMS = ScrolledList_ALIGN_ITEMS;
+ScrolledList.SCROLL_TO_ITEM_MODE = ScrolledList_SCROLL_TO_ITEM_MODE;
 
 /**
  * Should return rendered prev/next scroll button.
@@ -481,11 +481,11 @@ ScrolledList.SCROLL_TO_ITEM_MODE = SCROLL_TO_ITEM_MODE;
  * @property [onItemClick] {function(number)} Item click handler. Called with item index argument.
  * @property [selected=0] {number} Initially selected item index
  * @property [step=2] {number} Scroll step (items count)
- * @property [alignItems=CENTER] {ALIGN_ITEMS} Method of aligning items when they take less width than the container has
+ * @property [alignItems=CENTER] {ScrolledList_ALIGN_ITEMS} Method of aligning items when they take less width than the container has
  * @property [renderPrevButton] {ScrolledList_RenderButton} Function capable of rendering button responsible for scrolling left. Renders left arrow button by default.
  * @property [renderNextButton] {ScrolledList_RenderButton} Function capable of rendering button responsible for scrolling right. Renders right arrow button by default.
  * @property [renderItemContainer] {ScrolledList_RenderItemContainer} Function capable of rendering item container. Renders Kambi-styled item container by default.
- * @property [scrollToItemMode=CENTER] {SCROLL_TO_ITEM_MODE} Scroll to selected item mode
+ * @property [scrollToItemMode=CENTER] {ScrolledList_SCROLL_TO_ITEM_MODE} Scroll to selected item mode
  * @property [showControls] {boolean} Decides whether next/prev controls be visible e.g. can be hidden in mobile mode
  */
 ScrolledList.propTypes = {
@@ -493,19 +493,19 @@ ScrolledList.propTypes = {
    onItemClick: PropTypes.func,
    selected: PropTypes.number,
    step: PropTypes.number,
-   alignItems: PropTypes.oneOf(Object.keys(ALIGN_ITEMS).map(k => ALIGN_ITEMS[k])),
+   alignItems: PropTypes.oneOf(Object.keys(ScrolledList_ALIGN_ITEMS).map(k => ScrolledList_ALIGN_ITEMS[k])),
    renderPrevButton: PropTypes.func,
    renderNextButton: PropTypes.func,
    renderItemContainer: PropTypes.func,
-   scrollToItemMode: PropTypes.oneOf(Object.keys(SCROLL_TO_ITEM_MODE).map(k => SCROLL_TO_ITEM_MODE[k])),
+   scrollToItemMode: PropTypes.oneOf(Object.keys(ScrolledList_SCROLL_TO_ITEM_MODE).map(k => ScrolledList_SCROLL_TO_ITEM_MODE[k])),
    showControls: PropTypes.bool
 };
 
 ScrolledList.defaultProps = {
    selected: 0,
    step: 2,
-   alignItems: ScrolledList.ALIGN_ITEMS.CENTER,
-   scrollToItemMode: ScrolledList.SCROLL_TO_ITEM_MODE.CENTER,
+   alignItems: ScrolledList_ALIGN_ITEMS.CENTER,
+   scrollToItemMode: ScrolledList_SCROLL_TO_ITEM_MODE.CENTER,
    renderPrevButton: props =>
       <ArrowButton type='left' {...props} />,
    renderNextButton: props =>
