@@ -16,11 +16,13 @@ exports[`IconHeader DOM rendering renders correctly with inner element 1`] = `
   >
     <div
       className="title"
+      title="test"
     >
       test
     </div>
     <div
       className="subtitle"
+      title={undefined}
     />
   </div>
 </header>
@@ -38,11 +40,13 @@ exports[`IconHeader DOM rendering renders correctly with title 1`] = `
   >
     <div
       className="title"
+      title="test"
     >
       test
     </div>
     <div
       className="subtitle"
+      title={undefined}
     />
   </div>
 </header>
@@ -60,11 +64,13 @@ exports[`IconHeader DOM rendering renders correctly with title and subtitle 1`] 
   >
     <div
       className="title"
+      title="test"
     >
       test
     </div>
     <div
       className="subtitle"
+      title="Test subtitle"
     >
       Test subtitle
     </div>
