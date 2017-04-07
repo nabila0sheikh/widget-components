@@ -6,8 +6,8 @@ const IconHeader = ({ title, subtitle, children }) => {
       <header className={`KambiWidget-card-border-color KambiWidget-font ${styles.header}`}>
          <div className={styles.icon}>{children}</div>
          <div className={styles.container}>
-            <div className={styles.title}>{title}</div>
-            <div className={styles.subtitle}>{subtitle}</div>
+            <div className={styles.title} title={title}>{title}</div>
+            <div className={styles.subtitle} title={subtitle}>{subtitle}</div>
          </div>
       </header>);
 };

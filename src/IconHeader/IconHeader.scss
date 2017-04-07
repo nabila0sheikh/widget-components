@@ -19,6 +19,9 @@
    line-height: 16px;
    max-height: 16px;
    min-height: 16px;
+   white-space: nowrap;
+   text-overflow: ellipsis;
+   overflow: hidden;
 }
 
 :local(.header) {
