@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 import React, { Children, Component, PropTypes } from 'react';
 import styles from './ScrolledList.scss';
 import ArrowButton from './ArrowButton';
