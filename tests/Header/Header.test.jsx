@@ -3,8 +3,9 @@ import React, { Children } from 'react';
 import Header from '../../src/Header/Header';
 import { mount } from 'enzyme';
 import { coreLibrary, widgetModule } from 'kambi-widget-core-library';
-import ReactTestUtils from 'react-addons-test-utils';
-import ReactTestRenderer from 'react-test-renderer';
+import ReactShallowRenderer from 'react-test-renderer/shallow';
+
+let renderer;
 
 jest.mock('kambi-widget-core-library', () => ({
    widgetModule: {
@@ -22,10 +23,11 @@ describe('Header DOM rendering', () => {
 
    beforeEach(() => {
       coreLibrary.pageInfo.pageType = 'home';
+      renderer = new ReactShallowRenderer();
    });
 
    it('renders correctly with default props', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <Header>Test</Header>
       )).toMatchSnapshot();
    });
@@ -33,13 +35,13 @@ describe('Header DOM rendering', () => {
    it('renders correctly with pageType != \'home\'', () => {
       coreLibrary.pageInfo.pageType = 'not_home';
 
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <Header>Test</Header>
       )).toMatchSnapshot();
    });
 
    it('renders correctly with custom classes', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <Header customClasses={'a b c'}>Test</Header>
       )).toMatchSnapshot();
    });

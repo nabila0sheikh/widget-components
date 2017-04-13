@@ -1,31 +1,37 @@
 /* eslint-env jest */
 import React from 'react';
 import ItemContainer from '../../src/List/ItemContainer';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactShallowRenderer from 'react-test-renderer/shallow';
 import { shallow, mount } from 'enzyme';
+
+let renderer;
 
 describe('ItemContainer view', () => {
 
+   beforeEach(() => {
+      renderer = new ReactShallowRenderer();
+   });
+
    it('renders correctly with default props', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <ItemContainer />
       )).toMatchSnapshot();
    });
 
    it('renders correctly selected state', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <ItemContainer selected={true} />
       )).toMatchSnapshot();
    });
 
    it('renders correctly with one child element', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <ItemContainer>One</ItemContainer>
       )).toMatchSnapshot();
    });
 
    it('renders correctly with many child elements', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <ItemContainer>
             One
             Two
@@ -61,5 +67,32 @@ describe('ItemContainer interface', () => {
 
       expect(onWidthMock).toHaveBeenCalledTimes(1);
    });
+
+   it('unmounts correctly', () => {
+      const wrapper = mount(<ItemContainer />);
+      wrapper.unmount();
+   });
+
+
+   it('calls onWidth on window resize', () => {
+      const mockOnWidth = jest.fn();
+
+      const wrapper = mount(<ItemContainer onWidth={mockOnWidth} />);
+
+      expect(mockOnWidth).toHaveBeenCalledTimes(1);
+
+      window.dispatchEvent(new Event('resize'));
+
+      expect(mockOnWidth).toHaveBeenCalledTimes(2);
+
+   });
+
+
+   it('behaves correctly when onWidth is not set', () => {
+      const wrapper = mount(<ItemContainer />);
+
+      window.dispatchEvent(new Event('resize'));
+   });
+
 
 });

@@ -1,8 +1,10 @@
 /* eslint-env jest */
 import React from 'react';
 import ArrowButton from '../../../src/List/ScrolledList/ArrowButton';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactShallowRenderer from 'react-test-renderer/shallow';
 import { shallow } from 'enzyme';
+
+let renderer;
 
 const getComputedStyle = window.getComputedStyle;
 
@@ -10,12 +12,13 @@ describe('ArrowButton view', () => {
 
    beforeEach(() => {
       window.getComputedStyle = getComputedStyle;
+      renderer = new ReactShallowRenderer();
    });
 
    it('renders "left" variant correctly', () => {
       const onClickMock = jest.fn();
 
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <ArrowButton onClick={onClickMock} type="left" />
       )).toMatchSnapshot();
    });
@@ -23,7 +26,7 @@ describe('ArrowButton view', () => {
    it('renders "right" variant correctly', () => {
       const onClickMock = jest.fn();
 
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <ArrowButton onClick={onClickMock} type="right" />
       )).toMatchSnapshot();
    });
@@ -31,7 +34,7 @@ describe('ArrowButton view', () => {
    it('renders correctly when disabled', () => {
       const onClickMock = jest.fn();
 
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <ArrowButton onClick={onClickMock} type="left" disabled={true} />
       )).toMatchSnapshot();
    });
@@ -39,7 +42,7 @@ describe('ArrowButton view', () => {
    it('renders correctly when background color explicitly set', () => {
       const onClickMock = jest.fn();
 
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <ArrowButton
             onClick={onClickMock}
             type="left"
@@ -53,7 +56,7 @@ describe('ArrowButton view', () => {
 
       window.getComputedStyle = null;
 
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <ArrowButton
             onClick={onClickMock}
             type="left"
@@ -75,7 +78,7 @@ describe('ArrowButton view', () => {
          }
       };
 
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <ArrowButton
             onClick={onClickMock}
             type="left"

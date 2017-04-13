@@ -2,15 +2,19 @@
 import React, { Children } from 'react';
 import DropdownButton from '../../src/DropdownButton/DropdownButton';
 import { mount, shallow } from 'enzyme';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactShallowRenderer from 'react-test-renderer/shallow';
 
-const renderer = ReactTestUtils.createRenderer();
+let renderer;
 
 // retrieve initial global values
 const innerHeight = window.innerHeight,
    clientHeight = document.documentElement.clientHeight;
 
 describe('DropdownButton DOM rendering', () => {
+
+   beforeEach(() => {
+      renderer = new ReactShallowRenderer();
+   });
 
    it('renders correctly with default props', () => {
       const options = ['option1', 'option2'];

@@ -1,9 +1,11 @@
 /* eslint-env jest */
 import React, { Children } from 'react';
 import OutcomeButton from '../../src/OutcomeButton/OutcomeButton';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactShallowRenderer from 'react-test-renderer/shallow';
 import { mount, shallow } from 'enzyme';
 import { coreLibrary, eventsModule, widgetModule, utilModule } from 'kambi-widget-core-library';
+
+let renderer;
 
 let mockBetslipIds = [],
    mockEventHandlers = {};
@@ -47,10 +49,11 @@ describe('OutcomeButtonUI DOM rendering', () => {
 
    beforeEach(() => {
       coreLibrary.config.oddsFormat = 'decimal';
+      renderer = new ReactShallowRenderer();
    });
 
    it('render invisible div if odds <= 1000', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <OutcomeButton
             outcome={{
                id: 5,
@@ -64,25 +67,25 @@ describe('OutcomeButtonUI DOM rendering', () => {
    });
 
    it('renders correctly with default props', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <OutcomeButton outcome={outcome} />
       )).toMatchSnapshot();
    });
 
    it('renders correctly with no label', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <OutcomeButton outcome={outcome} label={false} />
       )).toMatchSnapshot();
    });
 
    it('renders correctly with label explicitly set', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <OutcomeButton outcome={outcome} label='Test label' />
       )).toMatchSnapshot();
    });
 
    it('renders correctly with label extracted from event', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <OutcomeButton outcome={outcome} event={event} label={true} />
       )).toMatchSnapshot();
    });
@@ -90,7 +93,7 @@ describe('OutcomeButtonUI DOM rendering', () => {
    it('renders correctly with fractional odds', () => {
       coreLibrary.config.oddsFormat = 'fractional';
 
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <OutcomeButton outcome={outcome} />
       )).toMatchSnapshot();
    });
@@ -98,7 +101,7 @@ describe('OutcomeButtonUI DOM rendering', () => {
    it('renders correctly with american odds', () => {
       coreLibrary.config.oddsFormat = 'american';
 
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <OutcomeButton outcome={outcome} />
       )).toMatchSnapshot();
    });

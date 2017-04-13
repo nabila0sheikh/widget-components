@@ -1,19 +1,25 @@
 /* eslint-env jest */
 import React from 'react';
 import FixedList from '../../../src/List/FixedList/FixedList';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactShallowRenderer from 'react-test-renderer/shallow';
 import { mount } from 'enzyme';
+
+let renderer;
 
 describe('FixedList view', () => {
 
+   beforeEach(() => {
+      renderer = new ReactShallowRenderer();
+   });
+
    it('renders correctly with default props', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <FixedList />
       )).toMatchSnapshot();
    });
 
    it('renders correctly with one child item', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <FixedList>
             <div />
          </FixedList>
@@ -21,7 +27,7 @@ describe('FixedList view', () => {
    });
 
    it('renders correctly with many child items', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <FixedList>
             <div>1</div>
             <div>2</div>
@@ -31,7 +37,7 @@ describe('FixedList view', () => {
    });
 
    it('renders correctly with selected item given arbitrary', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <FixedList selected={1}>
             <div>1</div>
             <div>2</div>
@@ -40,7 +46,7 @@ describe('FixedList view', () => {
    });
 
    it('renders correctly custom ItemContainer', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <FixedList
             renderItemContainer={({ selected, onClick, onWidth, children }) => <div>{children}</div>}
          >

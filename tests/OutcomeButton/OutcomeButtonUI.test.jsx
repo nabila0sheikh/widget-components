@@ -1,45 +1,51 @@
 /* eslint-env jest */
 import React, { Children } from 'react';
 import OutcomeButtonUI from '../../src/OutcomeButton/OutcomeButtonUI';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactShallowRenderer from 'react-test-renderer/shallow';
 import { shallow } from 'enzyme';
+
+let renderer;
 
 describe('OutcomeButtonUI DOM rendering', () => {
 
+   beforeEach(() => {
+      renderer = new ReactShallowRenderer();
+   });
+
    it('renders correctly when neither selected nor suspended', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <OutcomeButtonUI odds='2.0' selected={false} suspended={false} />
       )).toMatchSnapshot();
    });
 
    it('renders correctly when selected', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <OutcomeButtonUI odds='2.0' selected={true} />
       )).toMatchSnapshot();
    });
 
    it('renders correctly when selected', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <OutcomeButtonUI odds='2.0' selected={false} suspended={true} />
       )).toMatchSnapshot();
    });
 
    it('throws error when both odds and label are not provided', () => {
       expect(() => {
-         ReactTestUtils.createRenderer().render(
+         renderer.render(
             <OutcomeButtonUI selected={true}/>
          );
       }).toThrowErrorMatchingSnapshot();
    });
 
    it('renders correctly with label', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <OutcomeButtonUI label='Test label' selected={false} />
       )).toMatchSnapshot();
    });
 
    it('renders correctly with odds and label', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <OutcomeButtonUI odds='5.0' label='Test label' selected={false} />
       )).toMatchSnapshot();
    });

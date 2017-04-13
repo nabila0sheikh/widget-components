@@ -2,11 +2,15 @@
 import React, { Children } from 'react';
 import ActionButton from '../../src/ActionButton/ActionButton';
 import { shallow } from 'enzyme';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactShallowRenderer from 'react-test-renderer/shallow';
 
-const renderer = ReactTestUtils.createRenderer();
+let renderer;
 
 describe('ActionButton DOM rendering', () => {
+
+   beforeEach(() => {
+      renderer = new ReactShallowRenderer();
+   });
 
    it('renders correctly with default props', () => {
       expect(renderer.render(

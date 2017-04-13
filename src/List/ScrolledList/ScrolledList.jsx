@@ -9,7 +9,7 @@ import ItemContainer from '../ItemContainer';
  * Window resize handling reflex (in milliseconds)
  * @type {number}
  */
-const RESIZE_MOMENTUM = 200;
+const UPDATE_MOMENTUM = 150;
 
 
 /*
@@ -159,14 +159,14 @@ class ScrolledList extends Component {
 
       this.prevPage = this.prevPage.bind(this);
       this.nextPage = this.nextPage.bind(this);
-      this.onResize = this.onResize.bind(this);
+      this.enqueueUpdate = this.enqueueUpdate.bind(this);
    }
 
    /*
     * Called after component rendering to DOM.
     */
    componentDidMount() {
-      window.addEventListener('resize', this.onResize);
+      window.addEventListener('resize', this.enqueueUpdate);
       this.scrollToItem(this.state.item);
       this.updateItemsAlignment();
    }
@@ -182,21 +182,7 @@ class ScrolledList extends Component {
     * Called before removing component.
     */
    componentWillUnmount() {
-      window.removeEventListener('resize', this.onResize);
-   }
-
-   /*
-    * Handles window resize
-    */
-   onResize() {
-      if (this.resizeTimeout) {
-         clearTimeout(this.resizeTimeout);
-      }
-
-      this.resizeTimeout = setTimeout(() => {
-         this.updateItemsAlignment();
-         this.scrollTo(this.currentScrollLeft);
-      }, RESIZE_MOMENTUM);
+      window.removeEventListener('resize', this.enqueueUpdate);
    }
 
    /*
@@ -223,8 +209,23 @@ class ScrolledList extends Component {
 
       if (this.itemWidths[idx] !== width) {
          this.itemWidths[idx] = width;
-         this.forceUpdate();
+         this.enqueueUpdate();
       }
+   }
+
+   /*
+    * Throttles widget rendering updates.
+    */
+   enqueueUpdate() {
+      if (this.updateTimeout) {
+         clearTimeout(this.updateTimeout);
+      }
+
+      this.updateTimeout = setTimeout(() => {
+         this.updateItemsAlignment();
+         this.scrollToItem(this.state.item);
+         this.forceUpdate();
+      }, UPDATE_MOMENTUM);
    }
 
    /*
@@ -323,7 +324,10 @@ class ScrolledList extends Component {
 
          case ScrolledList_SCROLL_TO_ITEM_MODE.CENTER:
          default:
-            this.scrollTo((item ? this.computeItemsWidth(0, item - 1) : 0) - (this.eyeshotWidth - this.computeItemsWidth(item)) / 2);
+            this.scrollTo(
+               (item ? this.computeItemsWidth(0, item - 1) : 0)
+               - (this.eyeshotWidth - this.computeItemsWidth(item)) / 2
+            );
       }
 
    }
@@ -350,7 +354,7 @@ class ScrolledList extends Component {
     * @param {number} end Last item index
     * @returns {number}
     */
-   computeItemsWidth(start, end) {
+   computeItemsWidth(start, end = start) {
       return this.itemWidths
          .slice(start, end + 1)
          .reduce((sum, itemWidth) => sum + (itemWidth ? itemWidth : 0), 0);

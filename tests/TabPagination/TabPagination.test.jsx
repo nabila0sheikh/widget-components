@@ -1,19 +1,25 @@
 /* eslint-env jest */
 import React, { Children } from 'react';
 import TabPagination from '../../src/TabPagination/TabPagination';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactShallowRenderer from 'react-test-renderer/shallow';
 import { mount } from 'enzyme';
+
+let renderer;
 
 describe('TabPagination DOM rendering', () => {
 
+   beforeEach(() => {
+      renderer = new ReactShallowRenderer();
+   });
+
    it('renders correctly with default props', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <TabPagination />
       )).toMatchSnapshot();
    });
 
    it('renders correctly with one child item', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <TabPagination>
             <div />
          </TabPagination>
@@ -21,7 +27,7 @@ describe('TabPagination DOM rendering', () => {
    });
 
    it('renders correctly with many child items', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <TabPagination>
             <div>1</div>
             <div>2</div>
@@ -31,7 +37,7 @@ describe('TabPagination DOM rendering', () => {
    });
 
    it('renders correctly with selected item given arbitrary', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <TabPagination selected={1}>
             <div>1</div>
             <div>2</div>
@@ -42,7 +48,7 @@ describe('TabPagination DOM rendering', () => {
    it('renders correctly with custom renderTab func', () => {
       const renderTabMock = (i) => <div key={i}>Tab #{i}</div>;
 
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <TabPagination renderTab={renderTabMock}>
             <div>1</div>
             <div>2</div>
@@ -59,7 +65,7 @@ describe('TabPagination DOM rendering', () => {
                </div>)}
          </div>;
 
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <TabPagination renderTabList={renderTabListMock}>
             <div>1</div>
             <div>2</div>

@@ -2,9 +2,10 @@
 
 import React from 'react';
 import ScrolledList from '../../../src/List/ScrolledList/ScrolledList';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactShallowRenderer from 'react-test-renderer/shallow';
 import { mount } from 'enzyme'; // eslint-disable-line
 
+let renderer;
 
 describe('ScrolledList DOM rendering', () => {
 
@@ -12,16 +13,18 @@ describe('ScrolledList DOM rendering', () => {
       if ('ontouchstart' in window) {
          delete window.ontouchstart;
       }
+
+      renderer = new ReactShallowRenderer();
    });
 
    it('renders correctly with default props', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <ScrolledList />
       )).toMatchSnapshot();
    });
 
    it('renders correctly with one child item', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <ScrolledList>
             <div />
          </ScrolledList>
@@ -29,7 +32,7 @@ describe('ScrolledList DOM rendering', () => {
    });
 
    it('renders correctly with many child items', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <ScrolledList>
             <div>1</div>
             <div>2</div>
@@ -39,7 +42,7 @@ describe('ScrolledList DOM rendering', () => {
    });
 
    it('renders correctly with selected item given arbitrary', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <ScrolledList selected={1}>
             <div>1</div>
             <div>2</div>
@@ -48,7 +51,7 @@ describe('ScrolledList DOM rendering', () => {
    });
 
    it('renders correctly custom ItemContainer', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <ScrolledList
             renderItemContainer={({ selected, onClick, onWidth, children }) => <div>{children}</div>}
          >
@@ -60,7 +63,7 @@ describe('ScrolledList DOM rendering', () => {
 
    it('renders correctly all item alignments', () => {
       Object.keys(ScrolledList.ALIGN_ITEMS).forEach((key) => {
-         expect(ReactTestUtils.createRenderer().render(
+         expect(renderer.render(
             <ScrolledList alignItems={ScrolledList.ALIGN_ITEMS[key]}>
                <div>1</div>
                <div>2</div>
@@ -70,7 +73,7 @@ describe('ScrolledList DOM rendering', () => {
    });
 
    it('renders correctly with disabled controls', () => {
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <ScrolledList showControls={false}>
             <div>1</div>
             <div>2</div>
@@ -81,7 +84,7 @@ describe('ScrolledList DOM rendering', () => {
    it('renders correctly on touch screen', () => {
       window.ontouchstart = () => {};
 
-      expect(ReactTestUtils.createRenderer().render(
+      expect(renderer.render(
          <ScrolledList>
             <div>1</div>
             <div>2</div>
@@ -90,8 +93,6 @@ describe('ScrolledList DOM rendering', () => {
    });
 
    it('renders correctly all SCROLL_TO_ITEM_MODE settings', () => {
-      const renderer = ReactTestUtils.createRenderer();
-
       Object.keys(ScrolledList.SCROLL_TO_ITEM_MODE).forEach((key) => {
          expect(renderer.render(
             <ScrolledList
