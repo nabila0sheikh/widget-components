@@ -113,7 +113,7 @@ class OutcomeButton extends Component {
     * @returns {number}
     */
    get oddsFormatted() {
-      switch (coreLibrary.config.oddsFormat) {
+      switch (coreLibrary.oddsFormat) {
          case 'fractional':
             return this.props.outcome.oddsFractional;
          case 'american':
