@@ -48,7 +48,7 @@ jest.mock('kambi-widget-core-library', () => ({
 describe('OutcomeButtonUI DOM rendering', () => {
 
    beforeEach(() => {
-      coreLibrary.config.oddsFormat = 'decimal';
+      coreLibrary.oddsFormat = 'decimal';
       renderer = new ReactShallowRenderer();
    });
 
@@ -91,7 +91,7 @@ describe('OutcomeButtonUI DOM rendering', () => {
    });
 
    it('renders correctly with fractional odds', () => {
-      coreLibrary.config.oddsFormat = 'fractional';
+      coreLibrary.oddsFormat = 'fractional';
 
       expect(renderer.render(
          <OutcomeButton outcome={outcome} />
@@ -99,7 +99,7 @@ describe('OutcomeButtonUI DOM rendering', () => {
    });
 
    it('renders correctly with american odds', () => {
-      coreLibrary.config.oddsFormat = 'american';
+      coreLibrary.oddsFormat = 'american';
 
       expect(renderer.render(
          <OutcomeButton outcome={outcome} />
@@ -111,7 +111,7 @@ describe('OutcomeButtonUI DOM rendering', () => {
 describe('OutcomeButton behaviour', () => {
 
    beforeEach(() => {
-      coreLibrary.config.oddsFormat = 'decimal';
+      coreLibrary.oddsFormat = 'decimal';
       eventsModule.subscribe.mockClear();
       eventsModule.unsubscribe.mockClear();
       widgetModule.addOutcomeToBetslip.mockClear();
@@ -126,7 +126,7 @@ describe('OutcomeButton behaviour', () => {
 
       expect(wrapper.debug()).toMatchSnapshot();
 
-      coreLibrary.config.oddsFormat = 'american';
+      coreLibrary.oddsFormat = 'american';
 
       mockEventHandlers['ODDS:FORMAT']();
 
