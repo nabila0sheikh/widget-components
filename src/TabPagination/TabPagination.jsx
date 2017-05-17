@@ -30,6 +30,7 @@ class TabPagination extends Component {
     */
    switchTab(idx) {
       this.setState({ selected: idx });
+      this.props.onTabChange && this.props.onTabChange(idx);
    }
 
    /*
@@ -101,16 +102,26 @@ class TabPagination extends Component {
  */
 
 /**
+ * Called after switching tabs.
+ * @callback TabPagination_OnTabChange
+ * @param {number} idx Tab index
+ * @example
+ *    idx => console.log('currently selected tab: ' + idx)
+ */
+
+/**
  * @property [children] {ReactElement[]} Tab content elements
  * @property [renderTab] {TabPagination_RenderTab} Function called in order to render single tab on tab bar. Renders tab index by default.
  * @property [renderTabList] {TabPagination_RenderTabList} Function called in order to render tab bar. Renders {@link widget-components.ScrolledList|ScrolledList} by default.
  * @property [selected=0] {number} Currently selected tab index
+ * @property [onTabChange] {TabPagination_OnTabChange} Function called after switching tabs
  */
 TabPagination.propTypes = {
    children: PropTypes.node,
    renderTab: PropTypes.func,
    renderTabList: PropTypes.func,
-   selected: PropTypes.number
+   selected: PropTypes.number,
+   onTabChange: PropTypes.func
 };
 
 TabPagination.defaultProps = {

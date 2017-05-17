@@ -93,3 +93,28 @@ describe('TabPagination behaviour', () => {
    });
 
 });
+
+describe('TabPagination onTabChange callback', () => {
+
+   it('is called correctly after tab change', () => {
+      const renderTabMock = jest.fn(i => <div key={i} className={`tabMock_${i}`}>{i}</div>);
+
+      const onTabChangeMock = jest.fn();
+
+      const wrapper = mount(
+         <TabPagination
+            renderTab={renderTabMock}
+            onTabChange={onTabChangeMock}
+         >
+            <div>1</div>
+            <div>2</div>
+         </TabPagination>
+      );
+
+      wrapper.find('.tabMock_1').simulate('click');
+
+      expect(onTabChangeMock).toHaveBeenCalledTimes(1);
+      expect(onTabChangeMock).toHaveBeenCalledWith(1);
+   });
+
+});
