@@ -3,6 +3,7 @@
 /* eslint-disable react/no-danger */
 /* eslint-disable no-alert */
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { coreLibrary } from 'kambi-widget-core-library';
 import reactElementToJSXString from 'react-element-to-jsx-string';
@@ -45,8 +46,8 @@ const TestContainer = ({ description, element }) => {
 };
 
 TestContainer.propTypes = {
-   description: React.PropTypes.string.isRequired,
-   element: React.PropTypes.element
+   description: PropTypes.string.isRequired,
+   element: PropTypes.element
 };
 
 const render = function(description, element) {

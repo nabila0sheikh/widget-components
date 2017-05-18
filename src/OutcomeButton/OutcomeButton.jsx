@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { coreLibrary, widgetModule, utilModule, eventsModule } from 'kambi-widget-core-library';
 import OutcomeButtonUI from './OutcomeButtonUI';
 
@@ -173,11 +174,11 @@ class OutcomeButton extends Component {
  * @property [label=true] {string|boolean} Label to show. If boolean and false don't show any label, only the odds, if boolean and true use the provided event and the outcome to determine the label, if string uses it as the label
  */
 OutcomeButton.propTypes = {
-   outcome: React.PropTypes.object.isRequired,
-   event: React.PropTypes.object,
-   label: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.bool
+   outcome: PropTypes.object.isRequired,
+   event: PropTypes.object,
+   label: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
    ])
 };
 

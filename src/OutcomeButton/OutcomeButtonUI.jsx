@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styles from './OutcomeButtonUI.scss';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -66,11 +67,11 @@ class OutcomeButtonUI extends Component {
  * @property onClick {Function} Callback for when the button is clicked
  */
 OutcomeButtonUI.propTypes = {
-   label: React.PropTypes.node,
-   odds: React.PropTypes.string,
-   suspended: React.PropTypes.bool,
-   selected: React.PropTypes.bool.isRequired,
-   onClick: React.PropTypes.func
+   label: PropTypes.node,
+   odds: PropTypes.string,
+   suspended: PropTypes.bool,
+   selected: PropTypes.bool.isRequired,
+   onClick: PropTypes.func
 };
 
 OutcomeButtonUI.defaultProps = {

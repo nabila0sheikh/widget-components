@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './ActionButton.scss';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -34,10 +35,10 @@ class ActionButton extends React.Component {
 }
 
 ActionButton.propTypes = {
-   action: React.PropTypes.func.isRequired,
-   children: React.PropTypes.node.isRequired,
-   disabled: React.PropTypes.bool,
-   type: React.PropTypes.oneOf(['primary', 'secondary'])
+   action: PropTypes.func.isRequired,
+   children: PropTypes.node.isRequired,
+   disabled: PropTypes.bool,
+   type: PropTypes.oneOf(['primary', 'secondary'])
 };
 
 ActionButton.defaultProps = {

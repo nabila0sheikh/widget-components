@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { coreLibrary, widgetModule } from 'kambi-widget-core-library';
 import styles from './Header.scss';
 
@@ -105,12 +106,12 @@ class Header extends Component {
  * @property [customClasses] {string} Defaults to false. If provided adds these CSS classes to the header instead of adding classes based on coreLibrary.pageInfo.pageType (black header if pageType !== 'home')
  */
 Header.propTypes = {
-   children: React.PropTypes.node.isRequired,
-   collapsable: React.PropTypes.bool,
-   hidden: React.PropTypes.bool,
-   onCollapse: React.PropTypes.func,
-   onExpand: React.PropTypes.func,
-   customClasses: React.PropTypes.string
+   children: PropTypes.node.isRequired,
+   collapsable: PropTypes.bool,
+   hidden: PropTypes.bool,
+   onCollapse: PropTypes.func,
+   onExpand: PropTypes.func,
+   customClasses: PropTypes.string
 };
 
 export default Header;
