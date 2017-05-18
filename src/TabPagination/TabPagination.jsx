@@ -31,7 +31,9 @@ class TabPagination extends Component {
     */
    switchTab(idx) {
       this.setState({ selected: idx });
-      this.props.onTabChange && this.props.onTabChange(idx);
+
+      // switching the tab is done in the next tick
+      setTimeout(() => this.props.onTabChange && this.props.onTabChange(idx), 0);
    }
 
    /*

@@ -96,6 +96,10 @@ describe('TabPagination behaviour', () => {
 
 describe('TabPagination onTabChange callback', () => {
 
+   beforeAll(() => {
+      jest.useFakeTimers();
+   });
+
    it('is called correctly after tab change', () => {
       const renderTabMock = jest.fn(i => <div key={i} className={`tabMock_${i}`}>{i}</div>);
 
@@ -112,6 +116,10 @@ describe('TabPagination onTabChange callback', () => {
       );
 
       wrapper.find('.tabMock_1').simulate('click');
+
+      expect(onTabChangeMock).not.toHaveBeenCalled();
+
+      jest.runOnlyPendingTimers();
 
       expect(onTabChangeMock).toHaveBeenCalledTimes(1);
       expect(onTabChangeMock).toHaveBeenCalledWith(1);
