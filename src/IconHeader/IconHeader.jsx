@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './IconHeader.scss';
 
 const IconHeader = ({ title, subtitle, children }) => (
-   <header className={`KambiWidget-card-border-color KambiWidget-font ${styles.header}`}>
+   <header className={`KambiWidget-card-text-color KambiWidget-card-border-color KambiWidget-font ${styles.header}`}>
       <div className={styles.icon}>{children}</div>
       <div className={styles.container}>
          <div className={styles.title} title={title}>{title}</div>
