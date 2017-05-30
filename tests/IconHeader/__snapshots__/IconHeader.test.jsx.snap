@@ -2,7 +2,7 @@
 
 exports[`IconHeader DOM rendering renders correctly with inner element 1`] = `
 <header
-  className="KambiWidget-card-border-color KambiWidget-font header"
+  className="KambiWidget-card-text-color KambiWidget-card-border-color KambiWidget-font header"
 >
   <div
     className="icon"
@@ -30,7 +30,7 @@ exports[`IconHeader DOM rendering renders correctly with inner element 1`] = `
 
 exports[`IconHeader DOM rendering renders correctly with title 1`] = `
 <header
-  className="KambiWidget-card-border-color KambiWidget-font header"
+  className="KambiWidget-card-text-color KambiWidget-card-border-color KambiWidget-font header"
 >
   <div
     className="icon"
@@ -54,7 +54,7 @@ exports[`IconHeader DOM rendering renders correctly with title 1`] = `
 
 exports[`IconHeader DOM rendering renders correctly with title and subtitle 1`] = `
 <header
-  className="KambiWidget-card-border-color KambiWidget-font header"
+  className="KambiWidget-card-text-color KambiWidget-card-border-color KambiWidget-font header"
 >
   <div
     className="icon"
