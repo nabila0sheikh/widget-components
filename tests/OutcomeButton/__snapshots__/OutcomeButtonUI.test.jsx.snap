@@ -2,7 +2,7 @@
 
 exports[`OutcomeButtonUI DOM rendering renders correctly when neither selected nor suspended 1`] = `
 <button
-  className="l-flex-1 kw-link KambiWidget-outcome general"
+  className="KambiWidget-outcome general"
   disabled={false}
   onClick={undefined}
   role="button"
@@ -22,7 +22,7 @@ exports[`OutcomeButtonUI DOM rendering renders correctly when neither selected n
 
 exports[`OutcomeButtonUI DOM rendering renders correctly when selected 1`] = `
 <button
-  className="l-flex-1 kw-link KambiWidget-outcome general KambiWidget-outcome--selected"
+  className="KambiWidget-outcome general KambiWidget-outcome--selected"
   disabled={false}
   onClick={undefined}
   role="button"
@@ -42,7 +42,7 @@ exports[`OutcomeButtonUI DOM rendering renders correctly when selected 1`] = `
 
 exports[`OutcomeButtonUI DOM rendering renders correctly when selected 2`] = `
 <button
-  className="l-flex-1 kw-link KambiWidget-outcome general KambiWidget-outcome--suspended"
+  className="KambiWidget-outcome general KambiWidget-outcome--suspended"
   disabled={true}
   onClick={undefined}
   role="button"
@@ -62,7 +62,7 @@ exports[`OutcomeButtonUI DOM rendering renders correctly when selected 2`] = `
 
 exports[`OutcomeButtonUI DOM rendering renders correctly with label 1`] = `
 <button
-  className="l-flex-1 kw-link KambiWidget-outcome general"
+  className="KambiWidget-outcome general"
   disabled={false}
   onClick={undefined}
   role="button"
@@ -82,7 +82,7 @@ exports[`OutcomeButtonUI DOM rendering renders correctly with label 1`] = `
 
 exports[`OutcomeButtonUI DOM rendering renders correctly with odds and label 1`] = `
 <button
-  className="l-flex-1 kw-link KambiWidget-outcome general"
+  className="KambiWidget-outcome general"
   disabled={false}
   onClick={undefined}
   role="button"

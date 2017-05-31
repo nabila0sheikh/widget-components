@@ -1,4 +1,4 @@
-:local(.item) {
+.item {
    cursor: pointer;
    position: relative;
    transition: background-color .5s;
@@ -12,7 +12,7 @@
       background-color: #f0f0f0;
    }
 
-   :local(.border) {
+   .border {
       position: absolute;
       bottom: 0;
       height: 3px;
@@ -24,7 +24,7 @@
    &.selected {
       font-weight: bold;
 
-      :local(.border) {
+      .border {
          visibility: visible;
       }
    }
