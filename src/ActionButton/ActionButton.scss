@@ -1,4 +1,4 @@
-.container {
+:local(.container) {
    position: relative;
    display: flex;
    justify-content: center;
@@ -7,7 +7,7 @@
    padding: 0 10px;
 }
 
-.button {
+:local(.button) {
    position: absolute;
    top: 0;
    left: 0;
@@ -36,7 +36,7 @@
    }
 }
 
-.buttonText {
+:local(.buttonText) {
    font-weight: bold;
    background-color: transparent;
    pointer-events: none;

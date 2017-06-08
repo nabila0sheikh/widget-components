@@ -390,8 +390,8 @@ class ScrolledList extends Component {
    render() {
       const className = [
          styles.container,
-         this.props.showControls ? '' : styles['no-controls'],
-         isTouchScreen() ? styles.touch : ''
+         this.props.showControls ? '' : 'no-controls',
+         isTouchScreen() ? 'touch' : ''
       ].join(' ').trim();
 
       return (

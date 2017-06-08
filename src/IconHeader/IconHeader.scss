@@ -23,30 +23,30 @@
    overflow: hidden;
 }
 
-.header {
+:local(.header) {
    @include inherited();
    display: flex;
    padding-left: 16px;
    align-items: center;
 }
 
-.icon {
+:local(.icon) {
    height: 32px;
    margin-right: 12px;
    width: 32px;
 }
 
-.container {
+:local(.container) {
    @include calc(max-width, '100% - 62px');
 }
 
-.title {
+:local(.title) {
    @include size();
    font-size: 16px;
    font-weight: bold;
    text-transform: uppercase;
 }
 
-.subtitle {
+:local(.subtitle) {
    @include size();
 }

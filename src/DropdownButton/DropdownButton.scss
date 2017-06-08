@@ -1,9 +1,9 @@
-.general {
+:local(.general) {
    display: inline-block;
    position: relative;
 }
 
-.button {
+:local(.button) {
    background: none;
    border: none;
    outline: none;
@@ -22,7 +22,7 @@
    }
 }
 
-.dropDown {
+:local(.dropDown) {
    position: absolute;
    z-index: 1;
    list-style: none;
@@ -45,11 +45,11 @@
 // makes the dropdown cover the full width of the widget
 // 925px is the width that is used in the Kambi client for similar buttons
 @media (max-width: 925px) {
-   .general {
+   :local(.general) {
       position: initial;
    }
 
-   .dropDown {
+   :local(.dropDown) {
       left: 0;
       right: 0;
       /* vw means viewport width (iframe width)
@@ -66,22 +66,22 @@
    // yeah I know !important is bad, shut up
    // it was either this or check for the page size in JS (and having a page resize event listener)
    // these override dropdownMobileStyling in the render() of the component
-   .leftAlign {
+   :local(.leftAlign) {
       right: auto !important;
       left: 0 !important;
    }
 
-   .rightAlign {
+   :local(.rightAlign) {
       right: 0 !important;
       left: auto !important;
    }
 
-   .topAlign {
+   :local(.topAlign) {
       top: 0 !important;
       bottom: auto !important;
    }
 
-   .bottomAlign {
+   :local(.bottomAlign) {
       top: auto !important;
       bottom: 0 !important;
    }

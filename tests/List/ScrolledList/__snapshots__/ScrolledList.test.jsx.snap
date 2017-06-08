@@ -2,7 +2,7 @@
 
 exports[`ScrolledList DOM rendering renders correctly all SCROLL_TO_ITEM_MODE settings 1`] = `
 <div
-  className="container  touch"
+  className="container"
 >
   <div
     className="eyeshot"
@@ -47,7 +47,7 @@ exports[`ScrolledList DOM rendering renders correctly all SCROLL_TO_ITEM_MODE se
 
 exports[`ScrolledList DOM rendering renders correctly all SCROLL_TO_ITEM_MODE settings 2`] = `
 <div
-  className="container  touch"
+  className="container"
 >
   <div
     className="eyeshot"
@@ -92,7 +92,7 @@ exports[`ScrolledList DOM rendering renders correctly all SCROLL_TO_ITEM_MODE se
 
 exports[`ScrolledList DOM rendering renders correctly all SCROLL_TO_ITEM_MODE settings 3`] = `
 <div
-  className="container  touch"
+  className="container"
 >
   <div
     className="eyeshot"
@@ -137,7 +137,7 @@ exports[`ScrolledList DOM rendering renders correctly all SCROLL_TO_ITEM_MODE se
 
 exports[`ScrolledList DOM rendering renders correctly all SCROLL_TO_ITEM_MODE settings 4`] = `
 <div
-  className="container  touch"
+  className="container"
 >
   <div
     className="eyeshot"

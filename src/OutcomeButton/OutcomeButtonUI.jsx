@@ -14,7 +14,7 @@ class OutcomeButtonUI extends Component {
    render() {
       const { label, odds, suspended, selected, onClick } = this.props;
 
-      let buttonCssClasses = `KambiWidget-outcome ${styles.general}`;
+      let buttonCssClasses = 'l-flex-1 kw-link KambiWidget-outcome ' + styles.general;
 
       if (suspended) {
          buttonCssClasses += ' KambiWidget-outcome--suspended';

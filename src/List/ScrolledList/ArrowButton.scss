@@ -1,5 +1,5 @@
-.left,
-.right {
+:local(.left),
+:local(.right) {
    position: absolute;
    top: 0;
    bottom: 0;
@@ -18,25 +18,25 @@
       display: none;
    }
 
-   .icon {
+   :local(.icon) {
       fill: #000;
       opacity: .3;
       transition: opacity .3s;
    }
 
-   &:hover .icon {
+   &:hover :local(.icon) {
       opacity: 1;
    }
 }
 
-.left {
+:local(.left) {
    left: 16px;
 }
 
-.right {
+:local(.right) {
    right: 16px;
 
-   .icon {
+   :local(.icon) {
       transform: scale(-1, 1);
       margin-left: 25px;
    }

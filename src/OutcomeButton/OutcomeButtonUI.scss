@@ -1,8 +1,7 @@
-.label {
+:local(.label) {
    justify-content: center;
 }
 
-.general {
+:local(.general) {
    cursor: pointer;
-   flex: 1;
 }
