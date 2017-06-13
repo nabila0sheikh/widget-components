@@ -6,7 +6,7 @@ const ArrowButton = ({ type, disabled, onClick, backgroundColor }) => {
    // if buttons backgroundColor is not explicitly set
    // the body's backgroundColor will be used
    if (!backgroundColor) {
-      if (typeof window.getComputedStyle != 'function') {
+      if (typeof window.getComputedStyle !== 'function') {
          backgroundColor = '#fff';
       } else {
          backgroundColor = window.getComputedStyle(document.body).getPropertyValue('background-color');
@@ -14,7 +14,7 @@ const ArrowButton = ({ type, disabled, onClick, backgroundColor }) => {
    }
 
    const style = {
-      background: `linear-gradient(${type == 'left' ? 90 : 270}deg, ${backgroundColor} 50%, rgba(255, 255, 255, 0))`
+      background: `linear-gradient(${type === 'left' ? 90 : 270}deg, ${backgroundColor} 50%, rgba(255, 255, 255, 0))`
    };
 
    return (

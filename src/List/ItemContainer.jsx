@@ -60,7 +60,7 @@ class ItemContainer extends Component {
    render() {
       return (
          <div
-            className={[styles.item, this.props.selected ? 'selected' : ''].join(' ')}
+            className={[styles.item, this.props.selected ? styles.selected : ''].join(' ')}
             onClick={this.props.onClick}
             ref={el => (this.element = el)}
          >

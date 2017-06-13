@@ -1,4 +1,4 @@
-:local(.container) {
+.container {
    position: relative;
    padding: 0 16px;
 
@@ -8,7 +8,7 @@
 }
 
 // field of view
-:local(.eyeshot) {
+.eyeshot {
    overflow-x: hidden;
 
    .touch & {
@@ -18,7 +18,7 @@
 }
 
 // tab bar
-:local(.bar) {
+.bar {
    display: flex;
    margin: 0;
    transition: transform .3s;

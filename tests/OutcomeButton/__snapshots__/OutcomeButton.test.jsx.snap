@@ -3,7 +3,7 @@
 exports[`OutcomeButton behaviour renders correctly on odds format change 1`] = `
 "<OutcomeButton outcome={{...}} label={true}>
   <OutcomeButtonUI label={{...}} odds=\\"4.5\\" suspended={false} selected={false} onClick={[Function]}>
-    <button type=\\"button\\" role=\\"button\\" className=\\"l-flex-1 kw-link KambiWidget-outcome general\\" disabled={false} onClick={[Function]}>
+    <button type=\\"button\\" role=\\"button\\" className=\\"KambiWidget-outcome general\\" disabled={false} onClick={[Function]}>
       <div className=\\"KambiWidget-outcome__odds-wrapper\\">
         <span className=\\"KambiWidget-outcome__odds\\">
           4.5
@@ -17,7 +17,7 @@ exports[`OutcomeButton behaviour renders correctly on odds format change 1`] = `
 exports[`OutcomeButton behaviour renders correctly on odds format change 2`] = `
 "<OutcomeButton outcome={{...}} label={true}>
   <OutcomeButtonUI label={{...}} odds=\\"1/100\\" suspended={false} selected={false} onClick={[Function]}>
-    <button type=\\"button\\" role=\\"button\\" className=\\"l-flex-1 kw-link KambiWidget-outcome general\\" disabled={false} onClick={[Function]}>
+    <button type=\\"button\\" role=\\"button\\" className=\\"KambiWidget-outcome general\\" disabled={false} onClick={[Function]}>
       <div className=\\"KambiWidget-outcome__odds-wrapper\\">
         <span className=\\"KambiWidget-outcome__odds\\">
           1/100

@@ -73,16 +73,15 @@ class Header extends Component {
     */
    render () {
       // Default classes to be added to all headers
-      let cssClasses = 'l-flexbox l-pl-16 l-pr-16 KambiWidget-card-support-text-color KambiWidget-card-header-border';
+      let cssClasses = `${styles.general} KambiWidget-card-support-text-color KambiWidget-card-header-border`;
+
       // If we have custom classes disregard default styling and load custom classes
       if ( typeof this.props.customClasses === 'string') {
          cssClasses = this.props.customClasses;
       } else {
          // Add classes depending on pageInfo
-         if (this.state.isHome) { // eslint-disable-line
-            cssClasses += ' l-pt-6 l-pb-6 ';
-         } else {
-            cssClasses += ' KambiWidget-header l-pt-8 l-pb-8 ' + styles.kwNotHome;
+         if (!this.state.isHome) { // eslint-disable-line
+            cssClasses += ` KambiWidget-header ${styles.kwNotHome}`;
          }
       }
 
