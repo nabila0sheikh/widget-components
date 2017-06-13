@@ -11,7 +11,7 @@ exports[`Header DOM rendering renders correctly with custom classes 1`] = `
 
 exports[`Header DOM rendering renders correctly with default props 1`] = `
 <header
-  className="l-flexbox l-pl-16 l-pr-16 KambiWidget-card-support-text-color KambiWidget-card-header-border l-pt-6 l-pb-6 "
+  className="general KambiWidget-card-support-text-color KambiWidget-card-header-border"
   onClick={[Function]}
 >
   Test
@@ -20,7 +20,7 @@ exports[`Header DOM rendering renders correctly with default props 1`] = `
 
 exports[`Header DOM rendering renders correctly with pageType != 'home' 1`] = `
 <header
-  className="l-flexbox l-pl-16 l-pr-16 KambiWidget-card-support-text-color KambiWidget-card-header-border KambiWidget-header l-pt-8 l-pb-8 kwNotHome"
+  className="general KambiWidget-card-support-text-color KambiWidget-card-header-border KambiWidget-header kwNotHome"
   onClick={[Function]}
 >
   Test
