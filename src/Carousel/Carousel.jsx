@@ -17,8 +17,6 @@ class Carousel extends Component {
       this.state = {
          isMouseEntered: false,
          selectedItem: props.selectedItem,
-         animating: false,
-         enterAnimation: { transform: 'translateX(0%)' }
       }
    }
 
@@ -87,8 +85,14 @@ class Carousel extends Component {
       const carouselWrapper = this.carouselWrapper
 
       if (this.props.stopOnHover && carouselWrapper) {
-         carouselWrapper.addEventListener('mouseenter', () => this.stopOnHover())
-         carouselWrapper.addEventListener('mouseleave', () => this.startOnHoverLeave())
+         carouselWrapper.addEventListener('mouseenter', () => {
+            console.log('mouseenter');
+            this.stopOnHover()
+         })
+         carouselWrapper.addEventListener('mouseleave', () => {
+            console.log('mouseleave');
+            this.startOnHoverLeave()
+         })
       }
    }
 
@@ -160,7 +164,8 @@ class Carousel extends Component {
 
       return {
          transform: transformProp,
-         transitionDuration: this.props.transitionTime
+         transitionDuration: `${this.props.transitionTime}ms`,
+         transitionTimingFunction: this.props.cssEase
       }
    }
 
@@ -206,6 +211,7 @@ Carousel.defaultProps = {
    infiniteLoop: true,
    legendClassName: null,
    wrapperClassName: null,
+   cssEase: 'ease',
    selectedItem: 0,
    width: '100%',
    autoPlay: true,
