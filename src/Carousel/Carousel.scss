@@ -1,0 +1,100 @@
+@import '~compass-mixins';
+@import '~kambi-widget-core-library/src/scss/core.scss';
+
+// Our webpack configuration uses autoprefixer (https://github.com/postcss/autoprefixer) so we don't need to worry about vendor specific prefixes
+:global {
+   .carousel-wrapper {
+      position: relative;
+      overflow: hidden;
+
+      // Only apply these styles inside our carousel
+      * {
+         margin: 0;
+         padding: 0;
+         box-sizing: border-box;
+      }
+
+      .slider-wrapper {
+         overflow: hidden;
+         margin: auto;
+         width: 100%;
+
+         .slider {
+            display: flex;
+            position: relative;
+            list-style: none;
+         }
+      }
+   }
+}
+
+
+   // .banner-wrapper {
+   //    width: 200vw;
+   //    display: flex;
+   //
+   //    .banner-item {
+   //       flex: 1 100%;
+   //
+   //       img {
+   //          width: 100vw;
+   //          height: auto;
+   //          vertical-align: bottom;
+   //       }
+   //
+   //       h1, p {
+   //          margin: 0;
+   //       }
+   //
+   //       .banner-info-wrapper {
+   //          position: absolute;
+   //          bottom: 0;
+   //          left: 0;
+   //          width: 100%;
+   //          color: white;
+   //          background: rgba(0,0,0,1);
+   //          background: -moz-linear-gradient(left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%);
+   //          background: -webkit-gradient(left top, right top, color-stop(0%, rgba(0,0,0,1)), color-stop(50%, rgba(0,0,0,0.5)), color-stop(100%, rgba(0,0,0,0)));
+   //          background: -webkit-linear-gradient(left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%);
+   //          background: -o-linear-gradient(left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%);
+   //          background: -ms-linear-gradient(left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%);
+   //          background: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%);
+   //          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000', GradientType=1 );
+   //          box-sizing: border-box;
+   //          padding: 10px;
+   //       }
+   //    }
+
+
+//    .banner-info-hide {
+//       display: none;
+//       visibility: hidden;
+//    }
+//
+//    .dots-wrapper {
+//       position: absolute;
+//       bottom: 0;
+//       right: 10px;
+//       height: 30px;
+//       width: auto;
+//       z-index: 500;
+//       text-align: right;
+//
+//       .dots {
+//          display: inline-block;
+//          width: 14px;
+//          height: 14px;
+//          background-color: transparent;
+//          border-radius: 7px;
+//          border: 2px solid white;
+//          box-sizing: border-box;
+//          margin: 0 5px;
+//          transition: all 0.3s ease;
+//          cursor: pointer;
+//
+//          &.selected {
+//             background-color: white;
+//          }
+//       }
+//    }
+// }

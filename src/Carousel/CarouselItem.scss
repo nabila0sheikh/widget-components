@@ -1,0 +1,17 @@
+:global {
+   .carousel-item {
+      flex: 1 100%;
+      flex-direction: column;
+      flex-flow: column;
+      position: relative;
+      min-width: 100%;
+
+      & img {
+         width: 100%;
+         height: auto;
+         vertical-align: bottom;
+         display: inline-block;
+         pointer-events: none;
+      }
+   }
+}
