@@ -14,71 +14,50 @@ class Carousel extends Component {
 
    constructor(props) {
       super(props);
+      this.timer;
+
+      const { children } = this.props;
+
+      if (!children || children.length === 0) {
+         console.warn('No children warning');
+         return null
+      }
+
+      const newChildren = [...children, children[0]]
+
       this.state = {
          isMouseEntered: false,
-         selectedItem: props.selectedItem,
+         currentPosition: props.selectedItem,
+         lastPosition: newChildren.length - 1,
+         carouselItems: newChildren,
+         cssAnimation: {},
       }
+
    }
 
    componentDidMount() {
+
+      this.adaptHeight()
+
       if (this.props.autoPlay) {
          this.setupAutoPlay()
       }
    }
 
-   // componentDidMount() {
-   //    this.autoSlide();
-   //
-   //    this.adaptHeight();
-   //
-   //    window.addEventListener('resize', () => {
-   //       clearTimeout(this.resizeTimeout);
-   //       this.resizeTimeout = setTimeout(() => this.adaptHeight(), 200);
-   //    });
-   // }
+   componentDidUpdate() {
+      this.adaptHeight()
+   }
 
-   // componentDidUpdate() {
-   //    this.adaptHeight();
-   // }
+   adaptHeight() {
+      const item = this.refs[`item${this.state.currentPosition}`]
 
-   // componentWillUnmount() {
-   //    clearTimeout(this.resizeTimeout);
-   // }
+      const image = item && item.getElementByTagName('img')
 
-   // adaptHeight() {
-   //    widgetModule.adaptWidgetHeight(getImageHeight(this.props.imageElem));
-   // }
-   //
-   // nextImage(index) {
-   //    if ( index !== this.state.currentIndex && this.state.animating === false) {
-   //
-   //       this.setState({
-   //          newIndex: index,
-   //          enterAnimation: { transform: 'translateX(-100%)', transition: 'transform 1000ms ease' },
-   //          animating: true
-   //       });
-   //
-   //       const slide = setTimeout(() => {
-   //          this.setState({
-   //             currentIndex: index,
-   //             enterAnimation: { transform: 'translateX(0%)' },
-   //             animating: false
-   //          });
-   //
-   //          clearTimeout(slide);
-   //       }, 1000);
-   //
-   //       slide
-   //    }
-   // }
-   //
-   // autoSlide() {
-   //    const turnSlide = setTimeout(() => {
-   //       this.nextImage(this.state.currentIndex + 1 < this.props.children.length ? this.state.currentIndex + 1 : 0);
-   //       clearTimeout(turnSlide);
-   //       this.autoSlide();
-   //    }, 10000);
-   // }
+
+      widgetModule.adaptWidgetHeight(
+         (this.state.carouselItems[0].height / this.state.carouselItems[0].width) * window.innerWidth
+      )
+   }
 
    setupAutoPlay() {
       this.autoPlay()
@@ -101,7 +80,7 @@ class Carousel extends Component {
 
       this.timer = setTimeout(() => {
          this.increment()
-      }, this.props.intervalTime);
+      }, this.props.intervalDuration)
    }
 
    clearAutoPlay() {
@@ -126,28 +105,28 @@ class Carousel extends Component {
    }
 
    decrement(positions) {
-      this.moveTo(this.state.selectedItem - (typeof positions === 'Number' ? positions : 1));
+      this.moveTo(this.state.currentPosition - (typeof positions === 'Number' ? positions : 1));
    }
 
    increment(positions) {
-      this.moveTo(this.state.selectedItem + (typeof positions === 'Number' ? positions : 1));
+      this.moveTo(this.state.currentPosition + (typeof positions === 'Number' ? positions : 1));
    }
 
    moveTo(position) {
-      const lastPosition = this.props.children.length - 1;
-
       if (position < 0 ) {
-       position = this.props.infiniteLoop ?  lastPosition : 0;
+         position = this.props.infiniteLoop ? this.state.lastPosition : 1;
       }
 
-      if (position > lastPosition) {
-       position = this.props.infiniteLoop ? 0 : lastPosition;
+      if (position > this.state.lastPosition) {
+         position = this.props.infiniteLoop ? 1 : this.state.lastPosition;
       }
 
       this.setState({
          // if it's not a slider, we don't need to set position here
-         selectedItem: position
+         currentPosition: position
       });
+
+      this.setSliderStyles()
 
       // don't reset auto play when stop on hover is enabled, doing so will trigger a call to auto play more than once
       // and will result in the interval function not being cleared correctly.
@@ -157,48 +136,52 @@ class Carousel extends Component {
    }
 
 
-   getSliderStyles() {
-      const currentPosition = `${-this.state.selectedItem * 100}%`
+   setSliderStyles() {
+      const currentPosition = `${-this.state.currentPosition * 100}%`
 
-      const transformProp = `translate3d(${currentPosition}, 0, 0)`
+      this.setState({
+         cssAnimation: {
+            transform: `translate3d(${currentPosition}, 0, 0)`,
+            transition: `${this.props.transitionDuration}ms ${this.props.cssEase}`
+         }
+      }, () => this.props.onSlide(this.state.currentPosition))
 
-      return {
-         transform: transformProp,
-         transitionDuration: `${this.props.transitionTime}ms`,
-         transitionTimingFunction: this.props.cssEase
+      if (this.state.currentPosition === this.state.lastPosition) {
+         // Reset the current slide position back to 0% with no transition
+         setTimeout(() => {
+            this.setState({
+               cssAnimation: {
+                  transform: 'translate3d(0%, 0, 0)',
+                  transition: 'none'
+               }
+            })
+         }, this.props.transitionDuration)
       }
    }
 
    renderItems() {
-      const { children } = this.props;
-
-      if (!children || children.length === 0) {
-         console.warn('No children warning');
-         return null
-      }
-
-      return children.map((child, index) => (
-         <CarouselItem key={`child-${index}`}>
+      return this.state.carouselItems.map((child, index) => (
+         <CarouselItem
+            ref={`item${index}`}
+            key={`child-${index}`}
+            index={index}
+            selectedItem={index === this.state.currentPosition}
+         >
             {child}
          </CarouselItem>
       ))
    }
 
    render () {
-      const { children } = this.props;
-
-      const sliderStyles = this.getSliderStyles()
-
       return (
          <div className={this.props.wrapperClassName} ref={el => this.carouselWrapper = el}>
             <div className='carousel-wrapper' style={{ width: this.props.width }}>
                <div className='slider-wrapper'>
-                  <ul className='slider' style={sliderStyles}>
+                  <ul className='slider' style={this.state.cssAnimation}>
                      {/* Render Carousel Items */}
                      {this.renderItems()}
                   </ul>
                </div>
-
             </div>
          </div>
       )
@@ -213,14 +196,15 @@ Carousel.defaultProps = {
    wrapperClassName: null,
    cssEase: 'ease',
    selectedItem: 0,
-   width: '100%',
+   width: '75%',
    autoPlay: true,
    stopOnHover: true,
-   intervalTime: 3000,
-   transitionTime: 350,
+   intervalDuration: 1500,
+   transitionDuration: 350,
    carouselItems: null, // [{ item: 'blah', }]
    redirectURL: null,
-   redirectCallback: () => {}
+   redirectCallback: () => {},
+   onSlide: (currentPos) => { }
 }
 
 Carousel.propTypes = {

@@ -27,7 +27,10 @@ class CarouselItem extends Component {
    }
    render() {
       return (
-         <li className='carousel-item'>
+         <li
+            className={this.props.selectedItem ? 'carousel-item--active' : 'carousel-item'}
+            id={`item-${this.props.index}`}
+         >
             {this.props.children}
          </li>
       )
