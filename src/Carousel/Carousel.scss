@@ -6,6 +6,7 @@
    .carousel-wrapper {
       position: relative;
       overflow: hidden;
+      height: 400px;
 
       // Only apply these styles inside our carousel
       * {
@@ -18,13 +19,31 @@
          overflow: hidden;
          margin: auto;
          width: 100%;
+         transition: height .15s ease-in;
 
          .slider {
             display: flex;
             position: relative;
             list-style: none;
+
+            .carousel-item {
+               flex: 1 100%;
+               flex-direction: column;
+               flex-flow: column;
+               position: relative;
+               min-width: 100%;
+
+               & img {
+                  width: 100%;
+                  height: auto;
+                  vertical-align: bottom;
+                  display: inline-block;
+                  pointer-events: none;
+               }
+            }
          }
       }
+
    }
 }
 

@@ -30,6 +30,7 @@ class CarouselItem extends Component {
          <li
             className={this.props.selectedItem ? 'carousel-item--active' : 'carousel-item'}
             id={`item-${this.props.index}`}
+            ref={`item${this.props.index}`}
          >
             {this.props.children}
          </li>

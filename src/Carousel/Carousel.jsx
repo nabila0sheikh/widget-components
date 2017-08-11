@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types'
 import { widgetModule } from 'kambi-widget-core-library';
 import styles from './Carousel.scss'
@@ -31,31 +32,87 @@ class Carousel extends Component {
          lastPosition: newChildren.length - 1,
          carouselItems: newChildren,
          cssAnimation: {},
+         initialized: false,
+         itemSize: 0
       }
 
    }
 
    componentDidMount() {
+      if (!this.props.children) return
 
-      this.adaptHeight()
+      this.setupCarousel()
 
       if (this.props.autoPlay) {
          this.setupAutoPlay()
       }
    }
 
-   componentDidUpdate() {
+   componentDidUpdate(prevProps) {
       this.adaptHeight()
+   }
+
+   setupCarousel() {
+      this.bindEvents()
+
+      this.setState({
+         initialized: true
+      }, () => console.log('Carousel is initialized'))
+
+      const item = this.refs[`item${this.state.currentPosition}`]
+      const images = item && item.getElementsByTagName('img')
+      const initialImage = images && images[this.state.currentPosition]
+
+      if (initialImage) {
+         initialImage.addEventListener('load', () => this.adaptHeight())
+      }
+   }
+
+   bindEvents() {
+      window.addEventListener('resize', () => {
+         clearTimeout(this.resizeTimeout);
+         this.resizeTimeout = setTimeout(() => this.adaptHeight(), 200);
+      });
+   }
+
+   updateSizes() {
+      if (!this.state.initialized) return
+
+      const firstItem = this.refs.item0
+      const width = firstItem.clientWidth
+      const height = firstItem.clientHeight
+
+      widgetModule.adaptWidgetHeight(
+         (height / width) * window.innerWidth
+      )
+
    }
 
    adaptHeight() {
       const item = this.refs[`item${this.state.currentPosition}`]
+      const images = item && item.getElementsByTagName('img')
 
-      const image = item && item.getElementByTagName('img')
+      if (images.length <= 0) {
+         return null
+      }
 
+      const image = images[0];
+
+      if (!image.complete) {
+         // Image has not yet loaded need to handle this here
+         const onImgLoad = () => {
+            this.forceUpdate();
+            image.removeEventListener('load', onImgLoad)
+         }
+
+         image.addEventListener('load', onImgLoad)
+      }
+
+      const height = image.clientHeight;
+      const width = image.clientWidth;
 
       widgetModule.adaptWidgetHeight(
-         (this.state.carouselItems[0].height / this.state.carouselItems[0].width) * window.innerWidth
+         (height / width) * window.innerWidth
       )
    }
 
@@ -161,22 +218,25 @@ class Carousel extends Component {
 
    renderItems() {
       return this.state.carouselItems.map((child, index) => (
-         <CarouselItem
-            ref={`item${index}`}
+         <li
             key={`child-${index}`}
-            index={index}
-            selectedItem={index === this.state.currentPosition}
+            className={this.state.currentPosition === index ? 'carousel-item--active' : 'carousel-item'}
+            id={`item-${index}`}
+            ref={`item${index}`}
          >
             {child}
-         </CarouselItem>
+         </li>
       ))
    }
 
    render () {
+      const wrapperStyles = {}
+
+
       return (
          <div className={this.props.wrapperClassName} ref={el => this.carouselWrapper = el}>
             <div className='carousel-wrapper' style={{ width: this.props.width }}>
-               <div className='slider-wrapper'>
+               <div className='slider-wrapper' style={wrapperStyles}>
                   <ul className='slider' style={this.state.cssAnimation}>
                      {/* Render Carousel Items */}
                      {this.renderItems()}
@@ -196,7 +256,7 @@ Carousel.defaultProps = {
    wrapperClassName: null,
    cssEase: 'ease',
    selectedItem: 0,
-   width: '75%',
+   width: '100%',
    autoPlay: true,
    stopOnHover: true,
    intervalDuration: 1500,
