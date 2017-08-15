@@ -4,12 +4,6 @@ import PropTypes from 'prop-types'
 import { widgetModule } from 'kambi-widget-core-library';
 import styles from './Carousel.scss'
 
-import CarouselItem from './CarouselItem';
-
-const getImageHeight = (image) => {
-   return (image.height / image.width) * window.innerWidth;
-}
-
 
 class Carousel extends Component {
 
@@ -58,14 +52,6 @@ class Carousel extends Component {
       this.setState({
          initialized: true
       }, () => console.log('Carousel is initialized'))
-
-      const item = this.refs[`item${this.state.currentPosition}`]
-      const images = item && item.getElementsByTagName('img')
-      const initialImage = images && images[this.state.currentPosition]
-
-      if (initialImage) {
-         initialImage.addEventListener('load', () => this.adaptHeight())
-      }
    }
 
    bindEvents() {
@@ -73,19 +59,6 @@ class Carousel extends Component {
          clearTimeout(this.resizeTimeout);
          this.resizeTimeout = setTimeout(() => this.adaptHeight(), 200);
       });
-   }
-
-   updateSizes() {
-      if (!this.state.initialized) return
-
-      const firstItem = this.refs.item0
-      const width = firstItem.clientWidth
-      const height = firstItem.clientHeight
-
-      widgetModule.adaptWidgetHeight(
-         (height / width) * window.innerWidth
-      )
-
    }
 
    adaptHeight() {
@@ -97,16 +70,6 @@ class Carousel extends Component {
       }
 
       const image = images[0];
-
-      if (!image.complete) {
-         // Image has not yet loaded need to handle this here
-         const onImgLoad = () => {
-            this.forceUpdate();
-            image.removeEventListener('load', onImgLoad)
-         }
-
-         image.addEventListener('load', onImgLoad)
-      }
 
       const height = image.clientHeight;
       const width = image.clientWidth;
@@ -220,7 +183,7 @@ class Carousel extends Component {
       return this.state.carouselItems.map((child, index) => (
          <li
             key={`child-${index}`}
-            className={this.state.currentPosition === index ? 'carousel-item--active' : 'carousel-item'}
+            className={this.state.currentPosition === index ? 'carousel-item selected' : 'carousel-item'}
             id={`item-${index}`}
             ref={`item${index}`}
          >

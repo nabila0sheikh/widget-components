@@ -25,6 +25,7 @@
             display: flex;
             position: relative;
             list-style: none;
+            width: 100%;
 
             .carousel-item {
                flex: 1 100%;
@@ -35,8 +36,9 @@
 
                & img {
                   width: 100%;
+                  max-width: 100%;
                   height: auto;
-                  vertical-align: bottom;
+                  vertical-align: middle;
                   display: inline-block;
                   pointer-events: none;
                }
