@@ -20,10 +20,10 @@ const TestContainer = ({ description, element }) => {
 
    return (
       <div className='test-container'>
-         <div className='header'>
+         {/* <div className='header'>
             <h2>{element.type.name}</h2>
             { description }
-         </div>
+         </div> */}
          {/* <div className='code'>
             <h3>Code</h3>
             <pre>
@@ -36,7 +36,7 @@ const TestContainer = ({ description, element }) => {
             </pre>
          </div> */}
          <div className='example'>
-            <h3>Working example</h3>
+            {/* <h3>Working example</h3> */}
             <div className='component'>
                { element }
             </div>
@@ -75,26 +75,47 @@ coreLibrary.init({}).then(() => {
 
    render(
       'Carousel with 3 images',
-      <Carousel>
-         <div>
-            <img alt='img1' src={require('./Carousel/sport1.jpeg')} />
-            <div className='carousel-legend'>
-               <p>Legend 1</p>
-            </div>
-         </div>
-         <div>
-            <img alt='img2' src={require('./Carousel/sport2.jpeg')} />
-            <div className='carousel-legend'>
-               <p>Legend 1</p>
-            </div>
-         </div>
-         <div>
-            <img alt='img3' src={require('./Carousel/sport3.jpeg')} />
-            <div className='carousel-legend'>
-               <p>Legend 1</p>
-            </div>
-         </div>
-      </Carousel>
+      // But the carousel should also work like this..... ready?
+      //
+      <Carousel
+         carouselItemsArray={[
+            {
+               imagePath: 'http://lorempixel.com/1200/800/sports/1/',
+               promo: 'content',
+            },
+            {
+               imagePath: 'http://lorempixel.com/1200/800/sports/2/',
+               promo: 'content',
+            },
+            {
+               imagePath: 'http://lorempixel.com/1200/800/sports/3/',
+               promo: 'content',
+            },
+         ]}
+      />
+
+
+
+      // <Carousel>
+      //    <div>
+      //       <img alt='img1' src={require('./Carousel/sport1.jpeg')} />
+      //       <div className='carousel-legend'>
+      //          <p>Legend 1</p>
+      //       </div>
+      //    </div>
+      //    <div>
+      //       <img alt='img2' src={require('./Carousel/sport2.jpeg')} />
+      //       <div className='carousel-legend'>
+      //          <p>Legend 1</p>
+      //       </div>
+      //    </div>
+      //    <div>
+      //       <img alt='img3' src={require('./Carousel/sport3.jpeg')} />
+      //       <div className='carousel-legend'>
+      //          <p>Legend 1</p>
+      //       </div>
+      //    </div>
+      // </Carousel>
    );
 
 

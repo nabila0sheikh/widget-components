@@ -1,9 +1,37 @@
 import React, { Component } from 'react';
+import createFragment from 'react-addons-create-fragment'
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types'
 import { widgetModule } from 'kambi-widget-core-library';
 import styles from './Carousel.scss'
 
+const imgPromise = (url) => {
+   return new Promise((resolve, reject) => {
+      const imageElem = new Image()
+
+      imageElem.onload = () => resolve(imageElem)
+      imageElem.onerror = () => reject('The image failed to load')
+
+      imageElem.src = url
+   })
+}
+
+const carouselItemsPromise = (items) => {
+   if (!items.every(item => typeof item === 'object')) {
+      console.error('Property carouselItemsArray should contain objects')
+      return
+   }
+
+   return Promise.all(
+      items.map((item) => {
+         if (item.hasOwnProperty('imagePath')) {
+            return imgPromise(item.imagePath)
+         }
+      })
+   ).then(([...items]) => {
+      return items;
+   })
+}
 
 class Carousel extends Component {
 
@@ -11,35 +39,19 @@ class Carousel extends Component {
       super(props);
       this.timer;
 
-      const { children } = this.props;
-
-      if (!children || children.length === 0) {
-         console.warn('No children warning');
-         return null
-      }
-
-      const newChildren = [...children, children[0]]
-
       this.state = {
          isMouseEntered: false,
          currentPosition: props.selectedItem,
-         lastPosition: newChildren.length - 1,
-         carouselItems: newChildren,
+         lastPosition: null,
+         carouselItems: null,
          cssAnimation: {},
          initialized: false,
          itemSize: 0
       }
-
    }
 
    componentDidMount() {
-      if (!this.props.children) return
-
       this.setupCarousel()
-
-      if (this.props.autoPlay) {
-         this.setupAutoPlay()
-      }
    }
 
    componentDidUpdate(prevProps) {
@@ -48,10 +60,39 @@ class Carousel extends Component {
 
    setupCarousel() {
       this.bindEvents()
+      this.setupCarouselItems()
 
       this.setState({
          initialized: true
       }, () => console.log('Carousel is initialized'))
+   }
+
+   setupCarouselItems() {
+      if (!this.props.children) {
+         console.warn('No children warning');
+         const itemsArray = this.props.carouselItemsArray
+         if (itemsArray != null && Array.isArray(itemsArray)) {
+            carouselItemsPromise(itemsArray)
+               .then((items) => {
+                  items = [...items, items[0]]
+                  this.setState({
+                     carouselItems: items,
+                     lastPosition: items.length -1
+                  })
+
+                  if (this.props.autoPlay) {
+                     this.setupAutoPlay()
+                  }
+               })
+         }
+      } else {
+         const { children } = this.props;
+         const items = [...children, children[0]]
+         this.setState({
+            carouselItems: items,
+            lastPosition: items.length -1
+         })
+      }
    }
 
    bindEvents() {
@@ -62,19 +103,25 @@ class Carousel extends Component {
    }
 
    adaptHeight() {
-      const item = this.refs[`item${this.state.currentPosition}`]
-      const images = item && item.getElementsByTagName('img')
+      if (this.state.carouselItems == null) return null
+
+      const item = this[`item${this.state.currentPosition}`]
+      const images = item && item.getElementsByTagName('img') // returns an array
 
       if (images.length <= 0) {
          return null
       }
 
-      const image = images[0];
+      const image = images[0]; // First image in the array
+      // should only be one image as each 'item' === each <li> tag
 
+      // Access the image height and width
       const height = image.clientHeight;
       const width = image.clientWidth;
 
-      widgetModule.adaptWidgetHeight(
+      // Call setWidgetHeight from widgetModule to set the height of the iframe
+      widgetModule.setWidgetHeight(
+         // Use height/width * window width to maintain aspect ratio
          (height / width) * window.innerWidth
       )
    }
@@ -96,16 +143,12 @@ class Carousel extends Component {
    }
 
    autoPlay() {
-      if (!this.props.autoPlay) { return }
-
       this.timer = setTimeout(() => {
          this.increment()
       }, this.props.intervalDuration)
    }
 
    clearAutoPlay() {
-      if (!this.props.autoPlay) { return }
-
       clearTimeout(this.timer)
    }
 
@@ -185,14 +228,18 @@ class Carousel extends Component {
             key={`child-${index}`}
             className={this.state.currentPosition === index ? 'carousel-item selected' : 'carousel-item'}
             id={`item-${index}`}
-            ref={`item${index}`}
+            ref={el => this[`item${index}`] = el}
          >
-            {child}
+            <img src={child.src} />
          </li>
       ))
    }
 
    render () {
+      if (this.state.carouselItems == null) {
+         return null
+      }
+
       const wrapperStyles = {}
 
 
@@ -224,14 +271,14 @@ Carousel.defaultProps = {
    stopOnHover: true,
    intervalDuration: 1500,
    transitionDuration: 350,
-   carouselItems: null, // [{ item: 'blah', }]
+   carouselItemsArray: null, // [{ item: 'blah', }]
    redirectURL: null,
    redirectCallback: () => {},
    onSlide: (currentPos) => { }
 }
 
 Carousel.propTypes = {
-   children: PropTypes.node.isRequired
+   children: PropTypes.node
 };
 
 Carousel.displayName = 'Carousel'
