@@ -19,7 +19,7 @@
          margin: auto;
          width: 100%;
          transition: height .15s ease-in;
-
+         
          .slider {
             display: flex;
             position: relative;
@@ -33,15 +33,16 @@
                position: relative;
                min-width: 100%;
 
-               & img {
-                  width: 100%;
-                  max-width: 100%;
-                  height: auto;
-                  vertical-align: middle;
-                  display: inline-block;
-                  pointer-events: none;
-               }
             }
+         }
+
+         & img {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            vertical-align: middle;
+            display: inline-block;
+            pointer-events: none;
          }
       }
 

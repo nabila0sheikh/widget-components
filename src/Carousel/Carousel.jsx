@@ -1,36 +1,53 @@
-import React, { Component } from 'react';
-import createFragment from 'react-addons-create-fragment'
+import React, { Component, cloneElement } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types'
 import { widgetModule } from 'kambi-widget-core-library';
 import styles from './Carousel.scss'
 
-const imgPromise = (url) => {
-   return new Promise((resolve, reject) => {
-      const imageElem = new Image()
+// const imgPromise = (url) => {
+//    return new Promise((resolve, reject) => {
+//       const imageElem = new Image()
+//
+//       imageElem.onload = () => resolve(imageElem)
+//       imageElem.onerror = () => reject('The image failed to load')
+//
+//       imageElem.src = url
+//    })
+   // }
+//
+// const carouselItemsPromise = (items) => {
+//    if (!items.every(item => typeof item === 'object')) {
+//       console.error('Property carouselItemsArray should contain objects')
+//       return
+//    }
+//
+//    return Promise.all(
+//       items.map((item) => {
+//          if (item.hasOwnProperty('imagePath')) {
+//             return imgPromise(item.imagePath)
+//          } else {
+//             console.error('The key of the image URL in the Object for carouselItemsArray should be "imagePath"')
+//          }
+//       })
+//    ).then(([...items]) => {
+//       return items;
+//    })
+// }
 
-      imageElem.onload = () => resolve(imageElem)
-      imageElem.onerror = () => reject('The image failed to load')
+const imagesLoaded = (parentNode) => {
+   const imgElements = parentNode.querySelectorAll('img')
 
-      imageElem.src = url
-   })
-}
-
-const carouselItemsPromise = (items) => {
-   if (!items.every(item => typeof item === 'object')) {
-      console.error('Property carouselItemsArray should contain objects')
-      return
+   if (imgElements == null || imgElements.length < 1) {
+      return false
    }
 
-   return Promise.all(
-      items.map((item) => {
-         if (item.hasOwnProperty('imagePath')) {
-            return imgPromise(item.imagePath)
-         }
-      })
-   ).then(([...items]) => {
-      return items;
+   imgElements.forEach((img) => {
+      if (!img.complete) {
+         return false
+      }
    })
+
+   return true
 }
 
 class Carousel extends Component {
@@ -44,7 +61,9 @@ class Carousel extends Component {
          currentPosition: props.selectedItem,
          lastPosition: null,
          carouselItems: null,
+         imagesLoaded: false,
          cssAnimation: {},
+         itemStyles: {},
          initialized: false,
          itemSize: 0
       }
@@ -69,29 +88,27 @@ class Carousel extends Component {
 
    setupCarouselItems() {
       if (!this.props.children) {
-         console.warn('No children warning');
          const itemsArray = this.props.carouselItemsArray
-         if (itemsArray != null && Array.isArray(itemsArray)) {
-            carouselItemsPromise(itemsArray)
-               .then((items) => {
-                  items = [...items, items[0]]
-                  this.setState({
-                     carouselItems: items,
-                     lastPosition: items.length -1
-                  })
 
-                  if (this.props.autoPlay) {
-                     this.setupAutoPlay()
-                  }
-               })
+         if (itemsArray != null && Array.isArray(itemsArray)) {
+            const items = [...itemsArray, itemsArray[0]]
+            this.setState({
+               carouselItems: items,
+               lastPosition: items.length - 1
+            })
+
          }
       } else {
          const { children } = this.props;
          const items = [...children, children[0]]
          this.setState({
             carouselItems: items,
-            lastPosition: items.length -1
+            lastPosition: items.length - 1
          })
+      }
+
+      if (this.props.autoPlay) {
+         this.setupAutoPlay()
       }
    }
 
@@ -201,38 +218,115 @@ class Carousel extends Component {
 
    setSliderStyles() {
       const currentPosition = `${-this.state.currentPosition * 100}%`
+      let animationObject = {}
 
-      this.setState({
-         cssAnimation: {
+      if (this.props.animationType === 'slide') {
+         animationObject = {
             transform: `translate3d(${currentPosition}, 0, 0)`,
             transition: `${this.props.transitionDuration}ms ${this.props.cssEase}`
          }
-      }, () => this.props.onSlide(this.state.currentPosition))
 
-      if (this.state.currentPosition === this.state.lastPosition) {
-         // Reset the current slide position back to 0% with no transition
-         setTimeout(() => {
-            this.setState({
-               cssAnimation: {
-                  transform: 'translate3d(0%, 0, 0)',
-                  transition: 'none'
-               }
-            })
-         }, this.props.transitionDuration)
+         this.setState({
+            cssAnimation: animationObject
+         }, () => this.props.onSlide(this.state.currentPosition))
+
+         if (this.state.currentPosition === this.state.lastPosition) {
+            // Reset the current slide position back to 0% with no transition
+            setTimeout(() => {
+               this.setState({
+                  cssAnimation: {
+                     transform: 'translate3d(0%, 0, 0)',
+                     transition: 'none'
+                  }
+               })
+            }, this.props.transitionDuration)
+         }
+
+      } else if (this.props.animationType === 'fade') {
+         animationObject = {
+            transform: 'translate3d(0%, 0, 0)',
+         }
+
+         this.setState({
+            cssAnimation: animationObject
+         }, () => this.props.onSlide(this.state.currentPosition))
+
+         // setTimeout(() => {
+         //    animationObject = {
+         //       opacity: 1,
+         //       transition: `opacity ${this.props.transitionDuration}ms ${this.props.cssEase}`
+         //    }
+         //    this.setState({ cssAnimation: animationObject })
+         // }, this.props.transitionDuration / 2)
+
+      } else {
+         console.error(`You used the animation value ${this.props.animationType} which is not currently supported by the carousel. Please use one of 'slide' or 'fade'.`)
       }
    }
 
+   imageChangeHandler() {
+      const carouselWrapper = this.carouselWrapper
+
+      this.setState({
+         imagesLoaded: imagesLoaded(carouselWrapper)
+      })
+   }
+
+   renderImage(item, index) {
+
+      const imgEvents = {
+         onLoad: () => this.imageChangeHandler(),
+         onError: () => this.imageChangeHandler()
+      }
+
+      if (item.hasOwnProperty('imagePath')) {
+         return <img
+            src={item.imagePath}
+            alt={`image item ${index} in the carousel`}
+            onLoad={imgEvents.onLoad}
+            onError={imgEvents.onError}
+         />
+      }
+
+      return cloneElement(item, {
+         onLoad: imgEvents.onLoad,
+         onError: imgEvents.onError
+      })
+   }
+
    renderItems() {
-      return this.state.carouselItems.map((child, index) => (
-         <li
-            key={`child-${index}`}
-            className={this.state.currentPosition === index ? 'carousel-item selected' : 'carousel-item'}
-            id={`item-${index}`}
-            ref={el => this[`item${index}`] = el}
-         >
-            <img src={child.src} />
-         </li>
-      ))
+      return this.state.carouselItems.map((item, index) => {
+
+         const { itemStyles } = this.state;
+
+         if (this.props.animationType === 'fade') {
+            let style = {
+               left: `${-index * 100}%`,
+               opacity: 0,
+               transition: `opacity ${this.props.transitionDuration}ms ${this.props.cssEase}`
+            }
+
+            if (this.state.currentPosition === index) {
+               style = Object.assign({}, style, {
+                  opacity: 1
+               })
+            }
+
+            this.setState({ itemStyles: style })
+         }
+
+         return (
+            <li
+               key={`item-${index}`}
+               className={this.state.currentPosition === index ? 'carousel-item selected' : 'carousel-item'}
+               id={`item-${index}`}
+               ref={el => this[`item${index}`] = el}
+               style={itemStyles}
+            >
+               {this.renderImage(item, index)}
+            </li>
+         )
+      })
    }
 
    render () {
@@ -240,13 +334,10 @@ class Carousel extends Component {
          return null
       }
 
-      const wrapperStyles = {}
-
-
       return (
          <div className={this.props.wrapperClassName} ref={el => this.carouselWrapper = el}>
             <div className='carousel-wrapper' style={{ width: this.props.width }}>
-               <div className='slider-wrapper' style={wrapperStyles}>
+               <div className='slider-wrapper'>
                   <ul className='slider' style={this.state.cssAnimation}>
                      {/* Render Carousel Items */}
                      {this.renderItems()}
@@ -265,6 +356,7 @@ Carousel.defaultProps = {
    legendClassName: null,
    wrapperClassName: null,
    cssEase: 'ease',
+   animationType: 'fade', // Enum 'slide' or 'fade'
    selectedItem: 0,
    width: '100%',
    autoPlay: true,
