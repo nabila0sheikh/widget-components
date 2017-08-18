@@ -4,36 +4,6 @@ import PropTypes from 'prop-types'
 import { widgetModule } from 'kambi-widget-core-library';
 import styles from './Carousel.scss'
 
-// const imgPromise = (url) => {
-//    return new Promise((resolve, reject) => {
-//       const imageElem = new Image()
-//
-//       imageElem.onload = () => resolve(imageElem)
-//       imageElem.onerror = () => reject('The image failed to load')
-//
-//       imageElem.src = url
-//    })
-   // }
-//
-// const carouselItemsPromise = (items) => {
-//    if (!items.every(item => typeof item === 'object')) {
-//       console.error('Property carouselItemsArray should contain objects')
-//       return
-//    }
-//
-//    return Promise.all(
-//       items.map((item) => {
-//          if (item.hasOwnProperty('imagePath')) {
-//             return imgPromise(item.imagePath)
-//          } else {
-//             console.error('The key of the image URL in the Object for carouselItemsArray should be "imagePath"')
-//          }
-//       })
-//    ).then(([...items]) => {
-//       return items;
-//    })
-// }
-
 const imagesLoaded = (parentNode) => {
    const imgElements = parentNode.querySelectorAll('img')
 
@@ -41,7 +11,7 @@ const imagesLoaded = (parentNode) => {
       return false
    }
 
-   imgElements.forEach((img) => {
+   imgElements.forEach((img, index) => {
       if (!img.complete) {
          return false
       }
@@ -63,7 +33,6 @@ class Carousel extends Component {
          carouselItems: null,
          imagesLoaded: false,
          cssAnimation: {},
-         itemStyles: {},
          initialized: false,
          itemSize: 0
       }
@@ -73,13 +42,18 @@ class Carousel extends Component {
       this.setupCarousel()
    }
 
-   componentDidUpdate(prevProps) {
+   componentDidUpdate(prevProps, prevState) {
       this.adaptHeight()
+
+      if (this.state.imagesLoaded !== prevState.imagesLoaded && this.state.imagesLoaded) {
+         this.setupAutoPlay()
+      }
    }
 
    setupCarousel() {
-      this.bindEvents()
+
       this.setupCarouselItems()
+      this.bindEvents()
 
       this.setState({
          initialized: true
@@ -107,7 +81,7 @@ class Carousel extends Component {
          })
       }
 
-      if (this.props.autoPlay) {
+      if (this.props.autoPlay && this.state.imagesLoaded) {
          this.setupAutoPlay()
       }
    }
@@ -120,7 +94,9 @@ class Carousel extends Component {
    }
 
    adaptHeight() {
-      if (this.state.carouselItems == null) return null
+      if (this.state.carouselItems == null && !this.state.imagesLoaded) {
+         return null
+      }
 
       const item = this[`item${this.state.currentPosition}`]
       const images = item && item.getElementsByTagName('img') // returns an array
@@ -221,6 +197,7 @@ class Carousel extends Component {
       let animationObject = {}
 
       if (this.props.animationType === 'slide') {
+
          animationObject = {
             transform: `translate3d(${currentPosition}, 0, 0)`,
             transition: `${this.props.transitionDuration}ms ${this.props.cssEase}`
@@ -243,6 +220,7 @@ class Carousel extends Component {
          }
 
       } else if (this.props.animationType === 'fade') {
+
          animationObject = {
             transform: 'translate3d(0%, 0, 0)',
          }
@@ -251,16 +229,10 @@ class Carousel extends Component {
             cssAnimation: animationObject
          }, () => this.props.onSlide(this.state.currentPosition))
 
-         // setTimeout(() => {
-         //    animationObject = {
-         //       opacity: 1,
-         //       transition: `opacity ${this.props.transitionDuration}ms ${this.props.cssEase}`
-         //    }
-         //    this.setState({ cssAnimation: animationObject })
-         // }, this.props.transitionDuration / 2)
-
       } else {
+
          console.error(`You used the animation value ${this.props.animationType} which is not currently supported by the carousel. Please use one of 'slide' or 'fade'.`)
+
       }
    }
 
@@ -294,25 +266,33 @@ class Carousel extends Component {
       })
    }
 
+   renderLegend(content) {
+      return (
+         <div className='carousel-legend'>
+            <span>{content}</span>
+         </div>
+      )
+   }
+
    renderItems() {
       return this.state.carouselItems.map((item, index) => {
 
-         const { itemStyles } = this.state;
+         let style = {};
 
          if (this.props.animationType === 'fade') {
-            let style = {
+            style = {
                left: `${-index * 100}%`,
-               opacity: 0,
+               opacity: 0.2,
+               zIndex: -1,
                transition: `opacity ${this.props.transitionDuration}ms ${this.props.cssEase}`
             }
 
             if (this.state.currentPosition === index) {
                style = Object.assign({}, style, {
-                  opacity: 1
+                  opacity: 1,
+                  zIndex: 1,
                })
             }
-
-            this.setState({ itemStyles: style })
          }
 
          return (
@@ -321,9 +301,10 @@ class Carousel extends Component {
                className={this.state.currentPosition === index ? 'carousel-item selected' : 'carousel-item'}
                id={`item-${index}`}
                ref={el => this[`item${index}`] = el}
-               style={itemStyles}
+               style={style}
             >
                {this.renderImage(item, index)}
+               {this.renderLegend(item.promo)}
             </li>
          )
       })
@@ -361,8 +342,8 @@ Carousel.defaultProps = {
    width: '100%',
    autoPlay: true,
    stopOnHover: true,
-   intervalDuration: 1500,
-   transitionDuration: 350,
+   intervalDuration: 3500,
+   transitionDuration: 800,
    carouselItemsArray: null, // [{ item: 'blah', }]
    redirectURL: null,
    redirectCallback: () => {},

@@ -19,7 +19,7 @@
          margin: auto;
          width: 100%;
          transition: height .15s ease-in;
-         
+
          .slider {
             display: flex;
             position: relative;
@@ -43,6 +43,24 @@
             vertical-align: middle;
             display: inline-block;
             pointer-events: none;
+         }
+
+         .carousel-legend {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0,0,0,0.6);
+            color: #fff;
+            height: 48px;
+            padding: 12px;
+
+            & * {
+               font-size: 1.4rem;
+               font-weight: 800;
+            }
          }
       }
 

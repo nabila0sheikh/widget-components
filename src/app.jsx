@@ -77,45 +77,45 @@ coreLibrary.init({}).then(() => {
       'Carousel with 3 images',
       // But the carousel should also work like this..... ready?
       //
-      // <Carousel
-      //    carouselItemsArray={[
-      //       {
-      //          imagePath: 'http://lorempixel.com/1200/800/sports/1/',
-      //          promo: 'content',
-      //       },
-      //       {
-      //          imagePath: 'http://lorempixel.com/1200/800/sports/2/',
-      //          promo: 'content',
-      //       },
-      //       {
-      //          imagePath: 'http://lorempixel.com/1200/800/sports/3/',
-      //          promo: 'content',
-      //       },
-      //    ]}
-      // />
+      <Carousel
+         carouselItemsArray={[
+            {
+               imagePath: 'http://lorempixel.com/1200/800/sports/1/',
+               promo: 'content 1',
+            },
+            {
+               imagePath: 'http://lorempixel.com/1200/800/sports/2/',
+               promo: 'content 2',
+            },
+            {
+               imagePath: 'http://lorempixel.com/1200/800/sports/3/',
+               promo: 'content 3',
+            },
+         ]}
+      />
 
 
 
-      <Carousel>
-         <div>
-            <img alt='img1' src='http://lorempixel.com/1200/800/sports/1/' />
-            <div className='carousel-legend'>
-               <p>Legend 1</p>
-            </div>
-         </div>
-         <div>
-            <img alt='img2' src='http://lorempixel.com/1200/800/sports/2/' />
-            <div className='carousel-legend'>
-               <p>Legend 1</p>
-            </div>
-         </div>
-         <div>
-            <img alt='img3' src='http://lorempixel.com/1200/800/sports/3/' />
-            <div className='carousel-legend'>
-               <p>Legend 1</p>
-            </div>
-         </div>
-      </Carousel>
+      // <Carousel>
+      //    <div>
+      //       <img alt='img1' src='http://lorempixel.com/1200/800/sports/1/' />
+      //       <div className='carousel-legend'>
+      //          <p>Legend 1</p>
+      //       </div>
+      //    </div>
+      //    <div>
+      //       <img alt='img2' src='http://lorempixel.com/1200/800/sports/2/' />
+      //       <div className='carousel-legend'>
+      //          <p>Legend 2</p>
+      //       </div>
+      //    </div>
+      //    <div>
+      //       <img alt='img3' src='http://lorempixel.com/1200/800/sports/3/' />
+      //       <div className='carousel-legend'>
+      //          <p>Legend 3</p>
+      //       </div>
+      //    </div>
+      // </Carousel>
    );
 
 
