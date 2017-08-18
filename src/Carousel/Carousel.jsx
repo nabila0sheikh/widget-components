@@ -58,7 +58,7 @@ class Carousel extends Component {
 
       this.setState({
          initialized: true
-      }, () => console.log('Carousel is initialized'))
+      }, () => this.props.initializedCarousel(true))
    }
 
    setupCarouselItems() {
@@ -126,11 +126,9 @@ class Carousel extends Component {
 
       if (this.props.stopOnHover && carouselWrapper) {
          carouselWrapper.addEventListener('mouseenter', () => {
-            console.log('mouseenter');
             this.stopOnHover()
          })
          carouselWrapper.addEventListener('mouseleave', () => {
-            console.log('mouseleave');
             this.startOnHoverLeave()
          })
       }
@@ -206,7 +204,7 @@ class Carousel extends Component {
 
          this.setState({
             cssAnimation: animationObject
-         }, () => this.props.onSlide(this.state.currentPosition))
+         }, () => this.props.onChange(this.state.currentPosition))
 
          if (this.state.currentPosition === this.state.lastPosition) {
             // Reset the current slide position back to 0% with no transition
@@ -228,7 +226,7 @@ class Carousel extends Component {
 
          this.setState({
             cssAnimation: animationObject
-         }, () => this.props.onSlide(this.state.currentPosition))
+         }, () => this.props.onChange(this.state.currentPosition))
 
       } else {
 
@@ -352,14 +350,38 @@ Carousel.defaultProps = {
    stopOnHover: true,
    intervalDuration: 3500,
    transitionDuration: 800,
-   carouselItemsArray: null, // [{ item: 'blah', }]
+   carouselItemsArray: null,
    redirectURL: null,
    redirectCallback: () => {},
-   onSlide: (currentPos) => { }
+   onChange: () => {},
+   initializedCarousel: () => {},
 }
 
 Carousel.propTypes = {
-   children: PropTypes.node
+   children: PropTypes.node,
+   showIndicators: PropTypes.bool,
+   showArrows: PropTypes.bool,
+   infiniteLoop: PropTypes.bool,
+   legendClassName: PropTypes.string,
+   wrapperClassName: PropTypes.string,
+   cssEase: PropTypes.string,
+   animationType: PropTypes.oneOf(['fade', 'slide']), // Enum 'slide' or 'fade'
+   selectedItem: PropTypes.number,
+   width: PropTypes.string,
+   autoPlay: PropTypes.bool,
+   stopOnHover: PropTypes.bool,
+   intervalDuration: PropTypes.number,
+   transitionDuration: PropTypes.number,
+   carouselItemsArray: PropTypes.arrayOf(
+      PropTypes.shape({
+         imagePath: PropTypes.string,
+         legend: PropTypes.string,
+         button: PropTypes.string,
+      })
+   ),
+   redirectCallback: PropTypes.func,
+   onChange: PropTypes.func,
+   initializedCarousel: PropTypes.func,
 };
 
 Carousel.displayName = 'Carousel'
