@@ -3,6 +3,7 @@ import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types'
 import { widgetModule } from 'kambi-widget-core-library';
 import styles from './Carousel.scss'
+import OutcomeButtonUI from '../OutcomeButton/OutcomeButtonUI'
 
 const imagesLoaded = (parentNode) => {
    const imgElements = parentNode.querySelectorAll('img')
@@ -267,11 +268,18 @@ class Carousel extends Component {
    }
 
    renderLegend(content) {
-      return (
-         <div className='carousel-legend'>
-            <span>{content}</span>
-         </div>
-      )
+
+      const legend = content.hasOwnProperty('legend')
+      const button = content.hasOwnProperty('button')
+
+      return content.legend == null && content.button == null
+         ? null
+         : (
+            <div className='carousel-legend-wrapper'>
+               {content.legend != null && <span className='carousel-legend'>{content.legend}</span>}
+               {content.button != null && <OutcomeButtonUI label={content.button} selected={false} />}
+            </div>
+         )
    }
 
    renderItems() {
@@ -304,7 +312,7 @@ class Carousel extends Component {
                style={style}
             >
                {this.renderImage(item, index)}
-               {this.renderLegend(item.promo)}
+               {this.renderLegend(item)}
             </li>
          )
       })

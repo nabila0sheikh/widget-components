@@ -45,21 +45,27 @@
             pointer-events: none;
          }
 
-         .carousel-legend {
+         .carousel-legend-wrapper {
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            // align-items: flex-start;
+            justify-content: center;
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
             background-color: rgba(0,0,0,0.6);
             color: #fff;
-            height: 48px;
+            height: auto;
             padding: 12px;
 
-            & * {
-               font-size: 1.4rem;
+            & .carousel-legend {
+               font-size: 1.2rem;
                font-weight: 800;
+            }
+
+            & button {
+               max-width: 33.33%;
             }
          }
       }
