@@ -112,7 +112,7 @@ class Carousel extends Component {
       // Access the image height and width
       const height = image.clientHeight;
       const width = image.clientWidth;
-
+      // onCarouselHeightChange()
       // Call setWidgetHeight from widgetModule to set the height of the iframe
       widgetModule.setWidgetHeight(
          // Use height/width * window width to maintain aspect ratio
@@ -302,18 +302,19 @@ class Carousel extends Component {
          }
 
          return (
-            <a href={item.redirectUrl} target='_blank'>
-               <li
-                  key={`item-${index}`}
-                  className={this.state.currentPosition === index ? 'carousel-item selected' : 'carousel-item'}
-                  id={`item-${index}`}
-                  ref={el => this[`item${index}`] = el}
-                  style={style}
-               >
+            <li
+               key={`item-${index}`}
+               className={this.state.currentPosition === index ? 'carousel-item selected' : 'carousel-item'}
+               id={`item-${index}`}
+               ref={el => this[`item${index}`] = el}
+               style={style}
+            >
+               <a href={item.redirectUrl} target='_blank'>
+
                   {this.renderImage(item, index)}
                   {this.renderLegend(item)}
-               </li>
-            </a>
+               </a>
+            </li>
          )
       })
    }
@@ -345,7 +346,7 @@ Carousel.defaultProps = {
    legendClassName: null,
    wrapperClassName: null,
    cssEase: 'ease',
-   animationType: 'fade', // Enum 'slide' or 'fade'
+   animationType: 'slide',
    selectedItem: 0,
    width: '100%',
    autoPlay: true,
@@ -366,7 +367,7 @@ Carousel.propTypes = {
    legendClassName: PropTypes.string,
    wrapperClassName: PropTypes.string,
    cssEase: PropTypes.string,
-   animationType: PropTypes.oneOf(['fade', 'slide']), // Enum 'slide' or 'fade'
+   animationType: PropTypes.oneOf(['fade', 'slide']),
    selectedItem: PropTypes.number,
    width: PropTypes.string,
    autoPlay: PropTypes.bool,

@@ -37,11 +37,12 @@
          }
 
          & img {
-            width: 100%;
-            max-width: 100%;
+            width: auto;
+            // max-width: 100%;
             height: auto;
             vertical-align: middle;
             display: inline-block;
+            margin: 0 auto;
             pointer-events: none;
          }
 
