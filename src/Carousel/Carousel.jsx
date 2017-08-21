@@ -302,16 +302,18 @@ class Carousel extends Component {
          }
 
          return (
-            <li
-               key={`item-${index}`}
-               className={this.state.currentPosition === index ? 'carousel-item selected' : 'carousel-item'}
-               id={`item-${index}`}
-               ref={el => this[`item${index}`] = el}
-               style={style}
-            >
-               {this.renderImage(item, index)}
-               {this.renderLegend(item)}
-            </li>
+            <a href={item.redirectUrl} target='_blank'>
+               <li
+                  key={`item-${index}`}
+                  className={this.state.currentPosition === index ? 'carousel-item selected' : 'carousel-item'}
+                  id={`item-${index}`}
+                  ref={el => this[`item${index}`] = el}
+                  style={style}
+               >
+                  {this.renderImage(item, index)}
+                  {this.renderLegend(item)}
+               </li>
+            </a>
          )
       })
    }
@@ -351,7 +353,6 @@ Carousel.defaultProps = {
    intervalDuration: 3500,
    transitionDuration: 800,
    carouselItemsArray: null,
-   redirectURL: null,
    redirectCallback: () => {},
    onChange: () => {},
    initializedCarousel: () => {},
@@ -377,6 +378,7 @@ Carousel.propTypes = {
          imagePath: PropTypes.string,
          legend: PropTypes.string,
          button: PropTypes.string,
+         redirectUrl: PropTypes.string
       })
    ),
    redirectCallback: PropTypes.func,

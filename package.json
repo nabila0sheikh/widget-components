@@ -29,7 +29,7 @@
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.4.1",
     "jsx-syntaxhighlighter": "^0.1.0",
-    "kambi-widget-build-tools": "^3.0.1",
+    "kambi-widget-build-tools": "^3.1.0",
     "node-syntaxhighlighter": "^0.8.1",
     "prismjs": "^1.6.0",
     "react-element-to-jsx-string": "^5.0.4"
