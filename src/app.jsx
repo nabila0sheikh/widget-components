@@ -171,16 +171,22 @@ coreLibrary.init({}).then(() => {
          carouselItemsArray={[
             {
                imagePath: 'http://lorempixel.com/800/500/sports/1/',
+               imagePositionX: 'left',
+               imagePositionY: 'center',
                legend: null,
                button: null
             },
             {
                imagePath: 'http://lorempixel.com/800/500/sports/2/',
+               imagePositionX: 'left',
+               imagePositionY: 'center',
                legend: null,
                button: null
             },
             {
                imagePath: 'http://lorempixel.com/800/500/sports/3/',
+               imagePositionX: 'left',
+               imagePositionY: 'center',
                legend: null,
                button: null
             },

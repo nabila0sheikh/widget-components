@@ -263,6 +263,7 @@ class Carousel extends Component {
             className='img'
             style={{
                backgroundImage: `url(${item.imagePath})`,
+               backgroundPosition: `${this.props.imagePositionX} ${this.props.imagePositionY}`,
                width: '100%',
                height: '100%'
             }}
@@ -402,6 +403,8 @@ Carousel.propTypes = {
    carouselItemsArray: PropTypes.arrayOf(
       PropTypes.shape({
          imagePath: PropTypes.string,
+         imagePositionX: PropTypes.oneOf(['left', 'right', 'center']),
+         imagePositionY: PropTypes.oneOf(['top', 'bottom', 'center']),
          legend: PropTypes.string,
          button: PropTypes.string,
          redirectUrl: PropTypes.string
