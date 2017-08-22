@@ -313,7 +313,7 @@ class Carousel extends Component {
 
          const redirectMarkup = this.props.redirectCallback != null
             ? (
-               <div onClick={() => this.props.redirectCallback(item.redirectUrl)}>
+               <div className='pseudo-anchor' onClick={() => this.props.redirectCallback(item.redirectUrl)}>
                   {this.renderImage(item, index)}
                   {this.renderLegend(item)}
                </div>
