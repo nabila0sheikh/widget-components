@@ -167,19 +167,20 @@ coreLibrary.init({}).then(() => {
    render(
       'Carousel with 3 images',
       <Carousel
+         height={350}
          carouselItemsArray={[
             {
-               imagePath: 'http://lorempixel.com/1200/800/sports/1/',
+               imagePath: 'http://lorempixel.com/800/500/sports/1/',
                legend: null,
                button: null
             },
             {
-               imagePath: 'http://lorempixel.com/1200/800/sports/2/',
+               imagePath: 'http://lorempixel.com/800/500/sports/2/',
                legend: null,
                button: null
             },
             {
-               imagePath: 'http://lorempixel.com/1200/800/sports/3/',
+               imagePath: 'http://lorempixel.com/800/500/sports/3/',
                legend: null,
                button: null
             },

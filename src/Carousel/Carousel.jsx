@@ -1,7 +1,6 @@
 import React, { Component, cloneElement } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types'
-import { widgetModule } from 'kambi-widget-core-library';
 import styles from './Carousel.scss'
 import OutcomeButtonUI from '../OutcomeButton/OutcomeButtonUI'
 
@@ -82,7 +81,7 @@ class Carousel extends Component {
          })
       }
 
-      if (this.props.autoPlay && this.state.imagesLoaded) {
+      if (this.props.autoPlay) {
          this.setupAutoPlay()
       }
    }
@@ -99,25 +98,28 @@ class Carousel extends Component {
          return null
       }
 
-      const item = this[`item${this.state.currentPosition}`]
-      const images = item && item.getElementsByTagName('img') // returns an array
 
-      if (images.length <= 0) {
-         return null
-      }
-
-      const image = images[0]; // First image in the array
-      // should only be one image as each 'item' === each <li> tag
-
-      // Access the image height and width
-      const height = image.clientHeight;
-      const width = image.clientWidth;
+      // const item = this[`item${this.state.currentPosition}`]
+      // const images = item && item.getElementsByTagName('img') // returns an array
+      //
+      // if (images.length <= 0) {
+      //    return null
+      // }
+      //
+      // const image = images[0]; // First image in the array
+      // // should only be one image as each 'item' === each <li> tag
+      //
+      // // Access the image height and width
+      // const height = image.clientHeight;
+      // const width = image.clientWidth;
+      //
+      // this.props.height
       // onCarouselHeightChange()
       // Call setWidgetHeight from widgetModule to set the height of the iframe
-      widgetModule.setWidgetHeight(
-         // Use height/width * window width to maintain aspect ratio
-         (height / width) * window.innerWidth
-      )
+      // widgetModule.setWidgetHeight(
+      //    // Use height/width * window width to maintain aspect ratio
+      //    (height / width) * window.innerWidth
+      // )
    }
 
    setupAutoPlay() {
@@ -251,12 +253,20 @@ class Carousel extends Component {
       }
 
       if (item.hasOwnProperty('imagePath')) {
-         return <img
-            src={item.imagePath}
-            alt={`image item ${index} in the carousel`}
-            onLoad={imgEvents.onLoad}
-            onError={imgEvents.onError}
-         />
+         // return <img
+         //    src={item.imagePath}
+         //    alt={`image item ${index} in the carousel`}
+         //    onLoad={imgEvents.onLoad}
+         //    onError={imgEvents.onError}
+         // />
+         return (<div
+            className='img'
+            style={{
+               backgroundImage: `url(${item.imagePath})`,
+               width: '100%',
+               height: '100%'
+            }}
+         />)
       }
 
       return cloneElement(item, {
@@ -301,6 +311,20 @@ class Carousel extends Component {
             }
          }
 
+         const redirectMarkup = this.props.redirectCallback != null
+            ? (
+               <div onClick={() => this.props.redirectCallback(item.redirectUrl)}>
+                  {this.renderImage(item, index)}
+                  {this.renderLegend(item)}
+               </div>
+            )
+            : (
+               <a href={item.redirectUrl} target='_blank'>
+                  {this.renderImage(item, index)}
+                  {this.renderLegend(item)}
+               </a>
+            )
+
          return (
             <li
                key={`item-${index}`}
@@ -309,11 +333,7 @@ class Carousel extends Component {
                ref={el => this[`item${index}`] = el}
                style={style}
             >
-               <a href={item.redirectUrl} target='_blank'>
-
-                  {this.renderImage(item, index)}
-                  {this.renderLegend(item)}
-               </a>
+               { redirectMarkup }
             </li>
          )
       })
@@ -326,7 +346,10 @@ class Carousel extends Component {
 
       return (
          <div className={this.props.wrapperClassName} ref={el => this.carouselWrapper = el}>
-            <div className='carousel-wrapper' style={{ width: this.props.width }}>
+            <div
+               className='carousel-wrapper'
+               style={{ width: this.props.width, height: `${this.props.height}px` }}
+            >
                <div className='slider-wrapper'>
                   <ul className='slider' style={this.state.cssAnimation}>
                      {/* Render Carousel Items */}
@@ -349,12 +372,13 @@ Carousel.defaultProps = {
    animationType: 'slide',
    selectedItem: 0,
    width: '100%',
+   height: 0,
    autoPlay: true,
    stopOnHover: true,
    intervalDuration: 3500,
    transitionDuration: 800,
    carouselItemsArray: null,
-   redirectCallback: () => {},
+   redirectCallback: null,
    onChange: () => {},
    initializedCarousel: () => {},
 }
@@ -370,6 +394,7 @@ Carousel.propTypes = {
    animationType: PropTypes.oneOf(['fade', 'slide']),
    selectedItem: PropTypes.number,
    width: PropTypes.string,
+   height: PropTypes.number,
    autoPlay: PropTypes.bool,
    stopOnHover: PropTypes.bool,
    intervalDuration: PropTypes.number,
