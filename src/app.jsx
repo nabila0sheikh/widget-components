@@ -71,7 +71,7 @@ coreLibrary.init({ url: 'https://d6dqrsa2h22h1.cloudfront.net/1/6/en/desktop/sli
    })
    .map(banner => {
 
-      const dangerDiv = <div dangerouslySetInnerHTML={ {__html: banner.text} } />
+      const dangerDiv = <div dangerouslySetInnerHTML={{__html: banner.text}} />
       return {
          imagePath: banner.image,
          legend: dangerDiv,
