@@ -59,8 +59,27 @@ const render = function(description, element) {
    );
 };
 
-coreLibrary.init({}).then(() => {
+coreLibrary.init({ url: 'https://d6dqrsa2h22h1.cloudfront.net/1/6/en/desktop/slide.json' })
+.then(() => coreLibrary.getData(coreLibrary.args.url))
+.then((bannerData) => {
+   const carouselItems = bannerData.banners
+   .filter(banner => {
+      if (banner.image == null || banner.image.length < 1) {
+         return false
+      }
+      return true
+   })
+   .map(banner => {
 
+      const dangerDiv = <div dangerouslySetInnerHTML={ {__html: banner.text} } />
+      return {
+         imagePath: banner.image,
+         legend: dangerDiv,
+         redirectUrl: banner.url,
+         imagePositionX: 'left',
+         imagePositionY: 'center'
+      };
+   })
    // render(
    //    'IconHeader with icon',
    //    <IconHeader
@@ -170,35 +189,7 @@ coreLibrary.init({}).then(() => {
          height={350}
          redirectCallback={(url) => console.log(url)}
          onCarouselItemClick={(itemId) => console.log(itemId)}
-         carouselItemsArray={[
-            {
-               imagePath: 'http://lorempixel.com/800/500/sports/1/',
-               imagePositionX: 'left',
-               imagePositionY: 'center',
-               legend: null,
-               button: null,
-               redirectUrl: 'this is a url',
-               id: 1
-            },
-            {
-               imagePath: 'http://lorempixel.com/800/500/sports/2/',
-               imagePositionX: 'left',
-               imagePositionY: 'center',
-               legend: null,
-               button: null,
-               redirectUrl: 'this is a url',
-               id: 2
-            },
-            {
-               imagePath: 'http://lorempixel.com/800/500/sports/3/',
-               imagePositionX: 'left',
-               imagePositionY: 'center',
-               legend: null,
-               button: null,
-               redirectUrl: 'this is a url',
-               id: 3
-            },
-         ]}
+         carouselItemsArray={carouselItems}
       />
    );
 

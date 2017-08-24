@@ -1,7 +1,7 @@
 import React, { Component, cloneElement } from 'react';
 import { findDOMNode } from 'react-dom';
-import PropTypes from 'prop-types'
-import styles from './Carousel.scss'
+import PropTypes from 'prop-types';
+import styles from './Carousel.scss';
 import OutcomeButtonUI from '../OutcomeButton/OutcomeButtonUI'
 
 const imagesLoaded = (parentNode) => {
@@ -317,20 +317,26 @@ class Carousel extends Component {
       const legend = content.hasOwnProperty('legend')
       const button = content.hasOwnProperty('button')
 
-      return content.legend == null && content.button == null
-         ? null
-         : (
+      if (legend || button) {
+         let legend = null;
+
+         if (content.legend != null) {
+            if (React.isValidElement(content.legend)) {
+               legend = content.legend
+            } else if (typeof content.legend === 'string') {
+               legend = <span className="carousel-legend">{content.legend}</span>
+            }
+         }
+
+         return (
             <div className='carousel-legend-wrapper'>
-               {content.legend != null &&
-                  <span className='carousel-legend'>
-                     {content.legend}
-                  </span>
-               }
+               {legend != null && legend}
                {content.button != null &&
                   <OutcomeButtonUI label={content.button} selected={false} />
                }
             </div>
          )
+      }
    }
 
    renderItems() {
@@ -445,7 +451,7 @@ Carousel.propTypes = {
          imagePath: PropTypes.string,
          imagePositionX: PropTypes.oneOf(['left', 'right', 'center']),
          imagePositionY: PropTypes.oneOf(['top', 'bottom', 'center']),
-         legend: PropTypes.string,
+         legend: PropTypes.oneOf([PropTypes.string, PropTypes.node]),
          button: PropTypes.string,
          redirectUrl: PropTypes.string
       })
