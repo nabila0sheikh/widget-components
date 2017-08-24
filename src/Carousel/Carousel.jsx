@@ -39,14 +39,17 @@ class Carousel extends Component {
    }
 
    componentDidMount() {
+      if (this.props.carouselItemsArray == null || this.props.carouselItemsArray.length < 1) {
+         return;
+      }
       this.setupCarousel()
    }
 
-   componentDidUpdate(prevProps, prevState) {
+   componentDidUpdate() {
       this.adaptHeight()
 
-      if (this.state.imagesLoaded !== prevState.imagesLoaded && this.state.imagesLoaded) {
-         this.setupAutoPlay()
+      if (!this.state.initialized) {
+         this.setupCarousel()
       }
    }
 
@@ -54,6 +57,10 @@ class Carousel extends Component {
 
       this.setupCarouselItems()
       this.bindEvents()
+
+      if (this.props.autoPlay) {
+         this.setupAutoPlay()
+      }
 
       this.setState({
          initialized: true
@@ -81,9 +88,6 @@ class Carousel extends Component {
          })
       }
 
-      if (this.props.autoPlay) {
-         this.setupAutoPlay()
-      }
    }
 
    bindEvents() {
@@ -123,6 +127,7 @@ class Carousel extends Component {
    }
 
    setupAutoPlay() {
+
       this.autoPlay()
       const carouselWrapper = this.carouselWrapper
 
@@ -206,7 +211,7 @@ class Carousel extends Component {
 
          this.setState({
             cssAnimation: animationObject
-         }, () => this.props.onChange(this.state.currentPosition))
+         }, () => this.props.onCarouselChange(this.state.currentPosition))
 
          if (this.state.currentPosition === this.state.lastPosition) {
             // Reset the current slide position back to 0% with no transition
@@ -228,7 +233,7 @@ class Carousel extends Component {
 
          this.setState({
             cssAnimation: animationObject
-         }, () => this.props.onChange(this.state.currentPosition))
+         }, () => this.props.onCarouselChange(this.state.currentPosition))
 
       } else {
 
@@ -237,42 +242,73 @@ class Carousel extends Component {
       }
    }
 
-   imageChangeHandler() {
-      const carouselWrapper = this.carouselWrapper
+   imageChangeHandler(image = false) {
 
-      this.setState({
-         imagesLoaded: imagesLoaded(carouselWrapper)
-      })
+      if (!image) {
+         const carouselWrapper = this.carouselWrapper
+
+         this.setState({
+            imagesLoaded: imagesLoaded(carouselWrapper)
+         })
+      } else {
+         this.setState({
+            imagesLoaded: true
+         })
+      }
+
    }
 
    renderImage(item, index) {
 
       const imgEvents = {
-         onLoad: () => this.imageChangeHandler(),
-         onError: () => this.imageChangeHandler()
+         onLoad: (img) => this.imageChangeHandler(img),
+         onError: (img) => this.imageChangeHandler(img)
       }
 
       if (item.hasOwnProperty('imagePath')) {
-         // return <img
-         //    src={item.imagePath}
-         //    alt={`image item ${index} in the carousel`}
-         //    onLoad={imgEvents.onLoad}
-         //    onError={imgEvents.onError}
-         // />
-         return (<div
-            className='img'
-            style={{
-               backgroundImage: `url(${item.imagePath})`,
-               backgroundPosition: `${this.props.imagePositionX} ${this.props.imagePositionY}`,
-               width: '100%',
-               height: '100%'
-            }}
-         />)
+         let styleObject = {
+            backgroundPosition: `${item.imagePositionX} ${item.imagePositionY}`,
+            backgroundImage: `url(${item.imagePath})`,
+            width: '100%',
+            height: '100%'
+         }
+
+         // TODO enable catching onload of the images to start the autoplay after the images have loaded
+
+         // const img = new Image()
+         // img.onload = () => {
+         //    // imgEvents.onLoad(true)
+         //    styleObject = Object.assign(styleObject, {
+         //       backgroundImage: `url(${item.imagePath})`,
+         //    })
+         // }
+         // img.src = item.imagePath
+         //
+         // const int = setInterval(() => {
+         //    if (img.complete) {
+         //       img.onload()
+         //       clearInterval(int)
+         //
+         //       return (
+         //          <div
+         //             className='img'
+         //             style={styleObject}
+         //          />
+         //       )
+         //    }
+         // }, 50)
+
+         return (
+            <div
+               className='img'
+               style={styleObject}
+            />
+         )
       }
 
       return cloneElement(item, {
-         onLoad: imgEvents.onLoad,
-         onError: imgEvents.onError
+         onload: imgEvents.onLoad,
+         onerror: imgEvents.onError
       })
    }
 
@@ -285,8 +321,14 @@ class Carousel extends Component {
          ? null
          : (
             <div className='carousel-legend-wrapper'>
-               {content.legend != null && <span className='carousel-legend'>{content.legend}</span>}
-               {content.button != null && <OutcomeButtonUI label={content.button} selected={false} />}
+               {content.legend != null &&
+                  <span className='carousel-legend'>
+                     {content.legend}
+                  </span>
+               }
+               {content.button != null &&
+                  <OutcomeButtonUI label={content.button} selected={false} />
+               }
             </div>
          )
    }
@@ -333,6 +375,7 @@ class Carousel extends Component {
                id={`item-${index}`}
                ref={el => this[`item${index}`] = el}
                style={style}
+               onClick={() => this.props.onCarouselItemClick(item.id)}
             >
                { redirectMarkup }
             </li>
@@ -341,10 +384,6 @@ class Carousel extends Component {
    }
 
    render () {
-      if (this.state.carouselItems == null) {
-         return null
-      }
-
       return (
          <div className={this.props.wrapperClassName} ref={el => this.carouselWrapper = el}>
             <div
@@ -354,7 +393,7 @@ class Carousel extends Component {
                <div className='slider-wrapper'>
                   <ul className='slider' style={this.state.cssAnimation}>
                      {/* Render Carousel Items */}
-                     {this.renderItems()}
+                     {this.state.carouselItems != null && this.renderItems()}
                   </ul>
                </div>
             </div>
@@ -380,7 +419,8 @@ Carousel.defaultProps = {
    transitionDuration: 800,
    carouselItemsArray: null,
    redirectCallback: null,
-   onChange: () => {},
+   onCarouselChange: () => {},
+   onCarouselItemClick: () => {},
    initializedCarousel: () => {},
 }
 
@@ -411,7 +451,8 @@ Carousel.propTypes = {
       })
    ),
    redirectCallback: PropTypes.func,
-   onChange: PropTypes.func,
+   onCarouselChange: PropTypes.func,
+   onCarouselItemClick: PropTypes.func,
    initializedCarousel: PropTypes.func,
 };
 

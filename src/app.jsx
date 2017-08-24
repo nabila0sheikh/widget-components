@@ -168,27 +168,35 @@ coreLibrary.init({}).then(() => {
       'Carousel with 3 images',
       <Carousel
          height={350}
+         redirectCallback={(url) => console.log(url)}
+         onCarouselItemClick={(itemId) => console.log(itemId)}
          carouselItemsArray={[
             {
                imagePath: 'http://lorempixel.com/800/500/sports/1/',
                imagePositionX: 'left',
                imagePositionY: 'center',
                legend: null,
-               button: null
+               button: null,
+               redirectUrl: 'this is a url',
+               id: 1
             },
             {
                imagePath: 'http://lorempixel.com/800/500/sports/2/',
                imagePositionX: 'left',
                imagePositionY: 'center',
                legend: null,
-               button: null
+               button: null,
+               redirectUrl: 'this is a url',
+               id: 2
             },
             {
                imagePath: 'http://lorempixel.com/800/500/sports/3/',
                imagePositionX: 'left',
                imagePositionY: 'center',
                legend: null,
-               button: null
+               button: null,
+               redirectUrl: 'this is a url',
+               id: 3
             },
          ]}
       />
