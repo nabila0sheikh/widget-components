@@ -158,11 +158,13 @@ class Carousel extends Component {
 
    stopOnHover() {
       this.setState({ isMouseEntered: true })
+      this.props.onCarouselMouseEnter(Date.now())
       this.clearAutoPlay()
    }
 
    startOnHoverLeave() {
       this.setState({ isMouseEntered: false })
+      this.props.onCarouselMouseLeave(Date.now())
       this.autoPlay()
    }
 
@@ -317,7 +319,7 @@ class Carousel extends Component {
       const legend = content.hasOwnProperty('legend')
       const button = content.hasOwnProperty('button')
 
-      if (legend || button) {
+      if ((legend || button) && (content.legend != null || content.button != null)) {
          let legend = null;
 
          if (content.legend != null) {
@@ -428,6 +430,8 @@ Carousel.defaultProps = {
    carouselItemsArray: null,
    redirectCallback: null,
    onCarouselChange: () => {},
+   onCarouselMouseEnter: () => {},
+   onCarouselMouseLeave: () => {},
    onCarouselItemClick: () => {},
    initializedCarousel: () => {},
 }
@@ -453,14 +457,17 @@ Carousel.propTypes = {
          imagePath: PropTypes.string,
          imagePositionX: PropTypes.oneOf(['left', 'right', 'center']),
          imagePositionY: PropTypes.oneOf(['top', 'bottom', 'center']),
-         legend: PropTypes.oneOf([PropTypes.string, PropTypes.node]),
+         legend: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
          button: PropTypes.string,
-         redirectUrl: PropTypes.string
+         redirectUrl: PropTypes.string,
+         itemId: PropTypes.number
       })
    ),
    redirectCallback: PropTypes.func,
    onCarouselChange: PropTypes.func,
    onCarouselItemClick: PropTypes.func,
+   onCarouselMouseEnter: PropTypes.func,
+   onCarouselMouseLeave: PropTypes.func,
    initializedCarousel: PropTypes.func,
 };
 
