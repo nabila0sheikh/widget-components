@@ -158,13 +158,15 @@ class Carousel extends Component {
 
    stopOnHover() {
       this.setState({ isMouseEntered: true })
-      this.props.onCarouselMouseEnter(Date.now())
+      console.log(this.state.carouselItems);
+      console.log(this.state.currentPosition);
+      this.props.onCarouselMouseEnter(Date.now(), this.state.carouselItems[this.state.currentPosition].itemId)
       this.clearAutoPlay()
    }
 
    startOnHoverLeave() {
       this.setState({ isMouseEntered: false })
-      this.props.onCarouselMouseLeave(Date.now())
+      this.props.onCarouselMouseLeave(Date.now(), this.state.carouselItems[this.state.currentPosition].itemId)
       this.autoPlay()
    }
 

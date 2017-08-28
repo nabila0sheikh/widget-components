@@ -169,6 +169,7 @@ coreLibrary.init({})
       'Carousel with 3 images',
       <Carousel
          height={350}
+         onCarouselMouseEnter={(enterTime, itemId) => console.log(enterTime, ', ', itemId)}
          carouselItemsArray={[
             {
                itemId: 1,
