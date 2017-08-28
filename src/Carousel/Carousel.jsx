@@ -385,7 +385,7 @@ class Carousel extends Component {
                id={`item-${index}`}
                ref={el => this[`item${index}`] = el}
                style={style}
-               onClick={() => this.props.onCarouselItemClick(item.id)}
+               onClick={() => this.props.onCarouselItemClick(item.itemId)}
             >
                { redirectMarkup }
             </li>
