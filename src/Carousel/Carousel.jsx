@@ -1,4 +1,4 @@
-import React, { Component, cloneElement } from 'react';
+import React, { Component, cloneElement, Children } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import styles from './Carousel.scss';
@@ -20,6 +20,20 @@ const imagesLoaded = (parentNode) => {
    return true
 }
 
+const checkImage = (path, index) => {
+   return new Promise((resolve) => {
+      const img = new Image()
+      img.onload = () => resolve(path)
+      img.onerror = () => {
+         console.log(`Image ${index} failed to load`);
+         // TODO perhaps handle removing image from carousel array???
+         // we don't need to reject and break the promise.all with reject()
+         resolve()
+      }
+      img.src = path
+   })
+}
+
 class Carousel extends Component {
 
    constructor(props) {
@@ -39,15 +53,13 @@ class Carousel extends Component {
    }
 
    componentDidMount() {
-      if (this.props.carouselItemsArray == null || this.props.carouselItemsArray.length < 1) {
+      if ((this.props.carouselItemsArray == null || this.props.carouselItemsArray.length < 1) && this.props.children == null) {
          return;
       }
       this.setupCarousel()
    }
 
    componentDidUpdate() {
-      this.adaptHeight()
-
       if (!this.state.initialized) {
          this.setupCarousel()
       }
@@ -56,7 +68,6 @@ class Carousel extends Component {
    setupCarousel() {
 
       this.setupCarouselItems()
-      this.bindEvents()
 
       if (this.props.autoPlay) {
          this.setupAutoPlay()
@@ -73,57 +84,51 @@ class Carousel extends Component {
 
          if (itemsArray != null && Array.isArray(itemsArray)) {
             const items = [...itemsArray, itemsArray[0]]
-            this.setState({
-               carouselItems: items,
-               lastPosition: items.length - 1
+
+            const images = itemsArray.map(item => item.imagePath)
+
+            Promise.all(images.map(checkImage))
+            .then(() => {
+               this.setState({
+                  carouselItems: items,
+                  lastPosition: items.length - 1
+               })
+            })
+            .catch((e) => {
+               console.log(e);
             })
 
          }
       } else {
          const { children } = this.props;
          const items = [...children, children[0]]
+
+         const recursiveCloneChildren = (children, cb) => {
+            return React.Children.map(children, (child) => {
+               if (!React.isValidElement(child)) {
+                  return child
+               }
+
+               if (child.props.children) {
+                  child = cloneElement(child, {
+                     children: recursiveCloneChildren(child.props.children, cb)
+                  })
+               }
+
+               return cb(child)
+            })
+         }
+
+         let allChildren = [];
+         recursiveCloneChildren(children, child => allChildren.push(child))
+
          this.setState({
             carouselItems: items,
             lastPosition: items.length - 1
          })
+
       }
 
-   }
-
-   bindEvents() {
-      window.addEventListener('resize', () => {
-         clearTimeout(this.resizeTimeout);
-         this.resizeTimeout = setTimeout(() => this.adaptHeight(), 200);
-      });
-   }
-
-   adaptHeight() {
-      if (this.state.carouselItems == null && !this.state.imagesLoaded) {
-         return null
-      }
-
-
-      // const item = this[`item${this.state.currentPosition}`]
-      // const images = item && item.getElementsByTagName('img') // returns an array
-      //
-      // if (images.length <= 0) {
-      //    return null
-      // }
-      //
-      // const image = images[0]; // First image in the array
-      // // should only be one image as each 'item' === each <li> tag
-      //
-      // // Access the image height and width
-      // const height = image.clientHeight;
-      // const width = image.clientWidth;
-      //
-      // this.props.height
-      // onCarouselHeightChange()
-      // Call setWidgetHeight from widgetModule to set the height of the iframe
-      // widgetModule.setWidgetHeight(
-      //    // Use height/width * window width to maintain aspect ratio
-      //    (height / width) * window.innerWidth
-      // )
    }
 
    setupAutoPlay() {
@@ -261,12 +266,6 @@ class Carousel extends Component {
    }
 
    renderImage(item, index) {
-
-      const imgEvents = {
-         onLoad: (img) => this.imageChangeHandler(img),
-         onError: (img) => this.imageChangeHandler(img)
-      }
-
       if (item.hasOwnProperty('imagePath')) {
          let styleObject = {
             backgroundPosition: `${item.imagePositionX} ${item.imagePositionY}`,
@@ -275,31 +274,6 @@ class Carousel extends Component {
             height: '100%'
          }
 
-         // TODO enable catching onload of the images to start the autoplay after the images have loaded
-
-         // const img = new Image()
-         // img.onload = () => {
-         //    // imgEvents.onLoad(true)
-         //    styleObject = Object.assign(styleObject, {
-         //       backgroundImage: `url(${item.imagePath})`,
-         //    })
-         // }
-         // img.src = item.imagePath
-         //
-         // const int = setInterval(() => {
-         //    if (img.complete) {
-         //       img.onload()
-         //       clearInterval(int)
-         //
-         //       return (
-         //          <div
-         //             className='img'
-         //             style={styleObject}
-         //          />
-         //       )
-         //    }
-         // }, 50)
-
          return (
             <div
                className='img'
@@ -307,11 +281,6 @@ class Carousel extends Component {
             />
          )
       }
-
-      return cloneElement(item, {
-         onload: imgEvents.onLoad,
-         onerror: imgEvents.onError
-      })
    }
 
    renderLegend(content) {
@@ -343,26 +312,45 @@ class Carousel extends Component {
       }
    }
 
+   itemStyles(index) {
+      let style = {};
+
+      if (this.props.animationType === 'fade') {
+         style = {
+            left: `${-index * 100}%`,
+            opacity: 0.2,
+            zIndex: -1,
+            transition: `opacity ${this.props.transitionDuration}ms ${this.props.cssEase}`
+         }
+
+         if (this.state.currentPosition === index) {
+            style = Object.assign({}, style, {
+               opacity: 1,
+               zIndex: 1,
+            })
+         }
+      }
+
+      return style
+   }
+
+   item(id, index, content) {
+      return (
+         <li
+            key={`item-${index}`}
+            className={this.state.currentPosition === index ? 'carousel-item selected' : 'carousel-item'}
+            id={`item-${index}`}
+            ref={el => this[`item${index}`] = el}
+            style={this.itemStyles(index)}
+            onClick={() => this.props.onCarouselItemClick(id)}
+         >
+            { content }
+         </li>
+      )
+   }
+
    renderItems() {
       return this.state.carouselItems.map((item, index) => {
-
-         let style = {};
-
-         if (this.props.animationType === 'fade') {
-            style = {
-               left: `${-index * 100}%`,
-               opacity: 0.2,
-               zIndex: -1,
-               transition: `opacity ${this.props.transitionDuration}ms ${this.props.cssEase}`
-            }
-
-            if (this.state.currentPosition === index) {
-               style = Object.assign({}, style, {
-                  opacity: 1,
-                  zIndex: 1,
-               })
-            }
-         }
 
          const redirectMarkup = this.props.redirectCallback != null
             ? (
@@ -378,32 +366,53 @@ class Carousel extends Component {
                </a>
             )
 
-         return (
-            <li
-               key={`item-${index}`}
-               className={this.state.currentPosition === index ? 'carousel-item selected' : 'carousel-item'}
-               id={`item-${index}`}
-               ref={el => this[`item${index}`] = el}
-               style={style}
-               onClick={() => this.props.onCarouselItemClick(item.itemId)}
-            >
-               { redirectMarkup }
-            </li>
-         )
+         return this.item(item.itemId, index, redirectMarkup)
       })
    }
 
+   cloneImageTag(child) {
+      if (!React.isValidElement(child)) {
+         return
+      }
+
+
+
+   }
+
+   renderChildren() {
+      return this.state.carouselItems.map((item, index) => {
+
+         console.log(item);
+         this.cloneImageTag(item);
+         return this.item(index, index, item)
+      })
+   }
+
+   checkItems() {
+      if (this.props.children == null || this.props.children.length < 1) {
+         return this.renderItems()
+      } else {
+         return this.renderChildren()
+      }
+   }
+
    render () {
+
+      const height = this.state.carouselItems != null
+         ? `${this.props.height}px`
+         : '0px'
+
+
       return (
          <div className={this.props.wrapperClassName} ref={el => this.carouselWrapper = el}>
             <div
                className='carousel-wrapper'
-               style={{ width: this.props.width, height: `${this.props.height}px` }}
+               style={{ width: this.props.width, height }}
             >
                <div className='slider-wrapper'>
                   <ul className='slider' style={this.state.cssAnimation}>
                      {/* Render Carousel Items */}
-                     {this.state.carouselItems != null && this.renderItems()}
+                     {this.state.carouselItems != null && this.checkItems()}
                   </ul>
                </div>
             </div>

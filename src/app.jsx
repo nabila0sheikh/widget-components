@@ -170,6 +170,7 @@ coreLibrary.init({})
       <Carousel
          height={350}
          onCarouselMouseEnter={(enterTime, itemId) => console.log(enterTime, ', ', itemId)}
+         onCarouselItemClick={itemId => console.log(itemId)}
          carouselItemsArray={[
             {
                itemId: 1,
