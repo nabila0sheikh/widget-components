@@ -171,7 +171,7 @@ coreLibrary.init({})
          height={350}
          onCarouselMouseEnter={(enterTime, itemId) => console.log(enterTime, ', ', itemId)}
          onCarouselItemClick={itemId => console.log(itemId)}
-         carouselItemsArray={[
+         items={[
             {
                itemId: 1,
                imagePath: 'http://lorempixel.com/600/400/sports/1/',

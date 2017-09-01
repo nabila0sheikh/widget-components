@@ -53,7 +53,7 @@ class Carousel extends Component {
    }
 
    componentDidMount() {
-      if ((this.props.carouselItemsArray == null || this.props.carouselItemsArray.length < 1) && this.props.children == null) {
+      if ((this.props.items == null || this.props.items.length < 1) && this.props.children == null) {
          return;
       }
       this.setupCarousel()
@@ -78,9 +78,18 @@ class Carousel extends Component {
       }, () => this.props.initializedCarousel(true))
    }
 
+   imageChangeHandler() {
+      const carouselWrapper = this.carouselWrapper
+
+      this.setState({
+         imagesLoaded: imagesLoaded(carouselWrapper)
+      })
+
+   }
+
    setupCarouselItems() {
       if (!this.props.children) {
-         const itemsArray = this.props.carouselItemsArray
+         const itemsArray = this.props.items
 
          if (itemsArray != null && Array.isArray(itemsArray)) {
             const items = [...itemsArray, itemsArray[0]]
@@ -89,6 +98,7 @@ class Carousel extends Component {
 
             Promise.all(images.map(checkImage))
             .then(() => {
+               this.props.imagesLoaded()
                this.setState({
                   carouselItems: items,
                   lastPosition: items.length - 1
@@ -102,25 +112,6 @@ class Carousel extends Component {
       } else {
          const { children } = this.props;
          const items = [...children, children[0]]
-
-         const recursiveCloneChildren = (children, cb) => {
-            return React.Children.map(children, (child) => {
-               if (!React.isValidElement(child)) {
-                  return child
-               }
-
-               if (child.props.children) {
-                  child = cloneElement(child, {
-                     children: recursiveCloneChildren(child.props.children, cb)
-                  })
-               }
-
-               return cb(child)
-            })
-         }
-
-         let allChildren = [];
-         recursiveCloneChildren(children, child => allChildren.push(child))
 
          this.setState({
             carouselItems: items,
@@ -249,27 +240,15 @@ class Carousel extends Component {
       }
    }
 
-   imageChangeHandler(image = false) {
 
-      if (!image) {
-         const carouselWrapper = this.carouselWrapper
-
-         this.setState({
-            imagesLoaded: imagesLoaded(carouselWrapper)
-         })
-      } else {
-         this.setState({
-            imagesLoaded: true
-         })
-      }
-
-   }
 
    renderImage(item, index) {
       if (item.hasOwnProperty('imagePath')) {
-         let styleObject = {
+         const styleObject = {
             backgroundPosition: `${item.imagePositionX} ${item.imagePositionY}`,
             backgroundImage: `url(${item.imagePath})`,
+            backgroundSize: item.backgroundSize,
+            backgroundRepeat: 'no-repeat',
             width: '100%',
             height: '100%'
          }
@@ -370,15 +349,6 @@ class Carousel extends Component {
       })
    }
 
-   cloneImageTag(child) {
-      if (!React.isValidElement(child)) {
-         return
-      }
-
-
-
-   }
-
    renderChildren() {
       return this.state.carouselItems.map((item, index) => {
 
@@ -407,7 +377,7 @@ class Carousel extends Component {
          <div className={this.props.wrapperClassName} ref={el => this.carouselWrapper = el}>
             <div
                className='carousel-wrapper'
-               style={{ width: this.props.width, height }}
+               style={{ width: '100%', height }}
             >
                <div className='slider-wrapper'>
                   <ul className='slider' style={this.state.cssAnimation}>
@@ -430,19 +400,19 @@ Carousel.defaultProps = {
    cssEase: 'ease',
    animationType: 'slide',
    selectedItem: 0,
-   width: '100%',
    height: 0,
    autoPlay: true,
    stopOnHover: true,
    intervalDuration: 3500,
    transitionDuration: 800,
-   carouselItemsArray: null,
+   items: null,
    redirectCallback: null,
    onCarouselChange: () => {},
    onCarouselMouseEnter: () => {},
    onCarouselMouseLeave: () => {},
    onCarouselItemClick: () => {},
    initializedCarousel: () => {},
+   imageLoaded: () => {}
 }
 
 Carousel.propTypes = {
@@ -455,17 +425,17 @@ Carousel.propTypes = {
    cssEase: PropTypes.string,
    animationType: PropTypes.oneOf(['fade', 'slide']),
    selectedItem: PropTypes.number,
-   width: PropTypes.string,
    height: PropTypes.number,
    autoPlay: PropTypes.bool,
    stopOnHover: PropTypes.bool,
    intervalDuration: PropTypes.number,
    transitionDuration: PropTypes.number,
-   carouselItemsArray: PropTypes.arrayOf(
+   items: PropTypes.arrayOf(
       PropTypes.shape({
          imagePath: PropTypes.string,
          imagePositionX: PropTypes.oneOf(['left', 'right', 'center']),
          imagePositionY: PropTypes.oneOf(['top', 'bottom', 'center']),
+         backgroundSize: PropTypes.oneOf(['contain', 'cover']),
          legend: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
          button: PropTypes.string,
          redirectUrl: PropTypes.string,
@@ -478,6 +448,7 @@ Carousel.propTypes = {
    onCarouselMouseEnter: PropTypes.func,
    onCarouselMouseLeave: PropTypes.func,
    initializedCarousel: PropTypes.func,
+   imagesLoaded: PropTypes.func
 };
 
 Carousel.displayName = 'Carousel'
