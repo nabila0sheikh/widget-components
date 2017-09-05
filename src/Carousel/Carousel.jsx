@@ -4,22 +4,6 @@ import PropTypes from 'prop-types';
 import styles from './Carousel.scss';
 import OutcomeButtonUI from '../OutcomeButton/OutcomeButtonUI'
 
-const imagesLoaded = (parentNode) => {
-   const imgElements = parentNode.querySelectorAll('img')
-
-   if (imgElements == null || imgElements.length < 1) {
-      return false
-   }
-
-   imgElements.forEach((img, index) => {
-      if (!img.complete) {
-         return false
-      }
-   })
-
-   return true
-}
-
 const checkImage = (path, index) => {
    return new Promise((resolve) => {
       const img = new Image()
@@ -39,16 +23,15 @@ class Carousel extends Component {
    constructor(props) {
       super(props);
       this.timer;
+      this.changeTimer;
 
       this.state = {
          isMouseEntered: false,
          currentPosition: props.selectedItem,
          lastPosition: null,
          carouselItems: null,
-         imagesLoaded: false,
          cssAnimation: {},
          initialized: false,
-         itemSize: 0
       }
    }
 
@@ -65,6 +48,10 @@ class Carousel extends Component {
       }
    }
 
+   componentWillUnmount() {
+      clearTimeout(this.changeTimer)
+   }
+
    setupCarousel() {
 
       this.setupCarouselItems()
@@ -76,15 +63,6 @@ class Carousel extends Component {
       this.setState({
          initialized: true
       }, () => this.props.initializedCarousel(true))
-   }
-
-   imageChangeHandler() {
-      const carouselWrapper = this.carouselWrapper
-
-      this.setState({
-         imagesLoaded: imagesLoaded(carouselWrapper)
-      })
-
    }
 
    setupCarouselItems() {
@@ -128,11 +106,24 @@ class Carousel extends Component {
       const carouselWrapper = this.carouselWrapper
 
       if (this.props.stopOnHover && carouselWrapper) {
-         carouselWrapper.addEventListener('mouseenter', () => {
-            this.stopOnHover()
+         // Stop mobile propagation
+         // Required so touch/tap events don't cause mouseEnter/mouseLeave to fire
+         carouselWrapper.addEventListener('touchstart', (ev) => {
+            ev.stopPropagation()
+         }, true)
+         carouselWrapper.addEventListener('touchend', (ev) => {
+            ev.stopPropagation()
+         }, true)
+
+         carouselWrapper.addEventListener('mouseenter', (ev) => {
+            if (ev.which === 0) {
+               this.stopOnHover()
+            }
          })
-         carouselWrapper.addEventListener('mouseleave', () => {
-            this.startOnHoverLeave()
+         carouselWrapper.addEventListener('mouseleave', (ev) => {
+            if (ev.which === 0) {
+               this.startOnHoverLeave()
+            }
          })
       }
    }
@@ -225,13 +216,17 @@ class Carousel extends Component {
 
       } else if (this.props.animationType === 'fade') {
 
-         animationObject = {
-            transform: 'translate3d(0%, 0, 0)',
-         }
+         // animationObject = {
+         //    transform: 'translate3d(0%, 0, 0)',
+         // }
+         //
+         // this.setState({
+         //    cssAnimation: animationObject
+         // }, () => )
+         this.changeTimer = setTimeout(() => {
+            this.props.onCarouselChange(this.state.currentPosition)
+         }, this.props.transitionDuration)
 
-         this.setState({
-            cssAnimation: animationObject
-         }, () => this.props.onCarouselChange(this.state.currentPosition))
 
       } else {
 
@@ -351,8 +346,6 @@ class Carousel extends Component {
 
    renderChildren() {
       return this.state.carouselItems.map((item, index) => {
-
-         console.log(item);
          this.cloneImageTag(item);
          return this.item(index, index, item)
       })
@@ -372,6 +365,14 @@ class Carousel extends Component {
          ? `${this.props.height}px`
          : '0px'
 
+      let sliderStyle;
+      if (this.props.animationType === 'fade') {
+         sliderStyle = {
+            transform: 'translate3d(0%, 0, 0)'
+         }
+      } else {
+         sliderStyle = this.state.cssAnimation
+      }
 
       return (
          <div className={this.props.wrapperClassName} ref={el => this.carouselWrapper = el}>
@@ -380,7 +381,7 @@ class Carousel extends Component {
                style={{ width: '100%', height }}
             >
                <div className='slider-wrapper'>
-                  <ul className='slider' style={this.state.cssAnimation}>
+                  <ul className='slider' style={sliderStyle}>
                      {/* Render Carousel Items */}
                      {this.state.carouselItems != null && this.checkItems()}
                   </ul>
