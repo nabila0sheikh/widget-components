@@ -108,27 +108,24 @@ class Carousel extends Component {
       if (this.props.stopOnHover && carouselWrapper) {
          // Stop mobile propagation
          // Required so touch/tap events don't cause mouseEnter/mouseLeave to fire
-         let mobileTouch = false;
+         const mobileTouch = (function isTouch() {
+            try {
+               document.createEvent('TouchEvent')
+               return true
+            } catch (e) {
+               return false
+            }
+         })()
 
-         carouselWrapper.addEventListener('touchstart', (ev) => {
-            mobileTouch = true;
-         }, true)
-
-         carouselWrapper.addEventListener('touchend', (ev) => {
-            mobileTouch = false;
-         }, true)
-
-         carouselWrapper.addEventListener('mouseenter', (ev) => {
-            if (!mobileTouch) {
+         if (!mobileTouch) {
+            carouselWrapper.addEventListener('mouseenter', (ev) => {
                this.stopOnHover()
-            }
-         })
+            }, false)
 
-         carouselWrapper.addEventListener('mouseleave', (ev) => {
-            if (!mobileTouch) {
+            carouselWrapper.addEventListener('mouseleave', (ev) => {
                this.startOnHoverLeave()
-            }
-         })
+            })
+         }
       }
    }
 
