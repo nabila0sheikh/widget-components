@@ -108,20 +108,24 @@ class Carousel extends Component {
       if (this.props.stopOnHover && carouselWrapper) {
          // Stop mobile propagation
          // Required so touch/tap events don't cause mouseEnter/mouseLeave to fire
+         let mobileTouch = false;
+
          carouselWrapper.addEventListener('touchstart', (ev) => {
-            ev.stopPropagation()
+            mobileTouch = true;
          }, true)
+
          carouselWrapper.addEventListener('touchend', (ev) => {
-            ev.stopPropagation()
+            mobileTouch = false;
          }, true)
 
          carouselWrapper.addEventListener('mouseenter', (ev) => {
-            if (ev.which === 0) {
+            if (!mobileTouch) {
                this.stopOnHover()
             }
          })
+
          carouselWrapper.addEventListener('mouseleave', (ev) => {
-            if (ev.which === 0) {
+            if (!mobileTouch) {
                this.startOnHoverLeave()
             }
          })
@@ -216,13 +220,6 @@ class Carousel extends Component {
 
       } else if (this.props.animationType === 'fade') {
 
-         // animationObject = {
-         //    transform: 'translate3d(0%, 0, 0)',
-         // }
-         //
-         // this.setState({
-         //    cssAnimation: animationObject
-         // }, () => )
          this.changeTimer = setTimeout(() => {
             this.props.onCarouselChange(this.state.currentPosition)
          }, this.props.transitionDuration)
