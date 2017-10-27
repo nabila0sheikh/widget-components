@@ -14,7 +14,7 @@
     "test": "kambi-widgets-cli test"
   },
   "dependencies": {
-    "kambi-widget-core-library": "^3.8.0",
+    "kambi-widget-core-library": "^3.9.1",
     "prop-types": "^15.3.2",
     "react": "^15.3.2",
     "react-addons-create-fragment": "^15.6.0",
@@ -29,7 +29,7 @@
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.4.1",
     "jsx-syntaxhighlighter": "^0.1.0",
-    "kambi-widget-build-tools": "^3.1.0",
+    "kambi-widget-build-tools": "^4.0.0",
     "node-syntaxhighlighter": "^0.8.1",
     "prismjs": "^1.6.0",
     "react-element-to-jsx-string": "^5.0.4"

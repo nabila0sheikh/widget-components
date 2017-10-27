@@ -394,9 +394,16 @@ class ScrolledList extends Component {
          isTouchScreen() ? styles.touch : ''
       ].join(' ').trim();
 
+      let scrolledListHasHorizontalSpaceLeft = false;
+      const itemsWidth = this.computeItemsWidth(0, Children.count(this.props.children) - 1);
+      if (itemsWidth < this.eyeshotWidth) {
+         scrolledListHasHorizontalSpaceLeft = true;
+      }
+
       return (
          <div
             className={className}
+            style={{opacity: itemsWidth === 0 ? 0 : 1}}
             ref={el => (this.container = el)}
          >
             <div
@@ -407,13 +414,19 @@ class ScrolledList extends Component {
                   className={styles.bar}
                   ref={el => (this.bar = el)}
                >
-                  {Children.map(this.props.children, (child, i) => this.props.renderItemContainer({
-                     key: i,
-                     selected: this.state.item == i,
-                     onClick: this.onItemClick.bind(this, i),
-                     onWidth: this.setItemWidth.bind(this, i),
-                     children: child
-                  }))}
+                  {Children.map(this.props.children, (child, i) => {
+                        if (scrolledListHasHorizontalSpaceLeft) {
+                           child = React.cloneElement(child, { scrolledListHasHorizontalSpaceLeft });
+                        }
+                        return this.props.renderItemContainer({
+                           key: i,
+                           selected: this.state.item == i,
+                           onClick: this.onItemClick.bind(this, i),
+                           onWidth: this.setItemWidth.bind(this, i),
+                           children: child
+                        });
+                     })
+                  }
                </div>
             </div>
             { this.props.showControls &&
