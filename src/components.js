@@ -47,3 +47,4 @@ export { default as Header } from './Header/Header';
 export { default as ActionButton } from './ActionButton/ActionButton';
 export { default as IconHeader } from './IconHeader/IconHeader';
 export { default as Carousel } from './Carousel/Carousel';
+export { default as BlendedBackground } from './BlendedBackground/BlendedBackground';
