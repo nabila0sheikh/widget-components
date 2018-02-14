@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { coreLibrary } from 'kambi-widget-core-library';
 import reactElementToJSXString from 'react-element-to-jsx-string';
-import { Header, TabPagination, ScrolledList, FixedList, ActionButton, IconHeader, Carousel } from './components';
+import { Header, TabPagination, ScrolledList, FixedList, ActionButton, IconHeader, Carousel, BlendedBackground } from './components';
 
 
 const TestContainer = ({ description, element }) => {
@@ -189,6 +189,15 @@ coreLibrary.init({})
          ]}
       />
    );
+
+   render(
+		'BlendedBackground example - used for match and tournament overviews',
+		<div>
+			<BlendedBackground backgroundUrl={'https://cdn.viagogo.net/img/cat/2/1/37.jpg'} />
+			<div style={{height: '300px'}} />
+		</div>
+   );
+   
 
 
 });
