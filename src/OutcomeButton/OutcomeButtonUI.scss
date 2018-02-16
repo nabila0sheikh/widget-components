@@ -6,3 +6,29 @@
    cursor: pointer;
    flex: 1;
 }
+
+.outline {
+   background: transparent;
+   border: 1.2px solid rgba(#fff, .8);
+   box-sizing: border-box;
+   padding: -1.2px;
+
+   &:hover {
+      background: rgba(#fff, .1);
+      border: 1.2px solid #fff;
+      padding: -1.2px;
+   }
+}
+
+.outline--selected {
+   border: 1.2px solid transparent;
+}
+
+.outline__odds {
+   color: #fff;
+}
+
+.outline__label-wrapper {
+   color: #fff;
+   opacity: .85;
+}

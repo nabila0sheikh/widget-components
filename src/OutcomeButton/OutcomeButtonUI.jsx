@@ -12,14 +12,18 @@ import styles from './OutcomeButtonUI.scss';
 class OutcomeButtonUI extends Component {
 
    render() {
-      const { label, odds, suspended, selected, onClick } = this.props;
+      const { label, odds, suspended, selected, onClick, outlineStyle } = this.props;
 
       let buttonCssClasses = `KambiWidget-outcome ${styles.general}`;
+
+      if (outlineStyle) {
+         buttonCssClasses = `${buttonCssClasses} KambiWidget-primary-color ${styles.outline}`
+      }
 
       if (suspended) {
          buttonCssClasses += ' KambiWidget-outcome--suspended';
       } else if (selected) {
-         buttonCssClasses += ' KambiWidget-outcome--selected';
+         buttonCssClasses = `KambiWidget-outcome ${styles.general} KambiWidget-outcome--selected ${styles['outline--selected']}`;
       }
 
       if (odds === null && label === null) {
@@ -36,22 +40,22 @@ class OutcomeButtonUI extends Component {
          >
             {odds !== null && label !== null &&
                <div className='KambiWidget-outcome__flexwrap'>
-                  <div className='KambiWidget-outcome__label-wrapper'>
+                  <div className={`KambiWidget-outcome__label-wrapper ${outlineStyle ? styles['outline__label-wrapper'] : ''}`}>
                      <span className='KambiWidget-outcome__label'>{label}</span>
                      <span className='KambiWidget-outcome__line' />
                   </div>
                   <div className='KambiWidget-outcome__odds-wrapper'>
-                     <span className='KambiWidget-outcome__odds'>{odds}</span>
+                     <span className={`KambiWidget-outcome__odds ${outlineStyle ? styles['outline__odds'] : ''}`}>{odds}</span>
                   </div>
                </div>}
 
             {odds !== null && label === null &&
-               <div className='KambiWidget-outcome__odds-wrapper'>
-                  <span className='KambiWidget-outcome__odds'>{odds}</span>
+               <div className={`KambiWidget-outcome__odds-wrapper`}>
+                  <span className={`KambiWidget-outcome__odds ${outlineStyle ? styles['outline__odds'] : ''}`}>{odds}</span>
                </div>}
 
             {odds === null && label !== null &&
-               <div className={`KambiWidget-outcome__label-wrapper ${styles.label}`}>
+               <div className={`KambiWidget-outcome__label-wrapper ${styles.label} ${outlineStyle ? styles['outline__label-wrapper'] : ''}`}>
                   <span className='KambiWidget-outcome__label'>{label}</span>
                </div>}
          </button>

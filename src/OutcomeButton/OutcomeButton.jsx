@@ -162,6 +162,7 @@ class OutcomeButton extends Component {
             suspended={this.betOffer ? this.betOffer.suspended : false}
             selected={this.state.selected}
             onClick={this.toggleOutcome}
+            outlineStyle={this.props.outlineStyle}
          />
       )
    }
@@ -183,7 +184,8 @@ OutcomeButton.propTypes = {
 };
 
 OutcomeButton.defaultProps = {
-   label: true
+   label: true,
+   outlineStyle: false
 };
 
 export default OutcomeButton;
