@@ -1,50 +1,103 @@
-import React, { Component, cloneElement, Children } from 'react';
-import { findDOMNode } from 'react-dom';
-import PropTypes from 'prop-types';
-import styles from './Carousel.scss';
-import OutcomeButtonUI from '../OutcomeButton/OutcomeButtonUI'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import styles from './Carousel.scss'
 
-const checkImage = (path, index) => {
-   return new Promise((resolve) => {
-      const img = new Image()
-      img.onload = () => resolve(path)
-      img.onerror = () => {
-         console.log(`Image ${index} failed to load`);
-         // TODO perhaps handle removing image from carousel array???
-         // we don't need to reject and break the promise.all with reject()
-         resolve()
-      }
-      img.src = path
-   })
-}
+import { resize } from '../helpers'
 
-class Carousel extends Component {
+import leftChevron from './chevron_left.svg'
+import rightChevron from './chevron_right.svg'
+
+export default class Carousel extends Component {
+   static propTypes = {
+      showIndicators: PropTypes.bool,
+      infiniteLoop: PropTypes.bool,
+      legendClassName: PropTypes.string,
+      wrapperClassName: PropTypes.string,
+      cssEase: PropTypes.string,
+      animationType: PropTypes.oneOf(['fade', 'slide']),
+      selectedItem: PropTypes.number,
+      height: PropTypes.number,
+      autoPlay: PropTypes.bool,
+      stopOnHover: PropTypes.bool,
+      intervalDuration: PropTypes.number,
+      transitionDuration: PropTypes.number,
+      children: PropTypes.node,
+      redirectCallback: PropTypes.func,
+      onCarouselChange: PropTypes.func,
+      onCarouselItemClick: PropTypes.func,
+      onCarouselMouseEnter: PropTypes.func,
+      onCarouselMouseLeave: PropTypes.func,
+      initializedCarousel: PropTypes.func,
+      imagesLoaded: PropTypes.func,
+   }
+
+   static defaultProps = {
+      showIndicators: true,
+      infinite: true,
+      showArrows: true,
+      infiniteLoop: true,
+      legendClassName: null,
+      wrapperClassName: null,
+      cssEase: 'ease',
+      animationType: 'slide',
+      selectedItem: 0,
+      height: 0,
+      autoPlay: false,
+      stopOnHover: false,
+      intervalDuration: 3500,
+      transitionDuration: 800,
+      redirectCallback: null,
+      onCarouselChange: () => {},
+      onCarouselMouseEnter: () => {},
+      onCarouselMouseLeave: () => {},
+      onCarouselItemClick: () => {},
+      initializedCarousel: () => {},
+      imageLoaded: () => {},
+   }
 
    constructor(props) {
-      super(props);
-      this.timer;
-      this.changeTimer;
+      super(props)
+      this.autoPlayTimer = null
+      this.changeTimer = null
 
       this.state = {
          isMouseEntered: false,
          currentPosition: props.selectedItem,
          lastPosition: null,
-         carouselItems: null,
+         carouselItems: [],
          cssAnimation: {},
+         translate3d: null,
          initialized: false,
+         fromChildren: false,
+         disabled: false,
+         previousArrowHover: false,
+         nextArrowHover: false,
+         selectedIndicator: null,
       }
    }
 
    componentDidMount() {
-      if ((this.props.items == null || this.props.items.length < 1) && this.props.children == null) {
-         return;
+      const { children, autoPlay } = this.props
+
+      if (children == null || children.length === 0) {
+         return null
       }
+
       this.setupCarousel()
+      resize.add(() => this.setupCarousel())
+
+      if (autoPlay) {
+         this.setupAutoPlay()
+      }
    }
 
    componentDidUpdate() {
       if (!this.state.initialized) {
          this.setupCarousel()
+      }
+
+      if (this.props.autoPlay) {
+         this.resetAutoPlay()
       }
    }
 
@@ -53,55 +106,45 @@ class Carousel extends Component {
    }
 
    setupCarousel() {
+      const { children } = this.props
+      const { currentPosition } = this.state
 
-      this.setupCarouselItems()
+      const itemWidth = this.sliderNode.getBoundingClientRect().width
+      const currentIndex = Math.min(
+         currentPosition ? Math.abs(Math.ceil(currentPosition)) : 0,
+         children.length - 1
+      )
 
-      if (this.props.autoPlay) {
-         this.setupAutoPlay()
-      }
+      this.setState(
+         {
+            currentPosition: currentIndex,
+            initialized: true,
+            carouselItems: children,
+            clones: this.cloneItems(children),
+            translate3d: -itemWidth * (1 + currentIndex),
+            itemWidth,
+         },
+         () => this.props.initializedCarousel(true)
+      )
+   }
 
-      this.setState({
-         initialized: true
-      }, () => this.props.initializedCarousel(true))
+   cloneItems = children => {
+      const firstChild = children.slice(0, 1)
+      const lastChild = children.slice(children.length - 1)
+
+      return [...lastChild, ...children, ...firstChild]
    }
 
    setupCarouselItems() {
-      if (!this.props.children) {
-         const itemsArray = this.props.items
-
-         if (itemsArray != null && Array.isArray(itemsArray)) {
-            const items = [...itemsArray, itemsArray[0]]
-
-            const images = itemsArray.map(item => item.imagePath)
-
-            Promise.all(images.map(checkImage))
-            .then(() => {
-               this.props.imagesLoaded()
-               this.setState({
-                  carouselItems: items,
-                  lastPosition: items.length - 1
-               })
-            })
-            .catch((e) => {
-               console.log(e);
-            })
-
-         }
-      } else {
-         const { children } = this.props;
-         const items = [...children, children[0]]
-
-         this.setState({
-            carouselItems: items,
-            lastPosition: items.length - 1
-         })
-
-      }
-
+      const items = this.props.children
+      this.setState({
+         lastPosition: items.length,
+         carouselItems: items,
+         fromChildren: true,
+      })
    }
 
    setupAutoPlay() {
-
       this.autoPlay()
       const carouselWrapper = this.carouselWrapper
 
@@ -118,11 +161,15 @@ class Carousel extends Component {
          })()
 
          if (!mobileTouch) {
-            carouselWrapper.addEventListener('mouseenter', (ev) => {
-               this.stopOnHover()
-            }, false)
+            carouselWrapper.addEventListener(
+               'mouseenter',
+               ev => {
+                  this.stopOnHover()
+               },
+               false
+            )
 
-            carouselWrapper.addEventListener('mouseleave', (ev) => {
+            carouselWrapper.addEventListener('mouseleave', ev => {
                this.startOnHoverLeave()
             })
          }
@@ -130,13 +177,15 @@ class Carousel extends Component {
    }
 
    autoPlay() {
-      this.timer = setTimeout(() => {
+      this.autoPlayTimer = setTimeout(() => {
          this.increment()
       }, this.props.intervalDuration)
    }
 
    clearAutoPlay() {
-      clearTimeout(this.timer)
+      clearTimeout(this.autoPlayTimer)
+      clearTimeout(this.calcCheckTimer)
+      clearTimeout(this.changeTimer)
    }
 
    resetAutoPlay() {
@@ -145,153 +194,160 @@ class Carousel extends Component {
    }
 
    stopOnHover() {
-      this.setState({ isMouseEntered: true })
-      this.props.onCarouselMouseEnter(Date.now(), this.state.carouselItems[this.state.currentPosition].itemId)
-      this.clearAutoPlay()
+      this.setState({
+         isMouseEntered: true,
+      })
+      this.props.onCarouselMouseEnter(
+         Date.now(),
+         this.state.carouselItems[this.state.currentPosition].itemId
+      )
+      if (this.props.autoPlay) {
+         this.clearAutoPlay()
+      }
    }
 
    startOnHoverLeave() {
-      this.setState({ isMouseEntered: false })
-      this.props.onCarouselMouseLeave(Date.now(), this.state.carouselItems[this.state.currentPosition].itemId)
-      this.autoPlay()
-   }
-
-   decrement(positions) {
-      this.moveTo(this.state.currentPosition - (typeof positions === 'Number' ? positions : 1));
-   }
-
-   increment(positions) {
-      this.moveTo(this.state.currentPosition + (typeof positions === 'Number' ? positions : 1));
-   }
-
-   moveTo(position) {
-      if (position < 0 ) {
-         position = this.props.infiniteLoop ? this.state.lastPosition : 1;
-      }
-
-      if (position > this.state.lastPosition) {
-         position = this.props.infiniteLoop ? 1 : this.state.lastPosition;
-      }
-
       this.setState({
-         // if it's not a slider, we don't need to set position here
-         currentPosition: position
-      });
+         isMouseEntered: false,
+      })
+      this.props.onCarouselMouseLeave(
+         Date.now(),
+         this.state.carouselItems[this.state.currentPosition].itemId
+      )
+      if (this.props.autoPlay) {
+         this.autoPlay()
+      }
+   }
 
-      this.setSliderStyles()
+   decrement = () => {
+      this.moveTo(this.state.currentPosition - 1)
+   }
+
+   increment = () => {
+      this.moveTo(this.state.currentPosition + 1)
+   }
+
+   moveTo = index => {
+      const { itemWidth, isMouseEntered, carouselItems, disabled } = this.state
+
+      const translate = (index + 1) * itemWidth
+
+      this.setState(
+         {
+            disabled: true,
+            currentPosition: index,
+            translate3d: -translate,
+            cssAnimation: {
+               transition: `transform ${this.props.transitionDuration}ms ${
+                  this.props.cssEase
+               }`,
+            },
+         },
+         this.recalculateChecker
+      )
 
       // don't reset auto play when stop on hover is enabled, doing so will trigger a call to auto play more than once
       // and will result in the interval function not being cleared correctly.
-      if (this.props.autoPlay && this.state.isMouseEntered === false) {
-         this.resetAutoPlay();
+      if (this.props.autoPlay && !isMouseEntered) {
+         this.resetAutoPlay()
       }
    }
 
+   recalculateChecker = () => {
+      const { currentPosition, carouselItems } = this.state
+      const recalc =
+         currentPosition < 0 || currentPosition >= carouselItems.length
+
+      window.clearTimeout()
+      window.setTimeout(() => {
+         recalc ? this.calculateSliderPos() : this.onSlideChange()
+      }, this.props.transitionDuration)
+   }
+
+   calculateSliderPos() {
+      const { currentPosition, carouselItems, itemWidth } = this.state
+
+      let newPos = currentPosition < 0 ? carouselItems.length - 1 : 0
+
+      this.setState(
+         {
+            currentPosition: newPos,
+            translate3d: -itemWidth * (newPos === 0 ? 1 : carouselItems.length),
+            disabled: false,
+            cssAnimation: {
+               transition: `transform 0ms ${this.props.cssEase}`,
+            },
+         },
+         this.onSlideChange
+      )
+   }
+
+   onSlideChange = () => {
+      this.props.onCarouselChange(this.state.selectedItem)
+      this.setState({ ...this.state, disabled: false })
+   }
 
    setSliderStyles() {
       const currentPosition = `${-this.state.currentPosition * 100}%`
       let animationObject = {}
 
       if (this.props.animationType === 'slide') {
-
          animationObject = {
             transform: `translate3d(${currentPosition}, 0, 0)`,
-            transition: `${this.props.transitionDuration}ms ${this.props.cssEase}`
+            transition: `${this.props.transitionDuration}ms ${
+               this.props.cssEase
+            }`,
          }
 
-         this.setState({
-            cssAnimation: animationObject
-         }, () => this.props.onCarouselChange(this.state.currentPosition))
+         this.setState(
+            {
+               cssAnimation: animationObject,
+            },
+            () => this.props.onCarouselChange(this.state.currentPosition)
+         )
 
          if (this.state.currentPosition === this.state.lastPosition) {
             // Reset the current slide position back to 0% with no transition
-            setTimeout(() => {
+            clearTimeout(this.endTimer)
+            this.endTimer = setTimeout(() => {
                this.setState({
                   cssAnimation: {
-                     transform: 'translate3d(0%, 0, 0)',
-                     transition: 'none'
-                  }
+                     transform: 'translate3d(0px, 0, 0)',
+                     transition: 'none',
+                  },
                })
             }, this.props.transitionDuration)
          }
-
       } else if (this.props.animationType === 'fade') {
-
          this.changeTimer = setTimeout(() => {
             this.props.onCarouselChange(this.state.currentPosition)
          }, this.props.transitionDuration)
-
-
       } else {
-
-         console.error(`You used the animation value ${this.props.animationType} which is not currently supported by the carousel. Please use one of 'slide' or 'fade'.`)
-
-      }
-   }
-
-
-
-   renderImage(item, index) {
-      if (item.hasOwnProperty('imagePath')) {
-         const styleObject = {
-            backgroundPosition: `${item.imagePositionX} ${item.imagePositionY}`,
-            backgroundImage: `url(${item.imagePath})`,
-            backgroundSize: item.backgroundSize,
-            backgroundRepeat: 'no-repeat',
-            width: '100%',
-            height: '100%'
-         }
-
-         return (
-            <div
-               className='img'
-               style={styleObject}
-            />
+         console.error(
+            `You used the animation value ${
+               this.props.animationType
+            } which is not currently supported by the carousel. Please use one of 'slide' or 'fade'.`
          )
-      }
-   }
-
-   renderLegend(content) {
-
-      const legend = content.hasOwnProperty('legend')
-      const button = content.hasOwnProperty('button')
-
-      if ((legend || button) && (content.legend != null || content.button != null)) {
-         let legend = null;
-
-         if (content.legend != null) {
-            if (React.isValidElement(content.legend)) {
-               legend = content.legend
-            } else if (typeof content.legend === 'string') {
-               legend = <span className="carousel-legend">{content.legend}</span>
-            }
-         }
-
-         return (
-            <div className='carousel-legend-wrapper'>
-               {legend != null && legend}
-               {content.button != null &&
-                  <OutcomeButtonUI label={content.button} selected={false} />
-               }
-            </div>
-         )
-      } else {
-         return null
       }
    }
 
    itemStyles(index) {
-      let style = {};
+      const { itemWidth, currentPosition } = this.state
+      let style = {
+         width: `${itemWidth}px`,
+      }
 
       if (this.props.animationType === 'fade') {
          style = {
-            left: `${-index * 100}%`,
-            opacity: 0.2,
+            left: `${-index * itemWidth}px`,
+            opacity: 0,
             zIndex: -1,
-            transition: `opacity ${this.props.transitionDuration}ms ${this.props.cssEase}`
+            transition: `opacity ${this.props.transitionDuration}ms ${
+               this.props.cssEase
+            }`,
          }
 
-         if (this.state.currentPosition === index) {
+         if (currentPosition === index) {
             style = Object.assign({}, style, {
                opacity: 1,
                zIndex: 1,
@@ -302,150 +358,216 @@ class Carousel extends Component {
       return style
    }
 
-   item(id, index, content) {
+   changeItem = e => {
+      const { value } = e.target
+      this.moveTo(value)
+   }
+
+   renderCarouselItems = (item, index) => {
+      const { carouselItems } = this.state
+
+      const cloned = index < 1 || index > carouselItems.length + 1 - 1
+
+      const className = [
+         styles['carousel-item'],
+         cloned && this.props.infinite === false
+            ? styles['carousel-item--cloned']
+            : '',
+      ].join(' ')
+
       return (
          <li
             key={`item-${index}`}
-            className={this.state.currentPosition === index ? 'carousel-item selected' : 'carousel-item'}
+            className={className}
             id={`item-${index}`}
-            ref={el => this[`item${index}`] = el}
+            ref={el => (this[`item${index}`] = el)}
             style={this.itemStyles(index)}
-            onClick={() => this.props.onCarouselItemClick(id)}
+            onClick={() => this.props.onCarouselItemClick(index)}
+            onKeyPress={e => {
+               console.log(e)
+            }}
          >
-            { content }
+            {item}
          </li>
       )
    }
 
-   renderItems() {
-      return this.state.carouselItems.map((item, index) => {
+   getActiveDotIndex() {
+      const { carouselItems, currentPosition } = this.state
 
-         const redirectMarkup = this.props.redirectCallback != null
-            ? (
-               <div className='pseudo-anchor' onClick={() => this.props.redirectCallback(item.redirectUrl)}>
-                  {this.renderImage(item, index)}
-                  {this.renderLegend(item)}
-               </div>
-            )
-            : (
-               <a href={item.redirectUrl} target='_blank'>
-                  {this.renderImage(item, index)}
-                  {this.renderLegend(item)}
-               </a>
-            )
+      const currentIndex = currentPosition + 1
+      const itemLength = carouselItems.length
 
-         return this.item(item.itemId, index, redirectMarkup)
-      })
-   }
-
-   renderChildren() {
-      return this.state.carouselItems.map((item, index) => {
-         this.cloneImageTag(item);
-         return this.item(index, index, item)
-      })
-   }
-
-   checkItems() {
-      if (this.props.children == null || this.props.children.length < 1) {
-         return this.renderItems()
+      if (currentIndex < 1) {
+         return itemLength - 1
+      } else if (currentIndex > itemLength) {
+         return 0
       } else {
-         return this.renderChildren()
+         return currentIndex - 1
       }
    }
 
-   render () {
+   onIndicatorMouseEnter = e => {
+      const { value } = e.target
+      this.setState({
+         selectedIndicator: value,
+      })
+   }
 
-      const height = this.state.carouselItems != null
-         ? `${this.props.height}px`
-         : '0px'
+   onIndicatorMouseLeave = e => {
+      this.setState({ selectedIndicator: null })
+   }
 
-      let sliderStyle;
-      if (this.props.animationType === 'fade') {
-         sliderStyle = {
-            transform: 'translate3d(0%, 0, 0)'
-         }
-      } else {
-         sliderStyle = this.state.cssAnimation
+   renderIndicators() {
+      const { carouselItems } = this.state
+
+      if (!this.props.showIndicators) {
+         return null
       }
 
       return (
-         <div className={this.props.wrapperClassName} ref={el => this.carouselWrapper = el}>
+         <ul className={styles['control-dots']}>
+            {carouselItems.map((item, index) => {
+               const liClassName =
+                  this.getActiveDotIndex() !== index
+                     ? styles.dot
+                     : [styles.dot, styles['dot-selected']].join(' ')
+
+               const style =
+                  this.state.selectedIndicator === index
+                     ? {
+                          opacity: 1,
+                          transform: 'scale(1.2) translateZ(0)',
+                          backfaceVisibility: 'hidden',
+                          mixBlendMode: 'normal',
+                       }
+                     : {}
+
+               return (
+                  <li
+                     className={liClassName}
+                     onClick={this.changeItem}
+                     onMouseEnter={this.onIndicatorMouseEnter}
+                     onMouseLeave={this.onIndicatorMouseLeave}
+                     value={index}
+                     key={index}
+                     style={style}
+                  />
+               )
+            })}
+         </ul>
+      )
+   }
+
+   onArrowMouseEnter = (e, action) => {
+      const key = `${action}ArrowHover`
+      this.setState({
+         [key]: true,
+      })
+   }
+
+   onArrowMouseLeave = (e, action) => {
+      const key = `${action}ArrowHover`
+      this.setState({
+         [key]: false,
+      })
+   }
+
+   renderArrows = action => {
+      const isPrev = action === 'previous'
+      const isHover = this.state[`${action}ArrowHover`]
+
+      const gradientDirection = isPrev ? 'to right' : 'to left'
+
+      const style = {
+         button: {
+            background: `linear-gradient(
+               ${gradientDirection},
+               rgba(0, 0, 0, 0.2),
+               rgba(0, 0, 0, 0)
+            )`,
+         },
+         icon: {
+            transition: 'transform 0.3s ease',
+            opacity: isHover ? 1 : 0.4,
+            transform: isHover
+               ? 'scale(1.2) translateZ(0)'
+               : 'scale(1) translateZ(0)',
+            backfaceVisibility: 'hidden',
+            mixBlendMode: 'normal',
+         },
+      }
+
+      return (
+         <button
+            type="button"
+            className={[styles['arrow'], styles[`arrow--${action}`]].join(' ')}
+            onClick={isPrev ? this.decrement : this.increment}
+            style={style.button}
+            disabled={this.state.disabled}
+            onMouseEnter={e => this.onArrowMouseEnter(e, action)}
+            onMouseLeave={e => this.onArrowMouseLeave(e, action)}
+         >
+            <img
+               height={'44px'}
+               width={'44px'}
+               style={style.icon}
+               src={action === 'previous' ? leftChevron : rightChevron}
+               alt={`${action} arrow`}
+            />
+         </button>
+      )
+   }
+
+   render() {
+      const { showArrows, showIndicators } = this.props
+      const { carouselItems, cssAnimation, clones, translate3d } = this.state
+
+      const items = clones || carouselItems
+
+      const height = `${this.props.height}px`
+
+      let sliderStyle
+      if (this.props.animationType === 'fade') {
+         sliderStyle = {
+            transform: 'translate3d(0px, 0, 0)',
+         }
+      } else {
+         sliderStyle = {
+            ...cssAnimation,
+            transform: `translate3d(${translate3d}px, 0, 0)`,
+         }
+      }
+
+      return (
+         <div
+            className={styles['glomo-carousel']}
+            ref={el => (this.carouselWrapper = el)}
+         >
             <div
-               className='carousel-wrapper'
-               style={{ width: '100%', height }}
+               className={styles['carousel-wrapper']}
+               style={{
+                  height,
+               }}
             >
-               <div className='slider-wrapper'>
-                  <ul className='slider' style={sliderStyle}>
+               <div className={styles['slider-wrapper']}>
+                  <ul
+                     className={styles.slider}
+                     style={{
+                        ...sliderStyle,
+                        height: '100%',
+                     }}
+                     ref={node => (this.sliderNode = node)}
+                  >
                      {/* Render Carousel Items */}
-                     {this.state.carouselItems != null && this.checkItems()}
+                     {items.map(this.renderCarouselItems)}
                   </ul>
                </div>
             </div>
+            {showArrows && this.renderArrows('previous')}
+            {showArrows && this.renderArrows('next')}
+            {showIndicators && this.renderIndicators()}
          </div>
       )
    }
 }
-
-Carousel.defaultProps = {
-   showIndicators: true,
-   showArrows: true,
-   infiniteLoop: true,
-   legendClassName: null,
-   wrapperClassName: null,
-   cssEase: 'ease',
-   animationType: 'slide',
-   selectedItem: 0,
-   height: 0,
-   autoPlay: true,
-   stopOnHover: true,
-   intervalDuration: 3500,
-   transitionDuration: 800,
-   items: null,
-   redirectCallback: null,
-   onCarouselChange: () => {},
-   onCarouselMouseEnter: () => {},
-   onCarouselMouseLeave: () => {},
-   onCarouselItemClick: () => {},
-   initializedCarousel: () => {},
-   imageLoaded: () => {}
-}
-
-Carousel.propTypes = {
-   children: PropTypes.node,
-   showIndicators: PropTypes.bool,
-   showArrows: PropTypes.bool,
-   infiniteLoop: PropTypes.bool,
-   legendClassName: PropTypes.string,
-   wrapperClassName: PropTypes.string,
-   cssEase: PropTypes.string,
-   animationType: PropTypes.oneOf(['fade', 'slide']),
-   selectedItem: PropTypes.number,
-   height: PropTypes.number,
-   autoPlay: PropTypes.bool,
-   stopOnHover: PropTypes.bool,
-   intervalDuration: PropTypes.number,
-   transitionDuration: PropTypes.number,
-   items: PropTypes.arrayOf(
-      PropTypes.shape({
-         imagePath: PropTypes.string,
-         imagePositionX: PropTypes.oneOf(['left', 'right', 'center']),
-         imagePositionY: PropTypes.oneOf(['top', 'bottom', 'center']),
-         backgroundSize: PropTypes.oneOf(['contain', 'cover']),
-         legend: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-         button: PropTypes.string,
-         redirectUrl: PropTypes.string,
-         itemId: PropTypes.number
-      })
-   ),
-   redirectCallback: PropTypes.func,
-   onCarouselChange: PropTypes.func,
-   onCarouselItemClick: PropTypes.func,
-   onCarouselMouseEnter: PropTypes.func,
-   onCarouselMouseLeave: PropTypes.func,
-   initializedCarousel: PropTypes.func,
-   imagesLoaded: PropTypes.func
-};
-
-Carousel.displayName = 'Carousel'
-
-export default Carousel;

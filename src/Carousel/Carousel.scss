@@ -2,164 +2,180 @@
 @import '~kambi-widget-core-library/src/scss/core.scss';
 
 // Our webpack configuration uses autoprefixer (https://github.com/postcss/autoprefixer) so we don't need to worry about vendor specific prefixes
-:global {
-   .carousel-wrapper {
+.glomo-carousel {
+   box-sizing: border-box;
+   position: relative;
+   width: 100%;
+   margin: auto;
+   overflow: hidden;
+}
+
+.carousel-wrapper {
+   position: relative;
+   overflow: hidden;
+   width: 100%;
+   box-sizing: border-box;
+   overflow: hidden;
+
+   .slider-wrapper {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      width: 100%;
+      transition: height 0.15s ease-in;
+      height: 100%;
       position: relative;
-      overflow: hidden;
-      // background-color: red; //testing the widget
+      white-space: nowrap;
 
-      // Only apply these styles inside our carousel
-      * {
-         margin: 0;
-         padding: 0;
-         box-sizing: border-box;
-      }
-
-      .slider-wrapper {
-         overflow: hidden;
-         margin: auto;
-         width: 100%;
-         transition: height .15s ease-in;
+      & a {
+         display: block;
          height: 100%;
-         position: relative;
-
-         .slider {
-            display: flex;
-            position: relative;
-            list-style: none;
-            width: 100%;
-            height: 100%;
-
-            .carousel-item {
-               flex: 1 100%;
-               flex-direction: column;
-               flex-flow: column;
-               position: relative;
-               min-width: 100%;
-               height: 100%;
-
-               // & div {
-               //    height: 100%;
-               // }
-            }
-         }
-
-         & a {
-            display: block;
-            height: 100%;
-            width: 100%;
-         }
-
-         & .pseudo-anchor {
-            height: 100%;
-            width: 100%;
-            cursor: pointer;
-         }
-
-         & .img {
-            background-size: cover;
-            vertical-align: top;
-            display: inline-block;
-            pointer-events: none;
-         }
-
-         & img {
-            height: 100%;
-
-         }
-
-         .carousel-legend-wrapper {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            color: #fff;
-            height: auto;
-
-            & .carousel-legend {
-               font-size: 1.2rem;
-               font-weight: 800;
-            }
-
-            & button {
-               max-width: 33.33%;
-            }
-         }
+         width: 100%;
       }
 
+      & .pseudo-anchor {
+         height: 100%;
+         width: 100%;
+         cursor: pointer;
+      }
+
+      & .img {
+         background-size: cover;
+         vertical-align: top;
+         display: inline-block;
+         pointer-events: none;
+      }
+
+      & img {
+         height: 100%;
+      }
    }
 }
 
+.slider {
+   display: flex;
+   position: relative;
+   list-style: none;
+   width: 100%;
+   height: 100%;
+   margin: 0;
+   padding: 0;
 
-   // .banner-wrapper {
-   //    width: 200vw;
-   //    display: flex;
-   //
-   //    .banner-item {
-   //       flex: 1 100%;
-   //
-   //       img {
-   //          width: 100vw;
-   //          height: auto;
-   //          vertical-align: bottom;
-   //       }
-   //
-   //       h1, p {
-   //          margin: 0;
-   //       }
-   //
-   //       .banner-info-wrapper {
-   //          position: absolute;
-   //          bottom: 0;
-   //          left: 0;
-   //          width: 100%;
-   //          color: white;
-   //          background: rgba(0,0,0,1);
-   //          background: -moz-linear-gradient(left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%);
-   //          background: -webkit-gradient(left top, right top, color-stop(0%, rgba(0,0,0,1)), color-stop(50%, rgba(0,0,0,0.5)), color-stop(100%, rgba(0,0,0,0)));
-   //          background: -webkit-linear-gradient(left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%);
-   //          background: -o-linear-gradient(left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%);
-   //          background: -ms-linear-gradient(left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%);
-   //          background: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%);
-   //          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000', GradientType=1 );
-   //          box-sizing: border-box;
-   //          padding: 10px;
-   //       }
-   //    }
+   .carousel-item {
+      flex: 1 100%;
+      flex-direction: column;
+      flex-flow: column;
+      position: relative;
+      min-width: 100%;
+      height: 100%;
 
+      &--cloned {
+         opacity: 0;
+         visibility: hidden;
+      }
+   }
+}
 
-//    .banner-info-hide {
-//       display: none;
-//       visibility: hidden;
-//    }
-//
-//    .dots-wrapper {
-//       position: absolute;
-//       bottom: 0;
-//       right: 10px;
-//       height: 30px;
-//       width: auto;
-//       z-index: 500;
-//       text-align: right;
-//
-//       .dots {
-//          display: inline-block;
-//          width: 14px;
-//          height: 14px;
-//          background-color: transparent;
-//          border-radius: 7px;
-//          border: 2px solid white;
-//          box-sizing: border-box;
-//          margin: 0 5px;
-//          transition: all 0.3s ease;
-//          cursor: pointer;
-//
-//          &.selected {
-//             background-color: white;
-//          }
-//       }
-//    }
-// }
+.carousel-legend-wrapper {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   position: absolute;
+   bottom: 0;
+   left: 0;
+   width: 100%;
+   color: #fff;
+   height: auto;
+
+   & .carousel-legend {
+      font-size: 1.2rem;
+      font-weight: 800;
+   }
+
+   & button {
+      max-width: 33.33%;
+   }
+}
+
+.control-dots {
+   position: absolute;
+   bottom: 0;
+   margin: 44px 0;
+   text-align: center;
+   width: 100%;
+
+   .dot {
+      box-shadow: 1px 1px 2px rgba(#000, 0.9);
+      background-color: #fff;
+      mix-blend-mode: difference;
+      border-radius: 50%;
+      width: 8px;
+      height: 8px;
+      cursor: pointer;
+      display: inline-block;
+      margin: 0 12px;
+      opacity: 0.6;
+      transition: all 0.2s ease;
+
+      &-selected,
+      &-selected:hover {
+         opacity: 1;
+         transform: scale(1.4) translateZ(0);
+         backface-visibility: hidden;
+         mix-blend-mode: normal;
+      }
+   }
+}
+
+.arrow {
+   position: absolute;
+   height: 100%;
+   top: 0;
+   width: 5%;
+   display: flex;
+   align-items: center;
+   cursor: pointer;
+   z-index: 10;
+   transition: all 0.3s ease-in;
+
+   &--previous {
+      justify-content: flex-start;
+      left: 0%;
+   }
+
+   &--next {
+      justify-content: flex-end;
+      right: 0%;
+   }
+
+   border: none;
+   margin: 0;
+   padding: 0;
+   overflow: visible;
+
+   background: transparent;
+
+   /* inherit font & color from ancestor */
+   color: inherit;
+   font: inherit;
+
+   /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+   line-height: normal;
+
+   /* Corrects font smoothing for webkit */
+   -webkit-font-smoothing: inherit;
+   -moz-osx-font-smoothing: inherit;
+
+   /* Corrects inability to style clickable `input` types in iOS */
+   -webkit-appearance: none;
+
+   &:focus {
+      outline: 0;
+   }
+
+   /* Remove excess padding and border in Firefox 4+ */
+   &::-moz-focus-inner {
+      border: 0;
+      padding: 0;
+   }
+}
