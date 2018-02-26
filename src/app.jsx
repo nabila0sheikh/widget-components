@@ -18,6 +18,8 @@ import {
   BlendedBackground,
 } from './components'
 
+import styles from './app.scss'
+
 const TestContainer = ({ description, element }) => {
   const elementString = reactElementToJSXString(element, {
     showDefaultProps: false,
@@ -48,7 +50,9 @@ const TestContainer = ({ description, element }) => {
       </div>
       <div className="example">
         <h3>Working example</h3>
-        <div className="component">{element}</div>
+        <div className="component" style={{ height: '400px' }}>
+          {element}
+        </div>
       </div>
     </div>
   )
@@ -71,7 +75,11 @@ const render = function(description, element) {
 coreLibrary.init({}).then(() => {
   render(
     '',
-    <Carousel height={230} autoPlay>
+    <Carousel
+      height={'100%'}
+      autoPlay
+      indicatorLiStyles={{ backgroundColor: 'aqua', transform: 'scale(1)' }}
+    >
       <div style={{ width: '100%', height: '100%', backgroundColor: 'blue' }} />
       <div
         style={{ width: '100%', height: '100%', backgroundColor: 'green' }}

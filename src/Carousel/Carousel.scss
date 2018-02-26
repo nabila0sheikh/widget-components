@@ -3,179 +3,180 @@
 
 // Our webpack configuration uses autoprefixer (https://github.com/postcss/autoprefixer) so we don't need to worry about vendor specific prefixes
 .glomo-carousel {
-   box-sizing: border-box;
-   position: relative;
-   width: 100%;
-   margin: auto;
-   overflow: hidden;
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  margin: auto;
+  overflow: hidden;
 }
 
 .carousel-wrapper {
-   position: relative;
-   overflow: hidden;
-   width: 100%;
-   box-sizing: border-box;
-   overflow: hidden;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 
-   .slider-wrapper {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      width: 100%;
-      transition: height 0.15s ease-in;
+  .slider-wrapper {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    width: 100%;
+    transition: height 0.15s ease-in;
+    height: 100%;
+    position: relative;
+    white-space: nowrap;
+
+    & a {
+      display: block;
       height: 100%;
-      position: relative;
-      white-space: nowrap;
+      width: 100%;
+    }
 
-      & a {
-         display: block;
-         height: 100%;
-         width: 100%;
-      }
+    & .pseudo-anchor {
+      height: 100%;
+      width: 100%;
+      cursor: pointer;
+    }
 
-      & .pseudo-anchor {
-         height: 100%;
-         width: 100%;
-         cursor: pointer;
-      }
+    & .img {
+      background-size: cover;
+      vertical-align: top;
+      display: inline-block;
+      pointer-events: none;
+    }
 
-      & .img {
-         background-size: cover;
-         vertical-align: top;
-         display: inline-block;
-         pointer-events: none;
-      }
-
-      & img {
-         height: 100%;
-      }
-   }
+    & img {
+      height: 100%;
+    }
+  }
 }
 
 .slider {
-   display: flex;
-   position: relative;
-   list-style: none;
-   width: 100%;
-   height: 100%;
-   margin: 0;
-   padding: 0;
+  display: flex;
+  position: relative;
+  list-style: none;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 
-   .carousel-item {
-      flex: 1 100%;
-      flex-direction: column;
-      flex-flow: column;
-      position: relative;
-      min-width: 100%;
-      height: 100%;
+  .carousel-item {
+    flex: 1 100%;
+    flex-direction: column;
+    flex-flow: column;
+    position: relative;
+    min-width: 100%;
+    height: 100%;
 
-      &--cloned {
-         opacity: 0;
-         visibility: hidden;
-      }
-   }
+    &--cloned {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
 }
 
 .carousel-legend-wrapper {
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   position: absolute;
-   bottom: 0;
-   left: 0;
-   width: 100%;
-   color: #fff;
-   height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  color: #fff;
+  height: auto;
 
-   & .carousel-legend {
-      font-size: 1.2rem;
-      font-weight: 800;
-   }
+  & .carousel-legend {
+    font-size: 1.2rem;
+    font-weight: 800;
+  }
 
-   & button {
-      max-width: 33.33%;
-   }
+  & button {
+    max-width: 33.33%;
+  }
 }
 
 .control-dots {
-   position: absolute;
-   bottom: 0;
-   margin: 44px 0;
-   text-align: center;
-   width: 100%;
+  position: absolute;
+  bottom: 0;
+  margin: 44px 0;
+  text-align: center;
+  width: 100%;
+  padding: 0;
+}
 
-   .dot {
-      box-shadow: 1px 1px 2px rgba(#000, 0.9);
-      background-color: #fff;
-      mix-blend-mode: difference;
-      border-radius: 50%;
-      width: 8px;
-      height: 8px;
-      cursor: pointer;
-      display: inline-block;
-      margin: 0 12px;
-      opacity: 0.6;
-      transition: all 0.2s ease;
+.dot {
+  box-shadow: 1px 1px 2px rgba(#000, 0.9);
+  background-color: #fff;
+  mix-blend-mode: difference;
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  cursor: pointer;
+  display: inline-block;
+  margin: 0 12px;
+  opacity: 0.6;
+  transition: all 0.2s ease;
 
-      &-selected,
-      &-selected:hover {
-         opacity: 1;
-         transform: scale(1.4) translateZ(0);
-         backface-visibility: hidden;
-         mix-blend-mode: normal;
-      }
-   }
+  &-selected,
+  &-selected:hover {
+    opacity: 1;
+    transform: scale(1.4) translateZ(0);
+    backface-visibility: hidden;
+    mix-blend-mode: normal;
+  }
 }
 
 .arrow {
-   position: absolute;
-   height: 100%;
-   top: 0;
-   width: 5%;
-   display: flex;
-   align-items: center;
-   cursor: pointer;
-   z-index: 10;
-   transition: all 0.3s ease-in;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  width: 5%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease-in;
 
-   &--previous {
-      justify-content: flex-start;
-      left: 0%;
-   }
+  &--previous {
+    justify-content: flex-start;
+    left: 0%;
+  }
 
-   &--next {
-      justify-content: flex-end;
-      right: 0%;
-   }
+  &--next {
+    justify-content: flex-end;
+    right: 0%;
+  }
 
-   border: none;
-   margin: 0;
-   padding: 0;
-   overflow: visible;
+  border: none;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
 
-   background: transparent;
+  background: transparent;
 
-   /* inherit font & color from ancestor */
-   color: inherit;
-   font: inherit;
+  /* inherit font & color from ancestor */
+  color: inherit;
+  font: inherit;
 
-   /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
-   line-height: normal;
+  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+  line-height: normal;
 
-   /* Corrects font smoothing for webkit */
-   -webkit-font-smoothing: inherit;
-   -moz-osx-font-smoothing: inherit;
+  /* Corrects font smoothing for webkit */
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
 
-   /* Corrects inability to style clickable `input` types in iOS */
-   -webkit-appearance: none;
+  /* Corrects inability to style clickable `input` types in iOS */
+  -webkit-appearance: none;
 
-   &:focus {
-      outline: 0;
-   }
+  &:focus {
+    outline: 0;
+  }
 
-   /* Remove excess padding and border in Firefox 4+ */
-   &::-moz-focus-inner {
-      border: 0;
-      padding: 0;
-   }
+  /* Remove excess padding and border in Firefox 4+ */
+  &::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+  }
 }

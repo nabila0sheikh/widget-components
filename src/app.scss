@@ -1,40 +1,43 @@
 @import '~kambi-widget-core-library/src/scss/core.scss';
 
 .test-container {
-   margin: 48px 8px 0 8px;
+  margin: 48px 8px 0 8px;
 
-   *:first-child & {
-      margin-top: 8px;
-   }
+  *:first-child & {
+    margin-top: 8px;
+  }
 
-   h2 {
-      font-size: 22px;
-   }
+  h2 {
+    font-size: 22px;
+  }
 
-   h3 {
-      font-size: 14px;
-   }
+  h3 {
+    font-size: 14px;
+  }
 
-   .code {
-      pre {
-         margin: 16px;
-         border: 1px dotted #000;
-
-         code {
-            max-height: 60px;
-
-            * {
-               font-family: Monaco;
-               font-size: 12px;
-               line-height: 14px;
-            }
-         }
-      }
-   }
-
-   .component {
+  .code {
+    pre {
       margin: 16px;
       border: 1px dotted #000;
-   }
 
+      code {
+        max-height: 60px;
+
+        * {
+          font-family: Monaco;
+          font-size: 12px;
+          line-height: 14px;
+        }
+      }
+    }
+  }
+
+  .component {
+    margin: 16px;
+    border: 1px dotted #000;
+  }
+}
+
+.indicator-overrides {
+  background-color: aqua;
 }
