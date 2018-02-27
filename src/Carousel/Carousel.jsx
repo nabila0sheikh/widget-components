@@ -4,8 +4,8 @@ import styles from './Carousel.scss'
 
 import { resize } from '../helpers'
 
-import leftChevron from './chevron_left.svg'
-import rightChevron from './chevron_right.svg'
+import ChevronLeft from './chevron_left.js'
+import ChevronRight from './chevron_right.js'
 
 export default class Carousel extends Component {
   static propTypes = {
@@ -517,7 +517,7 @@ export default class Carousel extends Component {
           height={'44px'}
           width={'44px'}
           style={style.icon}
-          src={action === 'previous' ? leftChevron : rightChevron}
+          src={action === 'previous' ? ChevronLeft : ChevronRight}
           alt={`${action} arrow`}
         />
       </button>
