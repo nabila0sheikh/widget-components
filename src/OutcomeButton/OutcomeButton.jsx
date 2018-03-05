@@ -113,7 +113,7 @@ class OutcomeButton extends Component {
     let newoutcome = null
     for (let i = 0; i < newbo.outcomes.length; i++) {
       const outcome = newbo.outcomes[i]
-      if (this.props.outcome.id) {
+      if (outcome.id === this.props.outcome.id) {
         newoutcome = outcome
         break
       }
@@ -145,6 +145,11 @@ class OutcomeButton extends Component {
    * @param {object} outcome Outcome entity
    */
   subscribeToEvents(event, outcome) {
+    updatesModule.subscribe.betslipOutcomes(this.betslipUpdatedHandler)
+    updatesModule.subscribe.oddsFormat(this.oddsFormatChangedHandler)
+    if (this.props.updateOdds !== true) {
+      return
+    }
     if (event.openForLiveBetting) {
       updatesModule.subscribe.allLiveBetoffers(
         event.id,
@@ -156,8 +161,6 @@ class OutcomeButton extends Component {
         this.betoffersUpdatedHandler
       )
     }
-    updatesModule.subscribe.betslipOutcomes(this.betslipUpdatedHandler)
-    updatesModule.subscribe.oddsFormat(this.oddsFormatChangedHandler)
   }
 
   /*
@@ -166,8 +169,11 @@ class OutcomeButton extends Component {
    */
   unsubscribeFromEvents(outcome) {
     updatesModule.unsubscribe(this.oddsFormatChangedHandler)
-    updatesModule.unsubscribe(this.betoffersUpdatedHandler)
     updatesModule.unsubscribe(this.betslipUpdatedHandler)
+    if (this.props.updateOdds !== true) {
+      return
+    }
+    updatesModule.unsubscribe(this.betoffersUpdatedHandler)
   }
 
   /*
@@ -247,16 +253,19 @@ class OutcomeButton extends Component {
  * @property outcome {Object} The Outcome object provided by the calls from the offeringModule
  * @property [event] {Object} the Event object provided by the calls from the offeringModule. If not provided will some types of outcomes may not show the correct label. If the "label" prop is false this prop is not used
  * @property [label=true] {string|boolean} Label to show. If boolean and false don't show any label, only the odds, if boolean and true use the provided event and the outcome to determine the label, if string uses it as the label
+ * @property [updateOdds=true] {boolean} If true will automatically update odds using the Widget API (non stand-alone mode only). This is fairly resource intensive, set it to false if your widget shows many betoffers from different events (showing several for the same event should be fine)
  */
 OutcomeButton.propTypes = {
   outcome: PropTypes.object.isRequired,
   event: PropTypes.object.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  updateOdds: PropTypes.bool,
 }
 
 OutcomeButton.defaultProps = {
   label: true,
   outlineStyle: false,
+  updateOdds: true,
 }
 
 export default OutcomeButton
