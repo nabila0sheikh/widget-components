@@ -12,7 +12,7 @@
     "preversion": "kambi-widgets-cli preversion",
     "postversion": "kambi-widgets-cli postversion && npm publish",
     "test": "kambi-widgets-cli test",
-    "postinstall": "npm-install-peers",
+    "install-peers": "npm-install-peers",
     "precommit": "lint-staged"
   },
   "prettier": {
