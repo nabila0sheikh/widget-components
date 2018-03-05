@@ -12,6 +12,7 @@
     "preversion": "kambi-widgets-cli preversion",
     "postversion": "kambi-widgets-cli postversion && npm publish",
     "test": "kambi-widgets-cli test",
+    "postinstall": "npm-install-peers",
     "precommit": "lint-staged"
   },
   "prettier": {
@@ -28,12 +29,13 @@
     ]
   },
   "dependencies": {
-    "kambi-widget-core-library": "^3.12.0",
-    "prop-types": "^15.3.2",
-    "react": "^15.3.2",
-    "react-addons-create-fragment": "^15.6.0",
-    "react-dom": "^15.3.2",
-    "react-lite": "^0.15.23"
+    "react-addons-create-fragment": "^15.6.0"
+  },
+  "peerDependencies": {
+    "kambi-widget-core-library": "x",
+    "react": "x",
+    "react-dom": "x",
+    "prop-types": "x"
   },
   "devDependencies": {
     "eslint": "^3.8.1",
@@ -43,9 +45,9 @@
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.4.1",
     "jsx-syntaxhighlighter": "^0.1.0",
-    "kambi-widget-build-tools": "^5.0.4",
     "lint-staged": "^7.0.0",
     "node-syntaxhighlighter": "^0.8.1",
+    "npm-install-peers": "^1.2.1",
     "prettier": "^1.11.0",
     "prismjs": "^1.6.0",
     "react-element-to-jsx-string": "^5.0.4"
