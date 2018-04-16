@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import styles from './OutcomeButtonUI.scss';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import styles from './OutcomeButtonUI.scss'
 
 /* eslint-disable react/prefer-stateless-function */
 
@@ -10,57 +10,95 @@ import styles from './OutcomeButtonUI.scss';
  * @memberof widget-components
  */
 class OutcomeButtonUI extends Component {
+  render() {
+    const {
+      label,
+      odds,
+      suspended,
+      selected,
+      onClick,
+      outlineStyle,
+    } = this.props
 
-   render() {
-      const { label, odds, suspended, selected, onClick, outlineStyle } = this.props;
+    let buttonCssClasses = `KambiBC-mod-outcome KambiWidget-outcome ${
+      styles.general
+    }`
 
-      let buttonCssClasses = `KambiWidget-outcome ${styles.general}`;
+    if (outlineStyle) {
+      buttonCssClasses = `${buttonCssClasses} KambiWidget-primary-color ${
+        styles.outline
+      }`
+    }
 
-      if (outlineStyle) {
-         buttonCssClasses = `${buttonCssClasses} KambiWidget-primary-color ${styles.outline}`
-      }
+    if (suspended) {
+      buttonCssClasses += ' KambiWidget-outcome--suspended'
+    } else if (selected) {
+      buttonCssClasses = `KambiWidget-outcome ${
+        styles.general
+      } KambiWidget-outcome--selected ${styles['outline--selected']}`
+    }
 
-      if (suspended) {
-         buttonCssClasses += ' KambiWidget-outcome--suspended';
-      } else if (selected) {
-         buttonCssClasses = `KambiWidget-outcome ${styles.general} KambiWidget-outcome--selected ${styles['outline--selected']}`;
-      }
+    if (odds === null && label === null) {
+      throw new Error('Both odds and label cannot be set to null')
+    }
 
-      if (odds === null && label === null) {
-         throw new Error('Both odds and label cannot be set to null');
-      }
+    return (
+      <button
+        type="button"
+        role="button"
+        className={buttonCssClasses}
+        disabled={suspended}
+        onClick={onClick}
+      >
+        {odds !== null &&
+          label !== null && (
+            <div className="KambiWidget-outcome__flexwrap">
+              <div
+                className={`KambiWidget-outcome__label-wrapper ${
+                  outlineStyle ? styles['outline__label-wrapper'] : ''
+                }`}
+              >
+                <span className="KambiWidget-outcome__label">{label}</span>
+                <span className="KambiWidget-outcome__line" />
+              </div>
+              <div className="KambiWidget-outcome__odds-wrapper">
+                <span
+                  className={`KambiWidget-outcome__odds ${
+                    outlineStyle ? styles['outline__odds'] : ''
+                  }`}
+                >
+                  {odds}
+                </span>
+              </div>
+            </div>
+          )}
 
-      return (
-         <button
-            type='button'
-            role='button'
-            className={buttonCssClasses}
-            disabled={suspended}
-            onClick={onClick}
-         >
-            {odds !== null && label !== null &&
-               <div className='KambiWidget-outcome__flexwrap'>
-                  <div className={`KambiWidget-outcome__label-wrapper ${outlineStyle ? styles['outline__label-wrapper'] : ''}`}>
-                     <span className='KambiWidget-outcome__label'>{label}</span>
-                     <span className='KambiWidget-outcome__line' />
-                  </div>
-                  <div className='KambiWidget-outcome__odds-wrapper'>
-                     <span className={`KambiWidget-outcome__odds ${outlineStyle ? styles['outline__odds'] : ''}`}>{odds}</span>
-                  </div>
-               </div>}
+        {odds !== null &&
+          label === null && (
+            <div className={`KambiWidget-outcome__odds-wrapper`}>
+              <span
+                className={`KambiWidget-outcome__odds ${
+                  outlineStyle ? styles['outline__odds'] : ''
+                }`}
+              >
+                {odds}
+              </span>
+            </div>
+          )}
 
-            {odds !== null && label === null &&
-               <div className={`KambiWidget-outcome__odds-wrapper`}>
-                  <span className={`KambiWidget-outcome__odds ${outlineStyle ? styles['outline__odds'] : ''}`}>{odds}</span>
-               </div>}
-
-            {odds === null && label !== null &&
-               <div className={`KambiWidget-outcome__label-wrapper ${styles.label} ${outlineStyle ? styles['outline__label-wrapper'] : ''}`}>
-                  <span className='KambiWidget-outcome__label'>{label}</span>
-               </div>}
-         </button>
-      );
-   }
+        {odds === null &&
+          label !== null && (
+            <div
+              className={`KambiWidget-outcome__label-wrapper ${styles.label} ${
+                outlineStyle ? styles['outline__label-wrapper'] : ''
+              }`}
+            >
+              <span className="KambiWidget-outcome__label">{label}</span>
+            </div>
+          )}
+      </button>
+    )
+  }
 }
 
 /**
@@ -71,18 +109,18 @@ class OutcomeButtonUI extends Component {
  * @property onClick {Function} Callback for when the button is clicked
  */
 OutcomeButtonUI.propTypes = {
-   label: PropTypes.node,
-   odds: PropTypes.string,
-   suspended: PropTypes.bool,
-   selected: PropTypes.bool.isRequired,
-   onClick: PropTypes.func
-};
+  label: PropTypes.node,
+  odds: PropTypes.string,
+  suspended: PropTypes.bool,
+  selected: PropTypes.bool.isRequired,
+  onClick: PropTypes.func,
+}
 
 OutcomeButtonUI.defaultProps = {
-   odds: null,
-   label: null,
-   suspended: false,
-   selected: false
-};
+  odds: null,
+  label: null,
+  suspended: false,
+  selected: false,
+}
 
-export default OutcomeButtonUI;
+export default OutcomeButtonUI

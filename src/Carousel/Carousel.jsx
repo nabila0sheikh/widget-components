@@ -513,13 +513,9 @@ export default class Carousel extends Component {
         onMouseEnter={e => this.onArrowMouseEnter(e, action)}
         onMouseLeave={e => this.onArrowMouseLeave(e, action)}
       >
-        <img
-          height={'44px'}
-          width={'44px'}
-          style={style.icon}
-          src={action === 'previous' ? ChevronLeft : ChevronRight}
-          alt={`${action} arrow`}
-        />
+        <div height={'44px'} width={'44px'} style={style.icon}>
+          {action === 'previous' ? ChevronLeft() : ChevronRight()}
+        </div>
       </button>
     )
   }
