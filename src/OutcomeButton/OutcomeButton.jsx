@@ -196,7 +196,11 @@ class OutcomeButton extends Component {
       case 'fractional':
         return this.state.currentOutcomeInfo.oddsFractional
       case 'american':
-        return this.state.currentOutcomeInfo.oddsAmerican
+        let odds = this.state.currentOutcomeInfo.oddsAmerican
+        if (parseFloat(odds, 10) >= 0) {
+          odds = '+' + odds
+        }
+        return odds
       default:
         return utilModule.getOddsDecimalValue(
           this.state.currentOutcomeInfo.odds / 1000
@@ -253,7 +257,7 @@ class OutcomeButton extends Component {
  * @property outcome {Object} The Outcome object provided by the calls from the offeringModule
  * @property [event] {Object} the Event object provided by the calls from the offeringModule. If not provided will some types of outcomes may not show the correct label. If the "label" prop is false this prop is not used
  * @property [label=true] {string|boolean} Label to show. If boolean and false don't show any label, only the odds, if boolean and true use the provided event and the outcome to determine the label, if string uses it as the label
- * @property [updateOdds=true] {boolean} If true will automatically update odds using the Widget API (non stand-alone mode only). This is fairly resource intensive, set it to false if your widget shows many betoffers from different events (showing several for the same event should be fine)
+ * @property [updateOdds=false] {boolean} If true will automatically update odds using the Widget API (non stand-alone mode only). This is fairly resource intensive, set it to false if your widget shows many betoffers from different events (showing several for the same event should be fine)
  */
 OutcomeButton.propTypes = {
   outcome: PropTypes.object.isRequired,
@@ -265,7 +269,7 @@ OutcomeButton.propTypes = {
 OutcomeButton.defaultProps = {
   label: true,
   outlineStyle: false,
-  updateOdds: true,
+  updateOdds: false,
 }
 
 export default OutcomeButton
