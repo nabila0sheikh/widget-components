@@ -78,6 +78,35 @@ class OutcomeButton extends Component {
     this.unsubscribeFromEvents(this.props.outcome)
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    // preventing unnecessary updates
+    if (
+      this.state.selected === nextState.selected &&
+      // deep comparing currentOutcomeInfos
+      Object.keys(this.state.currentOutcomeInfo).reduce((acc, key) => {
+        if (acc === true) {
+          return true
+        }
+        return (
+          nextState.currentOutcomeInfo[key] ===
+          this.state.currentOutcomeInfo[key]
+        )
+      }, true)
+    ) {
+      return false
+    }
+    return true
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.selected !== this.state.selected &&
+      this.props.onSelection != null
+    ) {
+      this.props.onSelection(this.state.selected)
+    }
+  }
+
   betslipUpdatedHandler(data) {
     let selected = false
     for (let i = 0; i < data.outcomes.length; i++) {
@@ -266,6 +295,7 @@ class OutcomeButton extends Component {
  * @property [betslipUpdateMode=null] {string} update mode for adding the bet to the betslip, either 'append' (the default) or 'replace'
  * @property [betslipDefaultStake=null] {string} the stake amount to use when adding the bet to the betslip, user can change this value after adding the bet to the betslip
  * @property [betslipTrackingName=null] {string} string for tracking bets placed through this button, if not provided uses coreLibrary.args.widgetTrackingName
+ * @property [onSelection=null] {Function(Boolean)} Callback called when the button becomes selected or unselected, the callback receives one boolean parameter with the current selection state. This callback can be fired multiple times per state change
  */
 OutcomeButton.propTypes = {
   outcome: PropTypes.object.isRequired,
@@ -275,6 +305,7 @@ OutcomeButton.propTypes = {
   betslipUpdateMode: PropTypes.string,
   betslipDefaultStake: PropTypes.number,
   betslipTrackingName: PropTypes.string,
+  onSelection: PropTypes.func,
 }
 
 OutcomeButton.defaultProps = {
@@ -284,6 +315,7 @@ OutcomeButton.defaultProps = {
   betslipUpdateMode: null,
   betslipDefaultStake: null,
   betslipTrackingName: null,
+  onSelection: null,
 }
 
 export default OutcomeButton
