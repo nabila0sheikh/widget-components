@@ -1,34 +1,33 @@
 .backgroundContainer {
-   filter: brightness(90%);
-   position: absolute;
-   top: 0;
-   right: 0;
-   left: 0;
-   bottom: 0;
-   display: block;
-   width: 100%;
-   min-width: 100%;
-   min-height: 100%;
-   overflow: hidden;
-   z-index: -1;
+  filter: brightness(90%);
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  display: block;
+  width: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  overflow: hidden;
 
-   // fixes artifacts over BlendedBackground on Firefox KSBWI-963
-   -moz-transform: translateZ(1px);
+  // fixes artifacts over BlendedBackground on Firefox KSBWI-963
+  -moz-transform: translateZ(1px);
 }
 
 .background {
-   position: absolute;
-   top: 0;
-   right: 0;
-   left: 0;
-   bottom: 0;
-   display: block;
-   width: 100%;
-   min-width: 100%;
-   min-height: 100%;
-   overflow: hidden;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  display: block;
+  width: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  overflow: hidden;
 }
 
 .blendRect {
-   fill: currentColor;
+  fill: currentColor;
 }
