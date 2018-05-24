@@ -1,52 +1,53 @@
 @mixin calc($property, $expression) {
-   #{$property}: -moz-calc(#{$expression});
-   #{$property}: -webkit-calc(#{$expression});
-   #{$property}: calc(#{$expression});
+  #{$property}: -moz-calc(#{$expression});
+  #{$property}: -webkit-calc(#{$expression});
+  #{$property}: calc(#{$expression});
 }
 
 @mixin inherited {
-   border-bottom-style: solid;
-   border-bottom-width: 1px;
-   font-size: 12px;
-   line-height: 36px;
-   height: 64px;
-   overflow: hidden;
-   position: relative;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  font-size: 12px;
+  line-height: 36px;
+  height: 64px;
+  overflow: hidden;
+  position: relative;
 }
 
 @mixin size {
-   line-height: 16px;
-   max-height: 16px;
-   min-height: 16px;
-   white-space: nowrap;
-   text-overflow: ellipsis;
-   overflow: hidden;
+  line-height: 16px;
+  max-height: 16px;
+  min-height: 16px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .header {
-   @include inherited();
-   display: flex;
-   padding-left: 16px;
-   align-items: center;
+  @include inherited();
+  display: flex;
+  padding-left: 16px;
+  align-items: center;
+  background-color: #fff;
 }
 
 .icon {
-   height: 32px;
-   margin-right: 12px;
-   width: 32px;
+  height: 32px;
+  margin-right: 12px;
+  width: 32px;
 }
 
 .container {
-   @include calc(max-width, '100% - 62px');
+  @include calc(max-width, '100% - 62px');
 }
 
 .title {
-   @include size();
-   font-size: 16px;
-   font-weight: bold;
-   text-transform: uppercase;
+  @include size();
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
 .subtitle {
-   @include size();
+  @include size();
 }
