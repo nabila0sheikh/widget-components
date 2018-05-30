@@ -1,30 +1,31 @@
 .container {
-   position: relative;
-   padding: 0 16px;
+  position: relative;
+  padding: 0 16px;
 
-   &.no-controls {
-      padding: 0;
-   }
+  &.no-controls {
+    padding: 0;
+  }
 }
 
 // field of view
 .eyeshot {
-   overflow-x: hidden;
+  overflow-x: hidden;
+  overflow-y: hidden;
 
-   .touch & {
-      -webkit-overflow-scrolling: touch;
-      overflow-x: scroll;
-   }
+  .touch & {
+    -webkit-overflow-scrolling: touch;
+    overflow-x: scroll;
+  }
 }
 
 // tab bar
 .bar {
-   display: flex;
-   margin: 0;
-   transition: transform .3s;
+  display: flex;
+  margin: 0;
+  transition: transform 0.3s;
 
-   // let tab containers manage their width
-   & > * {
-      flex: 0 0 auto;
-   }
+  // let tab containers manage their width
+  & > * {
+    flex: 0 0 auto;
+  }
 }
