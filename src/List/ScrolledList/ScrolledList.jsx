@@ -171,13 +171,14 @@ class ScrolledList extends Component {
     this.updateItemsAlignment()
   }
 
-  // this is not working correctly
-  //    /*
-  //     * Called on external props change.
-  //     */
-  //    componentWillReceiveProps(nextProps) {
-  //       this.scrollToItem(nextProps.selected);
-  //    }
+  /*
+       * Called on external props change.
+       */
+  componentDidUpdate(prevProps) {
+    if (prevProps.selected !== this.props.selected) {
+      this.scrollToItem(this.props.selected)
+    }
+  }
 
   /*
     * Called before removing component.
