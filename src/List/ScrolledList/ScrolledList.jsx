@@ -450,11 +450,13 @@ class ScrolledList extends Component {
           this.props.renderPrevButton({
             onClick: this.prevPage,
             disabled: !this.showPrevButton,
+            backgroundColor: this.props.arrowButtonBackground,
           })}
         {this.props.showControls &&
           this.props.renderNextButton({
             onClick: this.nextPage,
             disabled: !this.showNextButton,
+            backgroundColor: this.props.arrowButtonBackground,
           })}
       </div>
     )
@@ -540,6 +542,7 @@ ScrolledList.propTypes = {
     )
   ),
   showControls: PropTypes.bool,
+  arrowButtonBackground: PropTypes.string,
 }
 
 ScrolledList.defaultProps = {
