@@ -456,7 +456,9 @@ class ScrolledList extends Component {
           this.props.renderNextButton({
             onClick: this.nextPage,
             disabled: !this.showNextButton,
-            backgroundColor: this.props.arrowButtonBackground,
+            backgroundColor: this.props.arrowButtonBackground
+              ? this.props.arrowButtonBackground
+              : null,
           })}
       </div>
     )
