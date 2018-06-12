@@ -3,14 +3,14 @@ import PropTypes from 'prop-types'
 import styles from './BlendedBackground.scss'
 import { coreLibrary } from 'kambi-widget-core-library'
 
-
 /**
  * Displays a background image which is blended with actual operator's color theme.
  */
 class BlendedBackground extends Component {
- 
   cssRender() {
-    const style = this.props.blendWithOperatorColor ? { backgroundColor: 'currentColor'} : {}
+    const style = this.props.blendWithOperatorColor
+      ? { backgroundColor: 'currentColor' }
+      : {}
     return (
       <div
         className={`${styles.backgroundContainer} KambiWidget-primary-color`}
@@ -23,7 +23,7 @@ class BlendedBackground extends Component {
             backgroundRepeat: 'no-repeat',
             mixBlendMode: 'multiply',
             backgroundSize: 'cover',
-            backgroundPosition: 'center'
+            backgroundPosition: 'center',
           }}
         />
       </div>
@@ -48,18 +48,16 @@ class BlendedBackground extends Component {
                 preserveAspectRatio="xMidYMid slice"
                 xlinkHref={this.props.backgroundUrl}
               />
-              {
-                this.props.blendWithOperatorColor ? (
-                  <feBlend in2="SourceGraphic" in="slide2" mode="multiply" />
-                ) : null
-              }
+              {this.props.blendWithOperatorColor ? (
+                <feBlend in2="SourceGraphic" in="slide2" mode="multiply" />
+              ) : null}
             </filter>
           </defs>
           <rect
             className={`KambiWidget-primary-color ${styles.blendRect}`}
             x="0"
             y="0"
-            filter='url(#filter)'
+            filter="url(#filter)"
             width="100%"
             height="100%"
           />
@@ -70,15 +68,12 @@ class BlendedBackground extends Component {
 
   render() {
     /*
-      as of firefox 55.0, firefox has a bug with the way we render the svg
-      as a workaround we render the same thing using the new CSS mixBlendMode
-      property. This property is not supported in IE so the main way to render
-      this should still be using the SVG render
+      IE does not support CSS filters, but does support SVG ones
       */
-    if (coreLibrary.browser === 'firefox') {
-      return this.cssRender()
-    } else {
+    if (coreLibrary.browser === 'internet-explorer') {
       return this.svgRender()
+    } else {
+      return this.cssRender()
     }
   }
 }
@@ -89,7 +84,7 @@ class BlendedBackground extends Component {
  */
 BlendedBackground.propTypes = {
   backgroundUrl: PropTypes.string.isRequired,
-  blendWithOperatorColor: PropTypes.bool
+  blendWithOperatorColor: PropTypes.bool,
 }
 
 BlendedBackground.defaultProps = {
