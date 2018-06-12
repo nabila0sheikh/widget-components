@@ -1,6 +1,6 @@
 {
   "name": "kambi-widget-components",
-  "version": "1.21.9",
+  "version": "1.21.9-mrgreen",
   "description": "A collection of reusable components written with React framework",
   "main": "src/components.js",
   "scripts": {
