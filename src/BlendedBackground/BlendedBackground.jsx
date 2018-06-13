@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styles from './BlendedBackground.scss'
-import { coreLibrary } from 'kambi-widget-core-library'
+
+const userAgent = window.navigator.userAgent
+const isIE =
+  userAgent.indexOf('MSIE ') !== -1 || userAgent.indexOf('Trident/') !== -1
+const isEdge = userAgent.indexOf('Edge/') !== -1
 
 /**
  * Displays a background image which is blended with actual operator's color theme.
@@ -68,9 +72,10 @@ class BlendedBackground extends Component {
 
   render() {
     /*
-      IE does not support CSS filters, but does support SVG ones
+      IE and Edge does not support CSS filters, but they support SVG ones
       */
-    if (coreLibrary.browser === 'internet-explorer') {
+
+    if (isIE || isEdge) {
       return this.svgRender()
     } else {
       return this.cssRender()
