@@ -83,7 +83,14 @@ class OutcomeButton extends Component {
     if (
       this.state.selected === nextState.selected &&
       // deep comparing currentOutcomeInfos
-      Object.keys(this.state.currentOutcomeInfo).reduce((acc, key) => {
+      Object.keys(this.state.currentOutcomeInfo).filter(key => {
+        // filter out label and suspended keys for comparison
+        if (key === 'label' || key === 'suspended') {
+          return false
+        }
+        return true
+      }).reduce((acc, key, i, arr) => {
+        // compare only odds in here, not label or suspended
         if (acc === true) {
           return true
         }
@@ -91,7 +98,7 @@ class OutcomeButton extends Component {
           nextState.currentOutcomeInfo[key] ===
           this.state.currentOutcomeInfo[key]
         )
-      }, true)
+      }, false)
     ) {
       return false
     }
