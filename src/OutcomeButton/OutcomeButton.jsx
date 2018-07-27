@@ -83,22 +83,24 @@ class OutcomeButton extends Component {
     if (
       this.state.selected === nextState.selected &&
       // deep comparing currentOutcomeInfos
-      Object.keys(this.state.currentOutcomeInfo).filter(key => {
-        // filter out label and suspended keys for comparison
-        if (key === 'label' || key === 'suspended') {
-          return false
-        }
-        return true
-      }).reduce((acc, key, i, arr) => {
-        // compare only odds in here, not label or suspended
-        if (acc === true) {
+      Object.keys(this.state.currentOutcomeInfo)
+        .filter(key => {
+          // filter out label and suspended keys for comparison
+          if (key === 'label' || key === 'suspended') {
+            return false
+          }
           return true
-        }
-        return (
-          nextState.currentOutcomeInfo[key] ===
-          this.state.currentOutcomeInfo[key]
-        )
-      }, false)
+        })
+        .reduce((acc, key, i, arr) => {
+          // compare only odds in here, not label or suspended
+          if (acc === true) {
+            return true
+          }
+          return (
+            nextState.currentOutcomeInfo[key] ===
+            this.state.currentOutcomeInfo[key]
+          )
+        }, false)
     ) {
       return false
     }
@@ -181,7 +183,9 @@ class OutcomeButton extends Component {
    * @param {object} outcome Outcome entity
    */
   subscribeToEvents(event, outcome) {
-    updatesModule.subscribe.betslipOutcomes(this.betslipUpdatedHandler)
+    if (this.props.highlightBasedOnBetslip) {
+      updatesModule.subscribe.betslipOutcomes(this.betslipUpdatedHandler)
+    }
     updatesModule.subscribe.oddsFormat(this.oddsFormatChangedHandler)
     if (this.props.updateOdds !== true) {
       return
@@ -303,6 +307,7 @@ class OutcomeButton extends Component {
  * @property [betslipDefaultStake=null] {string} the stake amount to use when adding the bet to the betslip, user can change this value after adding the bet to the betslip
  * @property [betslipTrackingName=null] {string} string for tracking bets placed through this button, if not provided uses coreLibrary.args.widgetTrackingName
  * @property [onSelection=null] {Function(Boolean)} Callback called when the button becomes selected or unselected, the callback receives one boolean parameter with the current selection state. This callback can be fired multiple times per state change
+ * @property [highlightBasedOnBetslip=true] {boolean} If true will listen to betslip state changes and automatically apply styling to indicate that the outcome button has been selected
  */
 OutcomeButton.propTypes = {
   outcome: PropTypes.object.isRequired,
@@ -313,6 +318,7 @@ OutcomeButton.propTypes = {
   betslipDefaultStake: PropTypes.number,
   betslipTrackingName: PropTypes.string,
   onSelection: PropTypes.func,
+  highlightBasedOnBetslip: PropTypes.bool,
 }
 
 OutcomeButton.defaultProps = {
@@ -323,6 +329,7 @@ OutcomeButton.defaultProps = {
   betslipDefaultStake: null,
   betslipTrackingName: null,
   onSelection: null,
+  highlightBasedOnBetslip: true,
 }
 
 export default OutcomeButton
