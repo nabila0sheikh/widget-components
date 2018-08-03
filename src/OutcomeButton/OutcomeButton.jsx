@@ -8,19 +8,6 @@ import {
 } from 'kambi-widget-core-library'
 import OutcomeButtonUI from './OutcomeButtonUI'
 
-/*
- * Returns initial state.
- * @param {object} outcome Outcome entity
- * @returns {{selected: boolean}}
- */
-const getInitialState = outcome => {
-  return {
-    selected: widgetModule.betslipIds.indexOf(outcome.id) !== -1,
-    // information that is compared when getting updated betoffers
-    currentOutcomeInfo: getOutcomeInfo(outcome),
-  }
-}
-
 const getOutcomeInfo = (outcome, suspended = false) => {
   return {
     odds: outcome.odds,
@@ -48,10 +35,25 @@ class OutcomeButton extends Component {
     this.toggleOutcome = this.toggleOutcome.bind(this)
 
     // compute initial state
-    this.state = getInitialState(this.props.outcome)
+    this.state = this.getState(props.outcome)
     this.oddsFormatChangedHandler = () => this.forceUpdate()
     this.betoffersUpdatedHandler = this.betoffersUpdatedHandler.bind(this)
     this.betslipUpdatedHandler = this.betslipUpdatedHandler.bind(this)
+  }
+
+  /*
+   * Returns initial state.
+   * @param {object} outcome Outcome entity
+   * @returns {{selected: boolean}}
+   */
+  getState(outcome) {
+    return {
+      selected: this.props.highlightBasedOnBetslip
+        ? widgetModule.betslipIds.indexOf(outcome.id) !== -1
+        : false,
+      // information that is compared when getting updated betoffers
+      currentOutcomeInfo: getOutcomeInfo(outcome),
+    }
   }
 
   /*
@@ -68,7 +70,7 @@ class OutcomeButton extends Component {
   componentWillReceiveProps(nextProps) {
     this.unsubscribeFromEvents(this.props.outcome)
     this.subscribeToEvents(nextProps.event, nextProps.outcome)
-    this.setState(getInitialState(nextProps.outcome))
+    this.setState(this.getState(nextProps.outcome))
   }
 
   /*
