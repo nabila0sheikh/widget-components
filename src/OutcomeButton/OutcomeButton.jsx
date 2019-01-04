@@ -83,22 +83,24 @@ class OutcomeButton extends Component {
     if (
       this.state.selected === nextState.selected &&
       // deep comparing currentOutcomeInfos
-      Object.keys(this.state.currentOutcomeInfo).filter(key => {
-        // filter out label and suspended keys for comparison
-        if (key === 'label' || key === 'suspended') {
-          return false
-        }
-        return true
-      }).reduce((acc, key, i, arr) => {
-        // compare only odds in here, not label or suspended
-        if (acc === true) {
+      Object.keys(this.state.currentOutcomeInfo)
+        .filter(key => {
+          // filter out label and suspended keys for comparison
+          if (key === 'label' || key === 'suspended') {
+            return false
+          }
           return true
-        }
-        return (
-          nextState.currentOutcomeInfo[key] ===
-          this.state.currentOutcomeInfo[key]
-        )
-      }, false)
+        })
+        .reduce((acc, key, i, arr) => {
+          // compare only odds in here, not label or suspended
+          if (acc === true) {
+            return true
+          }
+          return (
+            nextState.currentOutcomeInfo[key] ===
+            this.state.currentOutcomeInfo[key]
+          )
+        }, false)
     ) {
       return false
     }
@@ -218,6 +220,7 @@ class OutcomeButton extends Component {
   toggleOutcome() {
     if (this.state.selected) {
       widgetModule.removeOutcomeFromBetslip(this.props.outcome.id)
+      this.props.outcomeRemovedFromBetslip(this.props.outcome.id)
     } else {
       widgetModule.addOutcomeToBetslip(
         this.props.outcome.id,
@@ -225,6 +228,7 @@ class OutcomeButton extends Component {
         this.props.betslipUpdateMode,
         this.props.betslipTrackingName
       )
+      this.props.outcomeAddedToBetslip(this.props.outcome.id)
     }
   }
 
@@ -303,6 +307,8 @@ class OutcomeButton extends Component {
  * @property [betslipDefaultStake=null] {string} the stake amount to use when adding the bet to the betslip, user can change this value after adding the bet to the betslip
  * @property [betslipTrackingName=null] {string} string for tracking bets placed through this button, if not provided uses coreLibrary.args.widgetTrackingName
  * @property [onSelection=null] {Function(Boolean)} Callback called when the button becomes selected or unselected, the callback receives one boolean parameter with the current selection state. This callback can be fired multiple times per state change
+ * @property [outcomeAddedToBetslip=Function] {Function(outcomeId)} Callback called when the button is clicked and passes the outcome ID
+ *  @property [outcomeRemovedFromBetslip=Function] {Function(outcomeId)} Callback called when the button is clicked and passes the outcome ID
  */
 OutcomeButton.propTypes = {
   outcome: PropTypes.object.isRequired,
@@ -313,6 +319,8 @@ OutcomeButton.propTypes = {
   betslipDefaultStake: PropTypes.number,
   betslipTrackingName: PropTypes.string,
   onSelection: PropTypes.func,
+  outcomeAddedToBetslip: PropTypes.func,
+  outcomeRemovedFromBetslip: PropTypes.func,
 }
 
 OutcomeButton.defaultProps = {
@@ -323,6 +331,8 @@ OutcomeButton.defaultProps = {
   betslipDefaultStake: null,
   betslipTrackingName: null,
   onSelection: null,
+  outcomeAddedToBetslip: () => {},
+  outcomeRemovedFromBetslip: () => {},
 }
 
 export default OutcomeButton
