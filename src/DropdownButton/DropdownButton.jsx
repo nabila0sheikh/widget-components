@@ -90,7 +90,7 @@ class DropdownButton extends Component {
          <div className={styles.general}>
             <button
                ref={(node) => { this.buttonElement = node }}
-               className={'KambiWidget-card-support-text-color ' + styles.button} onClick={this.onButtonClick}
+               className={'KambiWidget-league-table-selection-label KambiWidget-card-support-text-color ' + styles.button} onClick={this.onButtonClick}
             >
                {this.props.options[this.state.selected]}
                <i />
@@ -105,7 +105,8 @@ class DropdownButton extends Component {
                         const classNames = [
                            'KambiWidget-card-background-color',
                            'KambiWidget-card-background-color--hoverable',
-                           'KambiWidget-card-background-color--clickable'
+                           'KambiWidget-card-background-color--clickable',
+                           'KambiWidget-league-table-header-text'
                         ];
 
                         if (this.state.selected === i) {
