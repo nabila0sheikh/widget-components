@@ -12,7 +12,6 @@
     "preversion": "kambi-widgets-cli preversion",
     "postversion": "kambi-widgets-cli postversion && npm publish",
     "test": "kambi-widgets-cli test",
-    "install-peers": "npm-install-peers",
     "precommit": "lint-staged"
   },
   "prettier": {
@@ -47,7 +46,6 @@
     "jsx-syntaxhighlighter": "^0.1.0",
     "lint-staged": "^7.0.0",
     "node-syntaxhighlighter": "^0.8.1",
-    "npm-install-peers": "^1.2.1",
     "prettier": "^1.11.0",
     "prismjs": "^1.6.0",
     "react-element-to-jsx-string": "^5.0.4"
