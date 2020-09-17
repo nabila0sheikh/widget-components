@@ -3,8 +3,9 @@
 import React, { Children, Component } from 'react'
 import PropTypes from 'prop-types'
 import styles from './ScrolledList.scss'
-import ArrowButton from './ArrowButton'
-import ItemContainer from '../ItemContainer'
+import ArrowButton from '@kambi/kambi-widget-components/src/List/ScrolledList/ArrowButton'
+import ItemContainer from '@kambi/kambi-widget-components/src/List/ItemContainer'
+import isMobile from '../../../../../../src/js/Services/mobile'
 
 /*
  * Window resize handling reflex (in milliseconds)
@@ -156,7 +157,7 @@ class ScrolledList extends Component {
     }
 
     this.itemWidths = []
-
+    this.firstNextClickedInMobile = false;
     this.prevPage = this.prevPage.bind(this)
     this.nextPage = this.nextPage.bind(this)
     this.enqueueUpdate = this.enqueueUpdate.bind(this)
@@ -174,7 +175,7 @@ class ScrolledList extends Component {
   /*
        * Called on external props change.
        */
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps) {    
     if (prevProps.selected !== this.props.selected) {
       this.scrollToItem(this.props.selected)
     }
@@ -235,6 +236,13 @@ class ScrolledList extends Component {
     */
   get currentScrollLeft() {
     return this.eyeshot ? this.eyeshot.scrollLeft : 0
+  }
+
+ /*
+    * Current scroll left offset (in pixels).
+    */
+   set currentScrollLeft(currentScrollLeft) {
+    return this._currentScrollLeft = currentScrollLeft
   }
 
   /*
@@ -383,9 +391,20 @@ class ScrolledList extends Component {
   }
 
   /*
+    * Computes average item width across all items.
+    * @returns {number}
+    */
+   get iconWidth() {
+    return (
+      this.computeItemsWidth(0, Children.count(this.props.children) - 1) /
+      Children.count(this.props.children)
+    )
+    }
+  /*
     * Scrolls list to previous page.
     */
   prevPage() {
+    this.firstNextClickedInMobile=false;
     this.scrollTo(
       this.currentScrollLeft - this.props.step * this.averageItemWidth
     )
@@ -395,9 +414,15 @@ class ScrolledList extends Component {
     * Scrolls list to next page.
     */
   nextPage() {
-    this.scrollTo(
-      this.currentScrollLeft + this.props.step * this.averageItemWidth
-    )
+    let scrollToOffset ;
+     if(this.currentScrollLeft == 0 ){
+      scrollToOffset = this.computeItemsWidth(0,0) ;
+      this.currentScrollLeft += scrollToOffset;
+    } else{
+      scrollToOffset = this.currentScrollLeft + this.props.step * this.averageItemWidth  ;
+    }
+     
+    this.scrollTo(scrollToOffset )
   }
 
   /*
@@ -549,7 +574,7 @@ ScrolledList.propTypes = {
 
 ScrolledList.defaultProps = {
   selected: 0,
-  step: 2,
+  step: (isMobile)?1:2,
   alignItems: ScrolledList_ALIGN_ITEMS.CENTER,
   scrollToItemMode: ScrolledList_SCROLL_TO_ITEM_MODE.CENTER,
   renderPrevButton: props => <ArrowButton type="left" {...props} />,
